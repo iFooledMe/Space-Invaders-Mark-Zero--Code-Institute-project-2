@@ -1,5 +1,6 @@
 // ==========================================================================================
 // ==== I M A G E S   P R E - L O A D =======================================================
+
 var Images = {};
 
 function loadImages(list){
@@ -26,35 +27,41 @@ loadImages([{
 }]);
 
 // =============================================================================================
-// ==== G L O B A L   V A R I A B E L S ========================================================
+// ==== G L O B A L   V A R I A B L E S ========================================================
 
-// .... GAME ...................................................................................
-var ctx = null; //Canvas Context
-var paused = true;
 
-// .... PLAYER .................................................................................
-var playerStartPosX = 100; //Horizontal axis
-var playerStartPosY = 270; //Vertical axis
-var playerStartSizeW =  120; //Width
-var playerStartSizeH =  60; //Height
 
-var playerCurrentPosX = playerStartPosX;
-var playerCurrentPosY = playerStartPosY;
 
 // =============================================================================================
 // ==== G A M E - O B J E C T S ================================================================
 
-var Game = {
-    canvas : null,
-    context : null,
-    getMyContext : function (canvasId, width, height) {
-        this.canvas = document.getElementById(canvasId);
-        this.canvas.width = width;
-        this.canvas.height = height;
-        this.context = this.canvas.getContext("2d");
-        return this.context;
-    }
-}
+// .... GAME ...................................................................................
+function Game (canvasId, width, height) {
+    this.canvas = document.getElementById(canvasId);
+    this.canvas.width = width;
+    this.canvas.height = height;
+    this.paused = true; //Game paused at start
+    this.context = this.canvas.getContext("2d");
+};
+
+// .... PLAYER ..................................................................................
+function Player(Game, name) {
+    this.game = Game;
+    this.name = name;
+    this.playerPosX = 100; //Horizontal axis at start
+    this.playerPosY = 270; //Vertical axis at start
+    this.playerSizeW =  120; //Width at start
+    this.playerSizeH =  60; //Height at start
+    this.playerDrawPosition = function() {
+        return game.context.drawImage(Images["player_starship_small"], 
+        this.playerPosX, 
+        this.playerPosY, 
+        this.playerSizeW, 
+        this.playerSizeH);
+    };
+};
+
+
 
 // =============================================================================================
 // ==== S T A R T =========?====================================================================
@@ -66,8 +73,10 @@ $(document).ready(function() {
 
 function start() {
 
-    //Create Game Context Object in Canvas 
-    ctx = Game.getMyContext("canvas-1", 1000, 700);
+    var newGame = new Game("canvas", 300, 300);
+
+    var player = new Player(newGame, "MT");
+    player.playerDrawPosition();
 
     loadResources(); //Images and resources on the screen
     setControls(); //Key Commands
@@ -77,7 +86,7 @@ function start() {
 // .... Start / Pause .............................................................................
 $(".game-info-bar button").click(function(){
     
-    if (paused){
+    if (gamePaused){
         paused = false;
         $(".game-info-bar button").text("Game Started!");
         start();
@@ -98,14 +107,11 @@ $(".game-info-bar button").click(function(){
 // **** LOAD RESOURCES ****************************************************************************
 function loadResources() {
 
-    drawPlayerStarShip();
+    
 
 }
 
 // .......... Player ..........
-function drawPlayerStarShip() {
-    ctx.drawImage(Images["player_starship_small"], playerStartPosX, playerStartPosY, playerStartSizeW, playerStartSizeH);
-}
 
 
 
@@ -118,6 +124,45 @@ function drawPlayerStarShip() {
 
 function setControls() {
 
+   /* Check for keystrokes */
+    document.addEventListener('keydown', logKey);
+
+    function logKey(e) {
+        log.textContent += ` ${e.code}`; /* TODO: Just for test, remove later!!!  */
+        var keyStroke = ` ${e.code}`;
+       alert(keyStroke);
+        playerActions(keyStroke); 
+        
+
+    }
+
+    function playerActions(keyStroke) {       
+        var direction = null;
+
+        if (keyStroke = "ArrowUp" || "KeyW") {
 
 
+        }
+        else if (keyStroke = "ArrowDown" || "KeyS") {
+            
+
+        }
+        else if (keyStroke = "ArrowLeft" || "KeyA") {
+            
+
+        }
+        else if (keyStroke = "ArrowRight" || "KeyD") {
+            
+
+        }
+        else {
+            console.log("some other keystroke")
+ 
+        }
+
+    }
+
+
+
+    
 }

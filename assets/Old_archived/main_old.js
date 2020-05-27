@@ -86,7 +86,8 @@ function createPlayer(ctx) {
 };
 
 
-/* Check for keystrokes */
+
+
 
     document.onkeydown = function(event) {
         var direction;

@@ -50,7 +50,7 @@ div #preload {
 .bg-image-full {
     background-repeat: no-repeat;
     background-position: left center;
-    background-size: 1920px 1080px;
+    background-size: cover;
     min-height: 100vh;
 }
 
