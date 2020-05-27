@@ -12,17 +12,46 @@
 		<title>Test</title>
 	</head>
  
-	<body>
+	<body class="bg-image-1 bg-image-full">
+		<div class="container-xl no-gutters mx-auto"> <!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Bootstrap Container START :::: -->
+			<header class="row">
+				<div class="col">
+					<h4>Header</h4>
+				</div>
+			</header>
 
-		<main>
-			<canvas id="canvas-1"></canvas>
-		</main>
-   
- 
+			<main>
+				<div class="row d-none d-lg-flex flex-row mx-auto justify-content-center"> <!-- :::::::::::::::::::::::::::::::::: MAIN CONTENT :::: -->
+					<div class="game-info-bar mx-auto" id="player-user-name">Username</div> <!-- .............................. Player userName .... -->
+					<div class="game-info-bar mx-auto" id="start-button">
+						<button>Start Game!</button><span class="pl-3"></span> <!-- ........................................ Start/Pause Button .... -->
+					</div>
+					<div class="game-info-bar mx-auto" id="game-menu">Menu button</div>
+				</div>
+					<div class="row mx-auto">
+					<div class="col-12 d-none d-lg-block my-2">
+						<canvas id="canvas-1" width="1000" height="700"> <!-- .......................................................... Canvas .... -->
+							<h2>Sorry! You need a web-browser compatible with HTML5 to play!</h2>
+							<p>List of such Browsers</p> <!-- TODO: Update list of browsers compatible -->
+	
+						</canvas> 
+					</div> <!-- TODO: Pause if screen gets to small during active game -->
+					<div class="col-12 d-sm-block d-lg-none"> <!-- ....................................................... To small screen info .... --> 
+						<h2>Sorry! You need a wider screen to play!</h2>
+						<p>If you're on a mobile device, try and tilt your device to a horizontal position.</p>
+					</div>
+				</div>
+			</main>
+	
+			<footer class="row">
+				<div class="col">
+					<h4>Footer</h4>
+				</div>
+			</footer>
+		</div> <!-- ................................................................................................... Bootstrap Container END .... -->
 
 
-
-<!-- ............................................................................................ JAVASCRIPTS .... -->
+	<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: JAVASCRIPTS ;;;; -->
 	<!-- JQuery -->
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 	<!-- Popper -->
@@ -31,6 +60,6 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 	<!-- Local scripts -->
 	<script type="text/javascript" src="assets/js/main.js"></script>
-
-</body>
+	
+	</body>
 </html>

@@ -4,14 +4,12 @@ var Images = {};
 
 function loadImages(list){
     var total = 0;
-    $("span").text("Loading...");
     for(var i = 0; i < list.length; i++){
         var img = new Image();
         Images[list[i].name] = img;
         img.onload = function(){
             total++;
             if(total == list.length){
-                $("span").text("Loaded.");
             }
         };
         img.src = list[i].url;
@@ -36,9 +34,9 @@ var paused = true;
 
 // .... PLAYER .................................................................................
 var playerStartPosX = 100; //Horizontal axis
-var playerStartPosY = 300; //Vertical axis
-var playerStartSizeW =  60; //Width
-var playerStartSizeH =  40; //Height
+var playerStartPosY = 270; //Vertical axis
+var playerStartSizeW =  100; //Width
+var playerStartSizeH =  50; //Height
 
 var playerCurrentPosX = playerStartPosX;
 var playerCurrentPosY = playerStartPosY;
@@ -59,7 +57,7 @@ var Game = {
 }
 
 // =============================================================================================
-// ==== START =========?========================================================================
+// ==== S T A R T =========?====================================================================
 
 $(document).ready(function() {
 
@@ -76,6 +74,26 @@ function start() {
 
 }
 
+// .... Start / Pause .............................................................................
+$(".game-info-bar button").click(function(){
+    
+    if (paused){
+        paused = false;
+        $(".game-info-bar button").text("Game Started!");
+        start();
+    }
+    else if (!paused) {
+        paused = true;
+        $(".game-info-bar button").text("Game Paused!");
+        pause(); 
+        /* TODO: Do pause function */ 
+        /* TODO: Connect Pause Button */ 
+    }
+    else {
+        alert("Error! Game is neither started or paused!")
+    }
+});
+
 
 // **** LOAD RESOURCES ****************************************************************************
 function loadResources() {
@@ -86,7 +104,7 @@ function loadResources() {
 
 // .......... Player ..........
 function drawPlayerStarShip() {
-    ctx.drawImage(Images["player_starship_small"], 50, 300);
+    ctx.drawImage(Images["player_starship_small"], playerStartPosX, playerStartPosY, playerStartSizeW, playerStartSizeH);
 }
 
 

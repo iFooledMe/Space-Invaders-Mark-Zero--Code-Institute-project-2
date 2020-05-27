@@ -1,7 +1,6 @@
 body  {
     margin: 0;
     padding: 0;
-    background-color:#ffffff;
     color: #ffffff;
     height: 100vh;
     overflow: hidden;
@@ -10,21 +9,21 @@ body  {
 header {
     background-color: transparent;
     margin: 0;
-    padding: 10px 0;
-    height: 100px;
+    padding: 10px 30px;
+    height: 5vh;
 }
 
 main {
     text-align: center;
-    background-color: transparent;
-    height: 768px;
+    margin: auto;
+    min-height: 700px; /* TODO: Check the min-height on Main */
 }
-
+  
 footer {
     background-color: transparent;
     margin: 0;
-    padding: 10px 0;
-    height: 100px;
+    padding: 10px 30px;
+    height: 5vh;
 }
 
 div #preload {
@@ -40,10 +39,6 @@ div #preload {
     border-radius: 5px;
 }
 
-.game-info-bar {
-
-}
-
 .game-info-bar button {
     width: 150px;
 }
@@ -55,8 +50,7 @@ div #preload {
 .bg-image-full {
     background-repeat: no-repeat;
     background-position: center center;
-    background-size: cover;
-    min-width: 100%;
-    min-height: 100%;
+    background-size: 1920px 1080px;
+    min-height: 100vh;
 }
 
