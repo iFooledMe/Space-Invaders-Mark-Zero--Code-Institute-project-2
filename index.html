@@ -21,16 +21,24 @@
 			<div class="col">
 				<h4>Header</h4>
 			</div>
-		</header>
 
+		</header>
+		
 		<main>
+			<div class="row d-none d-lg-block mx-auto">
+				<div class="col game-info-bar">
+					<button>Start Game!</button><span class="pl-3"></span> <!-- Start/Pause Button -->
+				</div>
+			</div>
 			<div class="row mx-auto">
 				<div class="col-12 d-none d-lg-block my-2">
-					<canvas id="canvas">
-						<h2>Sorry! If you can see this message you need to use a web-browser supporting HTML5</h2>
-					</canvas>
+					<canvas id="canvas" width="1000" height="700">
+						<h2>Sorry! You need a web-browser compatible with HTML5 to play!</h2>
+						<p>List of such Browsers</p> <!-- TODO: Update list of browsers compatible -->
+
+					</canvas> <!--Canvas -->
 				</div>
-				<div class="col-12 d-sm-block d-lg-none">
+				<div class="col-12 d-sm-block d-lg-none"> <!-- To small screen info --> <!-- TODO: Pause if screen gets to small during active game -->
 					<h2>Sorry! You need a wider screen to play!</h2>
 					<p>If you're on a mobile device, try and tilt your device to a horizontal position.</p>
 				</div>

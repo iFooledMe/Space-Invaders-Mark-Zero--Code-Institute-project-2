@@ -1,21 +1,62 @@
-    $( window ).on( "load", function() { 
-        draw();
+// ==== Global variables ====================================================================
+var paused = true;
 
-    })
-    
-    
-    function draw() {
-      var canvas = document.getElementById('canvas');
-      if (canvas.getContext) {
-        var ctx = canvas.getContext('2d');
+// ==== Images pre-load =====================================================================
+var Images = {};
 
-        ctx.fillStyle = 'rgb(200, 0, 0)';
-        ctx.fillRect(10, 10, 50, 50);
-
-        ctx.fillStyle = 'rgba(0, 0, 200, 0.5)';
-        ctx.fillRect(70, 30, 50, 100);
-      }
+function loadImages(list){
+    var total = 0;
+    $("span").text("Loading...");
+    for(var i = 0; i < list.length; i++){
+        var img = new Image();
+        Images[list[i].name] = img;
+        
+        img.onload = function(){
+            total++;
+            if(total == list.length){
+                $("span").text("Loaded.");
+            }
+        };
+        img.src = list[i].url;
     }
+}
+
+loadImages([{
+    name: "player_starship",
+    url: "assets/images/spaceship-200x100.png",
+},{
+    name: "weirdCircles",
+    url: "http://www.nasa.gov/images/content/498887main_Fermi_bubble_art_no_labels.jpg"
+}]);
+
+// ==== START =====================================================================================
+function start(){
+  var ctx = $("canvas")[0].getContext("2d");
+  ctx.drawImage(Images["player_starship"], 100, 300, 60, 40);
+}
+
+//some jQuery stuff that is not related
+$(".game-info-bar button").click(function(){
+    
+    if (paused){
+        paused = false;
+        $(".game-info-bar button").text("Game Started!");
+        start();
+    }
+    else if (!paused) {
+        paused = true;
+        $(".game-info-bar button").text("Game Paused!");
+        pause(); 
+        /* TODO: Do pause function */ 
+        /* TODO: Connect Pause Button */ 
+    }
+    else {
+        alert("Error! Game is neither started or paused!")
+    }
+});
+
+
+
 
 
 
