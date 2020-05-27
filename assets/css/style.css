@@ -34,8 +34,8 @@ div #preload {
 #canvas-1 {
     /*width: 1024px;
     height: 700px;*/
-    background: rgba(0,0,0,.3);
-    border: 1px solid rgba(160,90,90,.3);   
+    background: transparent;
+    border: 1px solid rgba(160,90,90,.5);   
     border-radius: 5px;
 }
 
@@ -44,12 +44,12 @@ div #preload {
 }
 
 .bg-image-1 {
-    background-image: url(../images/bg-planet-3840x2160.jpg);
+    background-image: url(../images/bg-space-2560x1700.jpg);
 }
 
 .bg-image-full {
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: left center;
     background-size: 1920px 1080px;
     min-height: 100vh;
 }

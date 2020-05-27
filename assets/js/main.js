@@ -19,10 +19,10 @@ function loadImages(list){
 // .... Images List ............................................................................
 loadImages([{
     name: "player_starship_small",
-    url: "assets/images/spaceship-100x50.png",
+    url: "assets/images/spaceship2_120x60.png",
 },{
     name: "player_starship_medium",
-    url: "assets/images/spaceship-200x100.png"
+    url: "assets/images/spaceship2_120x60.png"
 }]);
 
 // =============================================================================================
@@ -35,8 +35,8 @@ var paused = true;
 // .... PLAYER .................................................................................
 var playerStartPosX = 100; //Horizontal axis
 var playerStartPosY = 270; //Vertical axis
-var playerStartSizeW =  100; //Width
-var playerStartSizeH =  50; //Height
+var playerStartSizeW =  120; //Width
+var playerStartSizeH =  60; //Height
 
 var playerCurrentPosX = playerStartPosX;
 var playerCurrentPosY = playerStartPosY;
