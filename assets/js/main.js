@@ -22,7 +22,7 @@ function loadImages(list){
 // .... Images List ............................................................................
 loadImages ([   
     {   name: "player_starship_small",
-        url: "assets/images/spaceship2_120x60.png"      },
+        url: "assets/images/spaceship2_100x50.png"      },
     {   name: "player_starship_medium",
         url: "assets/images/spaceship2_120x60.png"      },
     {   name: "bg-planet-1",
@@ -43,8 +43,12 @@ var player;
 var Game = {
     canvas : null,
     context : null,
-    create : function(canvasId) { 
+    width: null,
+    height: null,
+    create : function(canvasId, width, height) { 
         this.canvas = document.getElementById(canvasId);
+        this.canvas.width = width;
+        this.canvas.height = height;
         this.context = this.canvas.getContext("2d");
         return this.context;
     },
@@ -69,7 +73,7 @@ function Player(ctx,name) {
 $(document).ready(function() {
     
     //Create Canvas
-    ctx = Game.create("canvas-1");
+    ctx = Game.create("canvas-1", 1000, 700);
     
 
       
@@ -81,7 +85,7 @@ $(document).ready(function() {
     start(ctx);
 })
 
-// ==== GAME ENTRY ================================================================================
+// ==== GAME ENTRY POINT =========================================================================
 function start(ctx) {
 
 
@@ -136,9 +140,9 @@ function loadResources(ctx) {
 
 // .......... Player ...........
 function inGame_player(ctx) {
-    player = new Player(ctx, "Mark");
+    player = new Player(ctx, "iFooledMe");
     player.playerDrawPosition();
-    
+    $("#player-user-name").html(` Welcome <strong>${player.name}!</strong><br>Enjoy your Game!`);
 };
 
 
@@ -164,7 +168,7 @@ function setControls() {
         var direction = null;
 
         if (keyStroke = "ArrowUp" || "KeyW") {
-
+            
 
         }
         else if (keyStroke = "ArrowDown" || "KeyS") {
