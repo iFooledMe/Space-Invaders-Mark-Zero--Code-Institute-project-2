@@ -31,38 +31,42 @@ loadImages ([
 
 // =============================================================================================
 // ==== G L O B A L   V A R I A B L E S ========================================================
-var Game;
 var ctx;
+var game;
 var player;
+
 
 
 // =============================================================================================
 // ==== G A M E - O B J E C T S ================================================================
 
 // .... GAME ...................................................................................
-var Game = {
-    canvas : null,
-    context : null,
-    width: null,
-    height: null,
-    create : function(canvasId, width, height) { 
+function Game () {
+    this.canvas = null;
+    this.context = null;
+    this.width = null;
+    this.height = null;
+    this.create = function(canvasId, width, height) { 
         this.canvas = document.getElementById(canvasId);
         this.canvas.width = width;
         this.canvas.height = height;
         this.context = this.canvas.getContext("2d");
         return this.context;
-    },
-    isPaused : true, //Game paused at load
+    };
+    this.isPaused = true; //Game paused at load
 };
 
 // .... PLAYER ..................................................................................
-function Player(ctx,name) {
+function Player(name) {
     this.name = name;
     this.posX = 100; //Horizontal axis at start
     this.posY = 270; //Vertical axis at start
     this.sizeW =  120; //Width at start
     this.sizeH =  60; //Height at start
-    this.playerDrawPosition = function() {
+    this.draw = function(newX, newY) {
+        ctx.clearRect(this.posX, this.posY, this.sizeW, this.sizeH);
+        this.posX -= newX;
+        this.posY -= newY;
         ctx.drawImage(Images["player_starship_small"], this.posX, this.posY, this.sizeW, this.sizeH);
     };
 };
@@ -73,28 +77,19 @@ function Player(ctx,name) {
 $(document).ready(function() {
     
     //Create Canvas
-    ctx = Game.create("canvas-1", 1000, 700);
+    game = new Game();
+    ctx = game.create("canvas-1", 1000, 700);
     
-
-      
-
-    
-
-
-
-    start(ctx);
+    //Start Point
+    start();
 })
 
 // ==== GAME ENTRY POINT =========================================================================
-function start(ctx) {
+function start() {
 
-
-
-    loadResources(ctx); //Images and resources on the screen*/
+    loadResources(); //Images and resources on the screen*/
     setControls(); //Key Commands
-
-    
-    
+  
 }
 
 // ===============================================================================================
@@ -133,15 +128,15 @@ function pause() {
 
 
 // **** LOAD RESOURCES ****************************************************************************
-function loadResources(ctx) {
+function loadResources() {
 
-    inGame_player(ctx); //Creates the player ship, score and other statuses
+    inGame_player(); //Creates the player ship, score and other statuses
 }
 
 // .......... Player ...........
-function inGame_player(ctx) {
-    player = new Player(ctx, "iFooledMe");
-    player.playerDrawPosition();
+function inGame_player() {
+    player = new Player("iFooledMe");
+    player.draw(0,0);
     $("#player-user-name").html(` Welcome <strong>${player.name}!</strong><br>Enjoy your Game!`);
 };
 
@@ -155,41 +150,57 @@ function inGame_player(ctx) {
 
 function setControls() {
 
-   /* Check for keystrokes */
-    document.addEventListener('keydown', logKey);
-
-    function logKey(e) {
-        log.textContent = ` ${e.code}`; /* TODO: Just for test, remove later!!!  */
-        var keyStroke = ` ${e.code}`;
-        playerActions(keyStroke); 
-    }
-
-    function playerActions(keyStroke) {       
-        var direction = null;
-
-        if (keyStroke = "ArrowUp" || "KeyW") {
-            
-
-        }
-        else if (keyStroke = "ArrowDown" || "KeyS") {
-            
-
-        }
-        else if (keyStroke = "ArrowLeft" || "KeyA") {
-            
-
-        }
-        else if (keyStroke = "ArrowRight" || "KeyD") {
-            
-
-        }
-        else {
-            console.log("some other keystroke")
+        /* Check for keystrokes */
+     document.addEventListener('keydown', logKey);
  
-        }
-
+     function logKey(e) {
+         log.textContent += ` ${e.code}`; /* TODO: Just for test, remove later!!!  */
+         var key = `${e.code}`;       
+         playerActions(key);
     }
-
 }
 
+function playerActions(key) { 
+    var vrtMrg = 30;        // Margin to top and bottom canvas borders 
+    var hrzMarg = 30;       // Margin to left and right canvas borders 
+    var speed = 15;         // Speed of movement multiplier 
     
+    switch (key) {
+        
+        // === Move Up ===
+        case "ArrowUp":
+            if (player.posY >= 0 + vrtMrg) {
+                player.draw(0, 1 * speed); 
+            }
+            else {
+                break;
+            }
+            break;
+        
+        // === Move Down ===
+        case 'ArrowDown':
+            console.log(game.height); // TODO: get gama height to a variable. Check why "player" is available globaly but "game" is not?
+            if (player.posY <= 700 - player.sizeH - vrtMrg) {
+                player.draw(0, -1 * speed); 
+            }
+            else {
+                break;
+            }
+            break;
+        
+        // === Move Left ===
+        case 'ArrowLeft':
+            
+            player.draw(1 * disable, 0); 
+            break;
+        
+        // === Move Right ===    
+        case 'ArrowRight':
+            
+            player.draw(-1 * disable, 0); 
+            break;
+        default:
+          console.log(`Some other Key! var KeyStroke = ${key}`);
+          break;
+    }  
+ }
