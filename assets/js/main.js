@@ -68,7 +68,7 @@ function Player(name) {
     this.sizeW =  120; //Width at start
     this.sizeH =  60; //Height at start
     this.posX = 100; //Horizontal axis at start
-    this.posY = ((game.canvas.height / 2) - (this.sizeH / 2)); //Vertical axis at start
+    this.posY = ((game.canvas.height / 2) - (this.sizeH)); //Vertical axis at start
     this.draw = function(newX, newY) {
         ctx.clearRect(this.posX, this.posY, this.sizeW, this.sizeH);
         this.posX -= newX;
