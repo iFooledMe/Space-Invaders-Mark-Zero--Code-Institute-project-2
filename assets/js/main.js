@@ -1,5 +1,8 @@
-// ==========================================================================================
-// ==== I M A G E S   P R E - L O A D =======================================================
+// =============================================================================================
+// #region ==== I M A G E S   P R E - L O A D ==================================================
+
+
+
 var Images = {};
 
 function loadImages(list){
@@ -29,16 +32,19 @@ loadImages ([
         url: "assets/images/bg-planet-3840x2160.jpg"    }
 ]);
 
+// #endregion
+
 // =============================================================================================
-// ==== G L O B A L   V A R I A B L E S ========================================================
+// #region ==== G L O B A L   V A R I A B L E S =================================================
 var ctx;
 var game;
 var player;
 
 
+//#endregion
 
-// =============================================================================================
-// ==== G A M E - O B J E C T S ================================================================
+// ==============================================================================================
+// #region ==== G A M E - O B J E C T S =========================================================
 
 // .... GAME ...................................................................................
 function Game () {
@@ -67,12 +73,15 @@ function Player(name) {
         ctx.clearRect(this.posX, this.posY, this.sizeW, this.sizeH);
         this.posX -= newX;
         this.posY -= newY;
-        ctx.drawImage(Images["player_starship_small"], this.posX, this.posY, this.sizeW, this.sizeH);
+        return ctx.drawImage(Images["player_starship_small"], 
+            this.posX, this.posY, this.sizeW, this.sizeH);
     };
 };
 
-// ===============================================================================================
-// ==== S T A R T ================================================================================
+// #endregion
+
+// ==============================================================================================
+// #region ==== S T A R T =======================================================================
 
 $(document).ready(function() {
     
@@ -81,19 +90,20 @@ $(document).ready(function() {
     ctx = game.create("canvas-1", 1000, 700);
     
     //Start Point
-    start();
+    start(ctx);
 })
 
 // ==== GAME ENTRY POINT =========================================================================
-function start() {
+// 
+function start(ctx) {
 
-    loadResources(); //Images and resources on the screen*/
+    loadResources(ctx); //Images and resources on the screen*/
     setControls(); //Key Commands
   
 }
 
-// ===============================================================================================
-// ==== S T A R T  / P A U S E ===================================================================
+// ==== START / PAUSE ============================================================================
+                                                                                       
 
 $(".game-info-bar button").click(function(){
     
@@ -106,8 +116,8 @@ $(".game-info-bar button").click(function(){
         Game.isPaused = true;
         $(".game-info-bar button").text("Game Paused!");
         pause(); 
-        /* TODO: Do pause function */ 
-        /* TODO: Connect Pause Button */ 
+        
+    
     }
     else {
         alert("Error! Game is neither started or paused!")
@@ -115,28 +125,30 @@ $(".game-info-bar button").click(function(){
 });
 
 function unPause() {
-
+// TODO: PAUSE FUNCTIONS - Make pause and unpause functions
+// TODO: PAUSE FUNCTIONS - Connect Pause to a pause buttom "KeyP"
 }
 
 function pause() {
-    
+
 }
+ 
+// #endregion
+
+// ==============================================================================================
+// #region ==== G A M E - R U N N I N G =========================================================
 
 
-// ===============================================================================================
-// ==== G A M E - R U N N I N G ==================================================================
+// **** LOAD RESOURCES **************************************************************************
+function loadResources(ctx) {
 
-
-// **** LOAD RESOURCES ****************************************************************************
-function loadResources() {
-
-    inGame_player(); //Creates the player ship, score and other statuses
+    inGame_player(ctx); //Creates the player ship, score and other statuses
 }
 
 // .......... Player ...........
 function inGame_player() {
     player = new Player("iFooledMe");
-    player.draw(0,0);
+    player.draw(0,0); // TODO: START - Check why player image is not loading in canvas at start (just when a key is stroked)
     $("#player-user-name").html(` Welcome <strong>${player.name}!</strong><br>Enjoy your Game!`);
 };
 
@@ -150,27 +162,31 @@ function inGame_player() {
 
 function setControls() {
 
-        /* Check for keystrokes */
+    /* Listen for keystrokes */
      document.addEventListener('keydown', logKey);
  
+     /* Log keystroke and pass to player actions function */
      function logKey(e) {
-         log.textContent += ` ${e.code}`; /* TODO: Just for test, remove later!!!  */
          var key = `${e.code}`;       
          playerActions(key);
     }
 }
 
 function playerActions(key) { 
-    var vrtMrg = 30;        // Margin to top and bottom canvas borders 
-    var hrzMarg = 30;       // Margin to left and right canvas borders 
-    var speed = 15;         // Speed of movement multiplier 
     
+    // ==== SETTINGS =====================================================
+    var mrg_vrt = 30;           // Margin to top and bottom canvas borders 
+    var mrg_hrz = 30;           // Margin to left and right canvas borders 
+    var speed_vrt = 15;         // Speed of vertical movement 
+    var speed_hrz = 0;          // Speed of horizontal movement
+
     switch (key) {
         
         // === Move Up ===
         case "ArrowUp":
-            if (player.posY >= 0 + vrtMrg) {
-                player.draw(0, 1 * speed); 
+        case "KeyW":
+            if (player.posY >= 0 + mrg_vrt) {
+                player.draw(0, 1 * speed_vrt); 
             }
             else {
                 break;
@@ -179,9 +195,13 @@ function playerActions(key) {
         
         // === Move Down ===
         case 'ArrowDown':
-            console.log(game.height); // TODO: get gama height to a variable. Check why "player" is available globaly but "game" is not?
-            if (player.posY <= 700 - player.sizeH - vrtMrg) {
-                player.draw(0, -1 * speed); 
+        case "KeyS":
+            // TODO: Check why "player" is available globaly but "game" is not?
+            // TODO: CONTROLS - get game height to a variable (now hardcoded!). 
+            console.log(game.height); 
+            console.log(player.posY);
+            if (player.posY <= 700 - player.sizeH - mrg_vrt) {
+                player.draw(0, -1 * speed_vrt); 
             }
             else {
                 break;
@@ -190,17 +210,19 @@ function playerActions(key) {
         
         // === Move Left ===
         case 'ArrowLeft':
-            
-            player.draw(1 * disable, 0); 
+        case "KeyA":
+            player.draw(1 * speed_hrz, 0); 
             break;
         
         // === Move Right ===    
         case 'ArrowRight':
-            
-            player.draw(-1 * disable, 0); 
+        case "KeyD":
+            player.draw(-1 * speed_hrz, 0); 
             break;
-        default:
-          console.log(`Some other Key! var KeyStroke = ${key}`);
+        default:          
+        console.log(`Some other Key! var KeyStroke = ${key}`);
           break;
     }  
  }
+
+ // #endregion
