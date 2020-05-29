@@ -28,8 +28,9 @@ loadImages ([
         url: "assets/images/spaceship2_100x50.png"      },
     {   name: "player_starship_medium",
         url: "assets/images/spaceship2_120x60.png"      },
-    {   name: "bg-planet-1",
-        url: "assets/images/bg-planet-3840x2160.jpg"    }
+    {   name: "astroid_lg",
+        url: "assets/images/astroid1_200x200.png"      }
+
 ]);
 
 // #endregion
@@ -77,6 +78,21 @@ function Player(name) {
             this.posX, this.posY, this.sizeW, this.sizeH);
     };
 };
+
+// .... ENEMY ..................................................................................
+function Enemy() {
+    this.sizeW =  200; //Width at start
+    this.sizeH =  200; //Height at start
+    this.posX = 700; //Horizontal axis at start
+    this.posY = 300; //Vertical axis at start
+    this.draw = function(newX, newY) {
+        ctx.clearRect(this.posX, this.posY, this.sizeW, this.sizeH);
+        this.posX -= newX;
+        this.posY -= newY;
+        return ctx.drawImage(Images["astroid_lg"], 
+            this.posX, this.posY, this.sizeW, this.sizeH);
+    };
+}
 
 // #endregion
 
@@ -143,6 +159,7 @@ function pause() {
 function loadResources(ctx) {
 
     inGame_player(ctx); //Creates the player ship, score and other statuses
+    inGame_enemies(ctx);
 }
 
 // .......... Player ...........
@@ -154,8 +171,10 @@ function inGame_player() {
 
 
 // .......... Enemies ..........
-
-
+function inGame_enemies(ctx) {
+    enemy = new Enemy()
+    enemy.draw(0,0);
+}
 
 
 // **** SET CONTROLS ****************************************************************************
