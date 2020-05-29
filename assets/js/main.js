@@ -196,11 +196,7 @@ function playerActions(key) {
         // === Move Down ===
         case 'ArrowDown':
         case "KeyS":
-            // TODO: Check why "player" is available globaly but "game" is not?
-            // TODO: CONTROLS - get game height to a variable (now hardcoded!). 
-            console.log(game.height); 
-            console.log(player.posY);
-            if (player.posY <= 700 - player.sizeH - mrg_vrt) {
+            if (player.posY <= game.canvas.height - player.sizeH - mrg_vrt) {
                 player.draw(0, -1 * speed_vrt); 
             }
             else {
