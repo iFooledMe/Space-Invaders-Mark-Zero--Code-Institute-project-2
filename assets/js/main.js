@@ -1,7 +1,6 @@
 // =============================================================================================
-// #region ==== I M A G E S   P R E - L O A D ==================================================
-
-
+// ==          Source: Derek Leung - http://jsfiddle.net/DerekL/uCQAH/                        ==
+//#region ==== P R E - L O A D =================================================================
 
 var Images = {};
 
@@ -18,7 +17,7 @@ function loadImages(list){
                 $("span").text("Loaded.");
             }
         };
-        img.src = list[i].url;
+        img.src = list[i].url; 
     }
 }
 
@@ -60,7 +59,7 @@ function Game () {
         this.context = this.canvas.getContext("2d");
         return this.context;
     };
-    this.isPaused = true; //Game paused at load
+    this.isPaused = true; //Game paused at load+
 };
 
 // .... PLAYER ..................................................................................
