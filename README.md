@@ -1,3 +1,12 @@
+<style>
+
+h1,h2,h3,h4,h5,h6 {
+    text-transform: uppercase;
+}
+
+
+</style>
+
 <div style="Background-color: #4a4a4a; padding: 30px">
 <h1 style="font-size: 140%; font-weight: 700;color: #c49410; text-transform: uppercase; letter-spacing: 30px; text-align: center">SPACE INVADER MARK-ZERO</h1>
 <h2 style="text-align: center;">A Code Institute student project</h2>
