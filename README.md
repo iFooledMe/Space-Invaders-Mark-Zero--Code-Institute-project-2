@@ -6,7 +6,9 @@
 You find the latest Live version <a href="https://ifooledme.github.io/project-2-concept/" target="_blank"> Here</a>
 </p>
 
-For now I have my README <a href="https://docs.google.com/document/d/e/2PACX-1vTjgjlMFTStshewv_yNAKXnGowZ9NNXeZduu1t0PPEqOHzTGAzQMq4y0y-bV5T9N5rBTHcHcwJ8hlvT/pub"> in Google Docs here.</a>
-before deploying the final  version I will convert it to a propper Mardown format.
+For now I have my README <a href="readme_embed.html"> in Google Docs here.</a>
+
+I know this is not propper convention. before deploying the final version I will convert it to a propper Mardown format.
+SORRY FOR THE INCONVINENCE!
 
 </div>
