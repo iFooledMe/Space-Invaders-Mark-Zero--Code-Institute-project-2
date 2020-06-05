@@ -60,7 +60,7 @@ https://github.com/iFooledMe/project-2-concept
 “As a player I would love some Game Story to make my journey a bit more meaningful”
 
 ## UX
-Find complete UX-document <a href="https://docs.google.com/document/d/e/2PACX-1vT8rP-Mekfr-BlLu3oXBg_24U10u6El0OZEaoYU6Vszlb45pn1NhC9ADKXiqjZLkTS144KknfZR29hN/pub" target="_blank"> here</a>
+Find complete UX-document <a href="https://docs.google.com/document/d/18k9Ge3SliClU9H8CHWCYzIfCiEVEodiXAjY-rkhhtSY/edit?usp=sharing" target="_blank"> here</a>
 
 ## CREDITS
 
