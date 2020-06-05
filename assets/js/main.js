@@ -4,7 +4,7 @@
 
 var Images = {};
 
-function loadImages(list){
+function preload(list, callback){
     var total = 0;
     $("span").text("Loading...");
     for(var i = 0; i < list.length; i++){
@@ -15,6 +15,7 @@ function loadImages(list){
             total++;
             if(total == list.length){
                 $("span").text("Loaded.");
+                callback();
             }
         };
         img.src = list[i].url; 
@@ -22,15 +23,14 @@ function loadImages(list){
 }
 
 // .... Images List ............................................................................
-loadImages ([   
+var preLoadList = [   
     {   name: "player_starship_small",
         url: "assets/images/spaceship2_100x50.png"      },
     {   name: "player_starship_medium",
         url: "assets/images/spaceship2_120x60.png"      },
     {   name: "astroid_lg",
         url: "assets/images/astroid1_200x200.png"      }
-
-]);
+]
 
 // #endregion
 
@@ -99,17 +99,24 @@ function Enemy() {
 // #region ==== S T A R T =======================================================================
 
 $(document).ready(function() {
-    
+    preload (preLoadList, function() {
+        init_canvas();
+    });  
+})
+
+
+
+// ==== GAME ENTRY POINT =========================================================================
+
+function init_canvas() {
     //Create Canvas
     game = new Game();
     ctx = game.create("canvas-1", 1000, 700);
     
     //Start Point
     start(ctx);
-})
+}
 
-// ==== GAME ENTRY POINT =========================================================================
-// 
 function start(ctx) {
 
     loadResources(ctx); //Images and resources on the screen*/
