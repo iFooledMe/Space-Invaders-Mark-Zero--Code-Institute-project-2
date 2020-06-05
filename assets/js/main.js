@@ -98,13 +98,11 @@ function Enemy() {
 // ==============================================================================================
 // #region ==== S T A R T =======================================================================
 
-$(document).ready(function() {
     preload (preLoadList, function() {
-        init_canvas();
-    });  
-})
-
-
+        $(document).ready(function() {
+            init_canvas ();
+            });  
+    })  
 
 // ==== GAME ENTRY POINT =========================================================================
 
@@ -116,6 +114,7 @@ function init_canvas() {
     //Start Point
     start(ctx);
 }
+
 
 function start(ctx) {
 
