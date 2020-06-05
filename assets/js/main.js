@@ -110,9 +110,6 @@ function init_canvas() {
     //Create Canvas
     game = new Game();
     ctx = game.create("canvas-1", 1000, 700);
-    
-    //Start Point
-    start(ctx);
 }
 
 
@@ -127,31 +124,27 @@ function start(ctx) {
                                                                                        
 
 $(".game-info-bar button").click(function(){
-    
+    console.log(Game.isPaused);
     if (Game.isPaused){
-        Game.isPaused = false;
-        $(".game-info-bar button").text("Game Started!");
-        unPause();
+        pause();
     }
     else if (!Game.isPaused) {
-        Game.isPaused = true;
-        $(".game-info-bar button").text("Game Paused!");
-        pause(); 
-        
-    
+        unPause(ctx); 
     }
     else {
-        alert("Error! Game is neither started or paused!")
+        console.log("Error! Game is neither started or paused!");
     }
 });
 
-function unPause() {
-// TODO: PAUSE FUNCTIONS - Make pause and unpause functions
-// TODO: PAUSE FUNCTIONS - Connect Pause to a pause buttom "KeyP"
+function unPause(ctx) {
+    Game.isPaused = true;
+    $(".game-info-bar button").text("Game Started!");
+    start(ctx);
 }
 
 function pause() {
-
+    Game.isPaused = false;
+    $(".game-info-bar button").text("Game Paused!"); 
 }
  
 // #endregion
