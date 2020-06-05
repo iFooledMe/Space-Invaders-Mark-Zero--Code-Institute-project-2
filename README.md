@@ -1,14 +1,79 @@
-<div style="Background-color: #4a4a4a; padding: 30px">
-<h1 style="font-size: 140%; font-weight: 700;color: #c49410; text-transform: uppercase; letter-spacing: 30px; text-align: center">SPACE INVADER MARK-ZERO</h1>
-<h2 style="text-align: center;">A Code Institute student project</h2>
+# SPACE INVADERS MARK ZERO
 
-<p>
-You find the latest Live version <a href="https://ifooledme.github.io/project-2-concept/" target="_blank"> Here</a>
-</p>
+## A CODE INSTITUTE STUDENT PROJECT
+## Project #2 - User-Centric Frontend Development
 
-For now I have my README <a href="readme_embed.html"> in Google Docs here.</a>
+<a href="[[https://ifooledme.github.io/project-2-concept/)
+](https://ifooledme.github.io/project-2-concept/)">VIEW THE LATEST LIVE VERSION HERE</a>
 
-I know this is not propper convention. before deploying the final version I will convert it to a propper Mardown format.
-SORRY FOR THE INCONVINENCE!
+This is the second of four individual projects we are to make during the 3 months Full Stack Developer course at Code Institute. Beside HTML5 and CSS3 this project is restricted to use of Javascript.
 
-</div>
+Since this stage of the course is mostly about Javascript, my idea is to make a small game using the HTML5 canvas element. This approach assures that most focus falls on Javascript. I am not using anything else than ”Vanilla” javascript and JQuery (and of course HTML and css with Bootstrap framework)
+
+## THE GAME
+The game I intend to build is my own interpretation of the very classical game ”Space Invaders” (Created by Tomohiro Nishikado 1978). By making yet another version of this game there is nothing new. My interpretation just happens to be;
+
+### "THE SPACE INVADERS MARK-ZERO"
+- “M A R K” - Because regardless of what this project becomes it will still be some kind of mark in the history of Space Invaders clones (Think like “Just another poor made broken bronze ax found in an archeological dig site still has its pretty small Mark in the history of bronze axes”).
+- “Z E R O” - Because at the moment this proje#ct's mark is pretty much anything about Zero.
+
+
+### GAME CONTENT - WHAT IS IT ABOUT?
+The game is about a small spaceship fighting obstacles in a complete 2d environment. While the classical ”Space Invader” had a bottom/up perspective, my version goes from the left side of the screen where the player spaceship can move up and down (on the vertical axis). From the right side of the screen obstacles and enemies are appearing and move towards the player. These obstacles appear in various random positions, directions, speed, size and appearance. The player has to avoid being struck by these enemy objects, or the game is over. Possibly, the player can shoot at these enemies to make them disappear and maybe the enemies can shoot back at the player.
+
+## TECHNOLOGY, DEPLOYMENT, FEATURES
+
+### TECHNOLOGY
+- HTML 5 (With use of the Canvas element to render the game in “2d” context) 
+- CSS 3 (With Bootstrap 4.5.0 and Popper 16.0)
+- Javascript (With JQuery 3.5.1)
+
+### DEPLOYMENT
+The application is hosted on GitHub Pages:				 
+https://ifooledme.github.io/project-2-concept/
+
+The public repository on GitHub: 
+https://github.com/iFooledMe/project-2-concept
+
+### FEATURES
+
+## TESTING
+
+## USER STORIES
+
+#### Minimum Viable product
+- “As a player I can add my username and start a new game”     
+- “As a player I must be able to complete a game by winning”
+- “As a player I wish to compare my end score with other game scores”
+- “As a player I wish to get some more information about the game.”
+- “As a player I wish to get instructions on how to play.”
+
+#### Possible Extensions 1
+- “As a player I would like to shoot at incoming objects making them disappear”
+- “As a player I wish to be able to Pause the game if I need to”
+- “As a player I expect some leveling to incrementally make it more challenging”
+- “As a player I expect the game to have some music and sound effects”
+
+#### Possible Extensions 2
+“As a Player would like some of the incoming enemy objects sometimes shoot back at me”
+“As a player I’m bored! Please give me some upgrades and new game mechanics to play with”  
+“As a player I would love some Game Story to make my journey a bit more meaningful”
+
+## UX
+Find complete UX-document <a href="https://docs.google.com/document/d/e/2PACX-1vT8rP-Mekfr-BlLu3oXBg_24U10u6El0OZEaoYU6Vszlb45pn1NhC9ADKXiqjZLkTS144KknfZR29hN/pub" target="_blank"> here</a>
+
+## CREDITS
+
+### CONTENT
+
+### MEDIA
+
+- Bg-space-2460x1700.jpg - SOURCE: Wallpapersafari.com - https://img.wallpapersafari.com/tablet/2560/1700/19/51/a415uP.jpeg
+- spaceship2.[_100x50 to _1000x50].png - SOURCE: Wallpapersafari.com - https://cdn.wallpapersafari.com/11/9/bn9KIi.jpg
+- astroid1.[_20x20 to _400x400].png - SOURCE: Wallpapersafari.com - https://cdn.wallpapersafari.com/91/49/2uKRha.jpg
+
+### AKNOWLEDGEMENTS
+
+#### PRE-LOAD SOURCE CODE
+loadImages() on top of main.js (I only made some small changes to this code to fit my purposes).
+SOURCE: Derek Leung - http://jsfiddle.net/DerekL/uCQAH/
