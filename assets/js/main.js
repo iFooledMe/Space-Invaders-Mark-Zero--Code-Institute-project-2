@@ -104,8 +104,6 @@ function Enemy() {
             });  
     })  
 
-// ==== GAME ENTRY POINT =========================================================================
-
 function setUpGame() {
     //Create Canvas
     game = new Game();
@@ -113,11 +111,10 @@ function setUpGame() {
 }
 
 
-function runGame(ctx) {
-
+function runGame() {
     inGame_objects(ctx); //Images and resources on the screen*/
     setControls(); //Key Commands
-  
+    window.requestAnimationFrame(gameLoop);
 }
 
 // ==== START / PAUSE ============================================================================
@@ -151,6 +148,14 @@ function pause(ctx) {
 
 // ==============================================================================================
 // #region ==== G A M E - R U N N I N G =========================================================
+gameLoop = function() {
+    
+    enemy.draw(3,0);
+
+    window.requestAnimationFrame(gameLoop);
+}
+
+
 
 function inGame_objects(ctx) {
 
@@ -161,7 +166,7 @@ function inGame_objects(ctx) {
 // .......... Player ...........
 function inGame_player() {
     player = new Player("iFooledMe");
-    player.draw(0,0); 
+    player.draw(0,0);
     $("#player-user-name").html(` Welcome <strong>${player.name}!</strong><br>Enjoy your Game!`);
 };
 
@@ -169,7 +174,6 @@ function inGame_player() {
 // .......... Enemies ..........
 function inGame_enemies(ctx) {
     enemy = new Enemy()
-    enemy.draw(0,0);
 }
 
 
