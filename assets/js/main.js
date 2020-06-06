@@ -100,22 +100,22 @@ function Enemy() {
 
     preload (preLoadList, function() {
         $(document).ready(function() {
-            init_canvas ();
+            setUpGame ();
             });  
     })  
 
 // ==== GAME ENTRY POINT =========================================================================
 
-function init_canvas() {
+function setUpGame() {
     //Create Canvas
     game = new Game();
     ctx = game.create("canvas-1", 1000, 700);
 }
 
 
-function start(ctx) {
+function runGame(ctx) {
 
-    loadResources(ctx); //Images and resources on the screen*/
+    inGame_objects(ctx); //Images and resources on the screen*/
     setControls(); //Key Commands
   
 }
@@ -139,10 +139,10 @@ $(".game-info-bar button").click(function(){
 function unPause(ctx) {
     Game.isPaused = true;
     $(".game-info-bar button").text("Game Started!");
-    start(ctx);
+    runGame(ctx);
 }
 
-function pause() {
+function pause(ctx) {
     Game.isPaused = false;
     $(".game-info-bar button").text("Game Paused!"); 
 }
@@ -152,9 +152,7 @@ function pause() {
 // ==============================================================================================
 // #region ==== G A M E - R U N N I N G =========================================================
 
-
-// **** LOAD RESOURCES **************************************************************************
-function loadResources(ctx) {
+function inGame_objects(ctx) {
 
     inGame_player(ctx); //Creates the player ship, score and other statuses
     inGame_enemies(ctx);
@@ -163,7 +161,7 @@ function loadResources(ctx) {
 // .......... Player ...........
 function inGame_player() {
     player = new Player("iFooledMe");
-    player.draw(0,0); // TODO: START - Check why player image is not loading in canvas at start (just when a key is stroked)
+    player.draw(0,0); 
     $("#player-user-name").html(` Welcome <strong>${player.name}!</strong><br>Enjoy your Game!`);
 };
 
