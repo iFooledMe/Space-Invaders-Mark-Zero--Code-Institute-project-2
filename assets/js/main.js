@@ -69,10 +69,7 @@ function Player(name) {
     this.sizeH =  60; //Height at start
     this.posX = 100; //Horizontal axis at start
     this.posY = ((game.canvas.height / 2) - (this.sizeH)); //Vertical axis at start
-    this.draw = function(newX, newY) {
-        ctx.clearRect(this.posX, this.posY, this.sizeW, this.sizeH);
-        this.posX -= newX;
-        this.posY -= newY;
+    this.draw = function() {
         return ctx.drawImage(Images["player_starship_small"], 
             this.posX, this.posY, this.sizeW, this.sizeH);
     };
@@ -82,10 +79,9 @@ function Player(name) {
 function Enemy() {
     this.sizeW =  200; //Width at start
     this.sizeH =  200; //Height at start
-    this.posX = 700; //Horizontal axis at start
+    this.posX = game.canvas.width; //Horizontal axis at start
     this.posY = 300; //Vertical axis at start
-    this.draw = function(newX, newY) {
-        ctx.clearRect(this.posX, this.posY, this.sizeW, this.sizeH);
+    this.draw = function(newX, newY) {  
         this.posX -= newX;
         this.posY -= newY;
         return ctx.drawImage(Images["astroid_lg"], 
@@ -149,7 +145,8 @@ function pause(ctx) {
 // ==============================================================================================
 // #region ==== G A M E - R U N N I N G =========================================================
 gameLoop = function() {
-    
+    ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
+    player.draw();
     enemy.draw(3,0);
 
     window.requestAnimationFrame(gameLoop);
@@ -166,7 +163,6 @@ function inGame_objects(ctx) {
 // .......... Player ...........
 function inGame_player() {
     player = new Player("iFooledMe");
-    player.draw(0,0);
     $("#player-user-name").html(` Welcome <strong>${player.name}!</strong><br>Enjoy your Game!`);
 };
 
@@ -204,8 +200,8 @@ function playerActions(key) {
         // === Move Up ===
         case "ArrowUp":
         case "KeyW":
-            if (player.posY >= 0 + mrg_vrt) {
-                player.draw(0, 1 * speed_vrt); 
+            if (player.posY >= mrg_vrt) {
+                player.posY -= speed_vrt; 
             }
             else {
                 break;
@@ -216,7 +212,7 @@ function playerActions(key) {
         case 'ArrowDown':
         case "KeyS":
             if (player.posY <= game.canvas.height - player.sizeH - mrg_vrt) {
-                player.draw(0, -1 * speed_vrt); 
+                player.posY += speed_vrt; 
             }
             else {
                 break;
@@ -226,13 +222,13 @@ function playerActions(key) {
         // === Move Left ===
         case 'ArrowLeft':
         case "KeyA":
-            player.draw(1 * speed_hrz, 0); 
+            
             break;
         
         // === Move Right ===    
         case 'ArrowRight':
         case "KeyD":
-            player.draw(-1 * speed_hrz, 0); 
+            
             break;
         default:          
         console.log(`Some other Key! var KeyStroke = ${key}`);
