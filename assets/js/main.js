@@ -144,11 +144,20 @@ function pause(ctx) {
 
 // ==============================================================================================
 // #region ==== G A M E - R U N N I N G =========================================================
-gameLoop = function() {
-    ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
-    player.draw();
-    enemy.draw(3,0);
 
+// Request Animation Frame Loop drawing game content
+gameLoop = function() {
+    
+    //Clear Frame
+    ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
+    
+    //Draw enemies
+    drawEnemies();
+
+    //Draw player
+    player.draw();
+
+    //Request next frame
     window.requestAnimationFrame(gameLoop);
 }
 
@@ -156,20 +165,30 @@ gameLoop = function() {
 
 function inGame_objects(ctx) {
 
-    inGame_player(ctx); //Creates the player ship, score and other statuses
-    inGame_enemies(ctx);
+    create_player(ctx); //Creates the player ship, score and other statuses
+    create_enemies(ctx);
 }
 
 // .......... Player ...........
-function inGame_player() {
+function create_player() {
     player = new Player("iFooledMe");
     $("#player-user-name").html(` Welcome <strong>${player.name}!</strong><br>Enjoy your Game!`);
 };
 
 
 // .......... Enemies ..........
-function inGame_enemies(ctx) {
+function create_enemies(ctx) {
     enemy = new Enemy()
+}
+
+function drawEnemies() {
+
+    if (enemy.posX <= -enemy.sizeW) {
+        ctx.clearRect(enemy.posX, enemy.posY, enemy.sizeW, enemy.sizeH); 
+    }
+    else {
+        enemy.draw(3,0);
+    }
 }
 
 
