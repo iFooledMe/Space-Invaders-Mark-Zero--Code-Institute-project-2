@@ -76,11 +76,11 @@ function Player(name) {
 };
 
 // .... ENEMY ..................................................................................
-function Enemy() {
-    this.sizeW =  200; //Width at start
-    this.sizeH =  200; //Height at start
+function Enemy(posY, sizeW, sizeH) {
+    this.sizeW =  sizeW; //Width at start
+    this.sizeH =  sizeH; //Height at start
     this.posX = game.canvas.width; //Horizontal axis at start
-    this.posY = 300; //Vertical axis at start
+    this.posY = posY; //Vertical axis at start
     this.draw = function(newX, newY) {  
         this.posX -= newX;
         this.posY -= newY;
@@ -152,7 +152,8 @@ gameLoop = function() {
     ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
     
     //Draw enemies
-    drawEnemies();
+    drawEnemy(enemy1);
+    drawEnemy(enemy2);
 
     //Draw player
     player.draw();
@@ -160,8 +161,6 @@ gameLoop = function() {
     //Request next frame
     window.requestAnimationFrame(gameLoop);
 }
-
-
 
 function inGame_objects(ctx) {
 
@@ -178,18 +177,26 @@ function create_player() {
 
 // .......... Enemies ..........
 function create_enemies(ctx) {
-    enemy = new Enemy()
+    enemy1 = new Enemy(50, 50, 50);
+    enemy2 = new Enemy(400, 200, 200);
 }
 
-function drawEnemies() {
+function drawEnemy(enemy) {
 
-    if (enemy.posX <= -enemy.sizeW) {
-        ctx.clearRect(enemy.posX, enemy.posY, enemy.sizeW, enemy.sizeH); 
+    this.enemy = enemy;
+
+    if (this.enemy.posX <= -this.enemy.sizeW) {
+        ctx.clearRect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH); 
+    }
+    else if (player.posX < this.enemy.posX + this.enemy.sizeW && player.posX + player.sizeW > this.enemy.posX && player.posY < this.enemy.posY + this.enemy.sizeH && player.posY + player.sizeH > this.enemy.posY) {
+        this.enemy.draw(0,0);
     }
     else {
-        enemy.draw(3,0);
+        this.enemy.draw(3,0);
     }
 }
+
+
 
 
 // **** SET CONTROLS ****************************************************************************
