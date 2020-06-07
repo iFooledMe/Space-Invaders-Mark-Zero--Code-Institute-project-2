@@ -76,11 +76,12 @@ function Player(name) {
 };
 
 // .... ENEMY ..................................................................................
-function Enemy(posY, sizeW, sizeH) {
+function Enemy(posY, sizeW, sizeH, speed) {
     this.sizeW =  sizeW; //Width at start
     this.sizeH =  sizeH; //Height at start
     this.posX = game.canvas.width; //Horizontal axis at start
     this.posY = posY; //Vertical axis at start
+    this.speed = speed;
     this.draw = function(newX, newY) {  
         this.posX -= newX;
         this.posY -= newY;
@@ -162,10 +163,10 @@ gameLoop = function() {
     window.requestAnimationFrame(gameLoop);
 }
 
-function inGame_objects(ctx) {
+function inGame_objects() {
 
-    create_player(ctx); //Creates the player ship, score and other statuses
-    create_enemies(ctx);
+    create_player(); //Creates the player ship, score and other statuses
+    create_enemies();
 }
 
 // .......... Player ...........
@@ -176,9 +177,9 @@ function create_player() {
 
 
 // .......... Enemies ..........
-function create_enemies(ctx) {
-    enemy1 = new Enemy(50, 50, 50);
-    enemy2 = new Enemy(400, 200, 200);
+function create_enemies() {
+    enemy1 = new Enemy(50, 50, 50, 7);
+    enemy2 = new Enemy(400, 200, 200, 3);
 }
 
 function drawEnemy(enemy) {
@@ -192,7 +193,7 @@ function drawEnemy(enemy) {
         this.enemy.draw(0,0);
     }
     else {
-        this.enemy.draw(3,0);
+        this.enemy.draw(this.enemy.speed,0);
     }
 }
 
