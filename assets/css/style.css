@@ -1,44 +1,21 @@
-body  {
+
+
+html, body  {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.body-body {
     margin: 0;
     padding: 0;
     color: #ffffff;
-    height: 100vh;
-    overflow: hidden;
-}
-
-header {
-    background-color: transparent;
-    margin: 0;
-    padding: 10px 30px;
-    height: 5vh;
-}
-
-main {
     text-align: center;
     margin: auto;
-    min-height: 700px; /* TODO: Check the min-height on Main */
-}
-  
-footer {
-    background-color: transparent;
-    margin: 0;
-    padding: 10px 30px;
-    height: 5vh;
-}
-
-div #preload {
-    display: none;
-}
-
-
-#canvas-1 {
-    background: transparent;
-    border: 1px solid rgba(160,90,90,.5);   
-    border-radius: 5px;
-}
-
-.game-info-bar button {
-    width: 150px;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .bg-image-1 {
@@ -51,4 +28,29 @@ div #preload {
     background-size: cover;
     min-height: 100vh;
 }
+
+.game-info-bar {
+    position: absolute;
+    z-index: 2;
+    text-align: center;
+    color: #ffffff;
+    background-color: rgba(0,255,255,.1);
+}
+
+.game-info-bar div button {
+    width: 200px;
+}
+
+#canvas-1 {
+    margin: 0;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+
+}
+
+
+
 

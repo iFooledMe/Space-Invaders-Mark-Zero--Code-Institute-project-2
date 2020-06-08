@@ -104,7 +104,9 @@ function Enemy(posY, sizeW, sizeH, speed) {
 function setUpGame() {
     //Create Canvas
     game = new Game();
-    ctx = game.create("canvas-1", 1000, 700);
+    var width = document.documentElement.clientWidth;
+    var height = document.documentElement.clientHeight;
+    ctx = game.create("canvas-1", width, height);
 }
 
 
@@ -117,7 +119,7 @@ function runGame() {
 // ==== START / PAUSE ============================================================================
                                                                                        
 
-$(".game-info-bar button").click(function(){
+$("#start-button").click(function(){
     console.log(Game.isPaused);
     if (Game.isPaused){
         pause();
@@ -149,8 +151,12 @@ function pause(ctx) {
 // Request Animation Frame Loop drawing game content
 gameLoop = function() {
     
+    game.canvas.width = document.documentElement.clientWidth;
+    game.canvas.height = document.documentElement.clientHeight;
+
     //Clear Frame
     ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
+    
     
     //Draw enemies
     drawEnemy(enemy1);
@@ -172,7 +178,7 @@ function inGame_objects() {
 // .......... Player ...........
 function create_player() {
     player = new Player("iFooledMe");
-    $("#player-user-name").html(` Welcome <strong>${player.name}!</strong><br>Enjoy your Game!`);
+    $("#player-user-name").html(` Welcome Captain <strong>${player.name}!</strong> Enjoy your Game!`);
 };
 
 
@@ -227,7 +233,7 @@ function playerActions(key) {
         // === Move Up ===
         case "ArrowUp":
         case "KeyW":
-            if (player.posY >= mrg_vrt) {
+            if (player.posY >= mrg_vrt + 50) {
                 player.posY -= speed_vrt; 
             }
             else {

@@ -8,45 +8,35 @@
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
 		<!-- Local css -->
 		<link rel="stylesheet" type="text/css" href="assets/css/style.css" />
-		<title>Test</title>
+		<title>Space Invaders Mark-Zero</title>
 	</head>
  
 	<body class="bg-image-1 bg-image-full">
-		<div class="container-xl no-gutters mx-auto"> <!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Bootstrap Container START :::: -->
-			<header class="row">
-				<div class="col">
-					<p id="log2"></p> <!-- TODO: For test. Remove! -->
-				</div>
-			</header>
+		<div class="container-fluid no-gutters p-0"> <!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Bootstrap Container START :::: -->
 
-			<main>
-				<div class="row d-none d-lg-flex flex-row mx-auto justify-content-center"> <!-- :::::::::::::::::::::::::::::::::: MAIN CONTENT :::: -->
-					<div class="game-info-bar mx-auto" id="player-user-name"></div> <!-- .............................. Player userName .... -->
-					<div class="game-info-bar mx-auto" id="start-button">
-						<button>Start Game!</button><span class="pl-3"></span> <!-- ........................................ Start/Pause Button .... -->
+
+			
+				<div class="row d-none d-lg-flex no-gutters w-100 py-2 game-info-bar"> <!-- :::::::::::::::::::::::::::::::::: MAIN CONTENT :::: -->
+					<div class="col-4 mx-auto" id="player-user-name"></div> <!-- .............................. Player userName .... -->
+					<div class="col 4 mx-auto" >
+						<button id="start-button">Start Game!</button> <!-- ........................................ Start/Pause Button .... -->
 					</div>
-					<div class="game-info-bar mx-auto" id="game-menu">Menu button</div>
+					<div class="col-4 mx-auto" id="game-menu">Menu button</div>
 				</div>
-					<div class="row mx-auto">
-					<div class="col-12 d-none d-lg-block my-2">
-						<canvas id="canvas-1" width="1000" height="700"> <!-- .......................................................... Canvas .... -->
-							<h2>Sorry! You need a web-browser compatible with HTML5 to play!</h2>
-							<p>List of such Browsers</p> <!-- TODO: Update list of browsers compatible -->
-	
-						</canvas> 
+				<div class="row no-gutters mx-auto w-100">
+					<div class="col-12 d-none d-lg-block w-100">
+					<canvas id="canvas-1"></canvas>
+						
+
 					</div> <!-- TODO: Pause if screen gets to small during active game -->
 					<div class="col-12 d-sm-block d-lg-none"> <!-- ....................................................... To small screen info .... --> 
 						<h2>Sorry! You need a wider screen to play!</h2>
 						<p>If you're on a mobile device, try and tilt your device to a horizontal position.</p>
 					</div>
 				</div>
-			</main>
+			
 	
-			<footer class="row">
-				<div class="col">
-					<p id="log"></p> <!-- TODO: For test. Remove! -->
-				</div>
-			</footer>
+
 		</div> <!-- ................................................................................................... Bootstrap Container END .... -->
 
 
