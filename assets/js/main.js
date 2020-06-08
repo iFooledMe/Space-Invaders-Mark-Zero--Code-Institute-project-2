@@ -148,6 +148,8 @@ function pause(ctx) {
 // ==============================================================================================
 // #region ==== G A M E - R U N N I N G =========================================================
 
+var enemiesArray = [];
+
 // Request Animation Frame Loop drawing game content
 gameLoop = function() {
     
@@ -156,11 +158,11 @@ gameLoop = function() {
 
     //Clear Frame
     ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
-    
-    
+        
     //Draw enemies
-    drawEnemy(enemy1);
-    drawEnemy(enemy2);
+    enemiesArray.forEach(enemy => {
+        drawEnemy(enemy);
+    });
 
     //Draw player
     player.draw();
@@ -181,19 +183,31 @@ function create_player() {
     $("#player-user-name").html(` Welcome Captain <strong>${player.name}!</strong> Enjoy your Game!`);
 };
 
-
 // .......... Enemies ..........
+
+// Create an array of random enemies
 function create_enemies() {
-    enemy1 = new Enemy(50, 50, 50, 7);
-    enemy2 = new Enemy(400, 200, 200, 3);
+    
+    var maxEnemies = 10;
+    var i;
+    var y = 50;
+
+    for (i = 0; i < maxEnemies; i++) {
+        enemiesArray.push(random_enemy());
+        //y += 50;
+    }
 }
 
+// Draw, redraw and delete from canvas
 function drawEnemy(enemy) {
 
     this.enemy = enemy;
-
+    var index = enemiesArray.indexOf(enemy);
+  
     if (this.enemy.posX <= -this.enemy.sizeW) {
-        ctx.clearRect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH); 
+        ctx.clearRect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH);
+        delete enemiesArray[index]; 
+        enemiesArray[index] = random_enemy();
     }
     else if (player.posX < this.enemy.posX + this.enemy.sizeW && player.posX + player.sizeW > this.enemy.posX && player.posY < this.enemy.posY + this.enemy.sizeH && player.posY + player.sizeH > this.enemy.posY) {
         this.enemy.draw(0,0);
@@ -203,7 +217,28 @@ function drawEnemy(enemy) {
     }
 }
 
+// Return a enemy object with random properties
+function random_enemy() {
+    let y = getRndInteger(50, game.canvas.height);
+    let speed = getRndInteger(1, 5);
+    let size = randomSize();
+    
+    function randomSize() {
+        let rndSize = getRndInteger(1, 100);
+        if (rndSize <= 10) { return 20; }
+        else if (rndSize > 10 && rndSize <= 50) { return 50; }
+        else if (rndSize > 50 && rndSize <= 90) { return 100; }
+        else if (rndSize > 90 && rndSize <= 98) { return 200; }
+        else if (rndSize > 98) { return 300; }
+        else { return 100; }
+    }
 
+    return new Enemy(y, size, size, speed);
+}
+
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
 
 
 // **** SET CONTROLS ****************************************************************************
