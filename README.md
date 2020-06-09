@@ -42,11 +42,15 @@ https://github.com/iFooledMe/project-2-concept
 ## USER STORIES
 
 #### Minimum Viable product
-- “As a player I can add my username and start a new game”     
-- “As a player I must be able to complete a game by winning”
-- “As a player I wish to compare my end score with other game scores”
+- “As a player I can add my username and start a new game”
+- “As a player I find it essential that there are some sort of playable narrative” 
+- “As a player I find it essential that I can control my on screen avatar”
+- “As a player I must be able to lose the game”   
+- “As a player I must be able to win the game”
+- “As a player I wish to some sort of high scores list” (locally cached)
 - “As a player I wish to get some more information about the game.”
 - “As a player I wish to get instructions on how to play.”
+
 
 #### Possible Extensions 1
 - “As a player I would like to shoot at incoming objects making them disappear”
