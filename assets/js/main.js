@@ -112,7 +112,7 @@ function setUpGame() {
 
 function runGame() {
     inGame_objects(ctx); //Images and resources on the screen*/
-    setControls(); //Key Commands
+    
     window.requestAnimationFrame(gameLoop);
 }
 
@@ -181,6 +181,7 @@ function inGame_objects() {
 function create_player() {
     player = new Player("iFooledMe");
     $("#player-user-name").html(` Welcome Captain <strong>${player.name}!</strong> Enjoy your Game!`);
+    setControls(); //Key Commands
 };
 
 // .......... Enemies ..........
