@@ -3,8 +3,8 @@
 ## A CODE INSTITUTE STUDENT PROJECT
 ## Project #2 - User-Centric Frontend Development
 
-<a href="[[https://ifooledme.github.io/project-2-concept/)
-](https://ifooledme.github.io/project-2-concept/)">VIEW THE LATEST LIVE VERSION HERE</a>
+<a href="https://ifooledme.github.io/project-2-concept/">VIEW THE LATEST LIVE VERSION HERE</a>
+You need to press
 
 This is the second of four individual projects we are to make during the 3 months Full Stack Developer course at Code Institute. Beside HTML5 and CSS3 this project is restricted to use of Javascript.
 
@@ -60,7 +60,7 @@ https://github.com/iFooledMe/project-2-concept
 “As a player I would love some Game Story to make my journey a bit more meaningful”
 
 ## UX
-Find complete UX-document <a href="https://docs.google.com/document/d/18k9Ge3SliClU9H8CHWCYzIfCiEVEodiXAjY-rkhhtSY/edit?usp=sharing" target="_blank"> here</a>
+Find complete UX-document <a href="https://docs.google.com/document/d/10LoTkbb2MxszL6pux7c2qsmfXaer6tYXAW2HK4vd0BU/edit?usp=sharing" target="_blank"> here</a>
 
 ## CREDITS
 
