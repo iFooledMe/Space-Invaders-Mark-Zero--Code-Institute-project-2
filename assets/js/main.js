@@ -150,7 +150,7 @@ function pause(ctx) {
 
 var enemiesArray = [];
 
-// Request Animation Frame Loop drawing game content
+// ==== REQUEST ANIMATION FRAME LOOP ====
 gameLoop = function() {
     
     game.canvas.width = document.documentElement.clientWidth;
@@ -177,15 +177,77 @@ function inGame_objects() {
     create_enemies();
 }
 
-// .......... Player ...........
+// ==== CREATE / SETUP PLAYER ===========================================================================
 function create_player() {
     player = new Player("iFooledMe");
     $("#player-user-name").html(` Welcome Captain <strong>${player.name}!</strong> Enjoy your Game!`);
     setControls(); //Key Commands
 };
 
-// .......... Enemies ..........
+// **** SET CONTROLS ****************************************************************************
 
+function setControls() {
+
+    /* Listen for keystrokes */
+     document.addEventListener('keydown', logKey);
+ 
+     /* Log keystroke and pass to player actions function */
+     function logKey(e) {
+         var key = `${e.code}`;       
+         playerActions(key);
+    }
+}
+
+function playerActions(key) { 
+    
+    // SETTINGS 
+    var mrg_vrt = 30;           // Margin to top and bottom canvas borders 
+    var mrg_hrz = 30;           // Margin to left and right canvas borders 
+    var speed_vrt = 15;         // Speed of vertical movement 
+    var speed_hrz = 0;          // Speed of horizontal movement
+
+    switch (key) {
+        
+        // === Move Up ===
+        case "ArrowUp":
+        case "KeyW":
+            if (player.posY >= mrg_vrt + 50) {
+                player.posY -= speed_vrt; 
+            }
+            else {
+                break;
+            }
+            break;
+        
+        // === Move Down ===
+        case 'ArrowDown':
+        case "KeyS":
+            if (player.posY <= game.canvas.height - player.sizeH - mrg_vrt) {
+                player.posY += speed_vrt; 
+            }
+            else {
+                break;
+            }
+            break;
+        
+        // === Move Left ===
+        case 'ArrowLeft':
+        case "KeyA":
+            
+            break;
+        
+        // === Move Right ===    
+        case 'ArrowRight':
+        case "KeyD":
+            
+            break;
+        default:          
+        console.log(`Some other Key! var KeyStroke = ${key}`);
+          break;
+    }  
+ }
+
+// ==== CREATE ENEMY ====
 // Create an array of random enemies
 function create_enemies() {
     
@@ -242,67 +304,6 @@ function getRndInteger(min, max) {
 }
 
 
-// **** SET CONTROLS ****************************************************************************
 
-function setControls() {
-
-    /* Listen for keystrokes */
-     document.addEventListener('keydown', logKey);
- 
-     /* Log keystroke and pass to player actions function */
-     function logKey(e) {
-         var key = `${e.code}`;       
-         playerActions(key);
-    }
-}
-
-function playerActions(key) { 
-    
-    // ==== SETTINGS =====================================================
-    var mrg_vrt = 30;           // Margin to top and bottom canvas borders 
-    var mrg_hrz = 30;           // Margin to left and right canvas borders 
-    var speed_vrt = 15;         // Speed of vertical movement 
-    var speed_hrz = 0;          // Speed of horizontal movement
-
-    switch (key) {
-        
-        // === Move Up ===
-        case "ArrowUp":
-        case "KeyW":
-            if (player.posY >= mrg_vrt + 50) {
-                player.posY -= speed_vrt; 
-            }
-            else {
-                break;
-            }
-            break;
-        
-        // === Move Down ===
-        case 'ArrowDown':
-        case "KeyS":
-            if (player.posY <= game.canvas.height - player.sizeH - mrg_vrt) {
-                player.posY += speed_vrt; 
-            }
-            else {
-                break;
-            }
-            break;
-        
-        // === Move Left ===
-        case 'ArrowLeft':
-        case "KeyA":
-            
-            break;
-        
-        // === Move Right ===    
-        case 'ArrowRight':
-        case "KeyD":
-            
-            break;
-        default:          
-        console.log(`Some other Key! var KeyStroke = ${key}`);
-          break;
-    }  
- }
 
  // #endregion
