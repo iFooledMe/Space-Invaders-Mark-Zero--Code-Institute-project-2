@@ -29,7 +29,9 @@ var preLoadList = [
     {   name: "player_starship_medium",
         url: "assets/images/spaceship2_120x60.png"      },
     {   name: "astroid_lg",
-        url: "assets/images/astroid1_200x200.png"      }
+        url: "assets/images/astroid1_200x200.png"      },
+    {   name: "bg-1",
+        url: "assets/images/bg-space-2560x1700.jpg"      }
 ]
 
 // #endregion
