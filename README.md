@@ -38,6 +38,7 @@ The public repository on GitHub:
 https://github.com/iFooledMe/project-2-concept
 
 ### FEATURES
+For now you can find a list of all current features in the separate UX document<a href="https://docs.google.com/document/d/10LoTkbb2MxszL6pux7c2qsmfXaer6tYXAW2HK4vd0BU/edit?usp=sharing" target="_blank"> here</a>
 
 ## TESTING
 
