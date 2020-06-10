@@ -125,11 +125,10 @@ function runGame() {
 
 function resetGame() {
     ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
-    
     game.isPaused = true;
     game.isOver = false;
     player = new Player(player.name);
-    
+    $(".score").html(`SCORE: ${player.score}`); 
 }
 
 function restartGame() {
@@ -234,6 +233,7 @@ function create_player() {
     }
     
     $("#player-info").html(`Welcome Captain <strong>${player.name}!</strong> Enjoy your Game!`);
+    $(".score").html(`SCORE: ${player.score}`);
     setControls(); //Key Commands
 };
 
@@ -319,8 +319,9 @@ function drawEnemy(enemy) {
   
     if (this.enemy.posX <= -this.enemy.sizeW) {
         player.score += 1;
+       
         $(".score").html(`SCORE: ${player.score}`);
-        console.log(player.score);
+        
         ctx.clearRect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH);
         delete enemiesArray[index]; 
         enemiesArray[index] = random_enemy();
