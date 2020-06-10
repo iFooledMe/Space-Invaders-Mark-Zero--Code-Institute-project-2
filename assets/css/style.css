@@ -34,6 +34,8 @@ html, body  {
     position: absolute;
     z-index: 5;
     text-align: center;
+    height: 50px;
+    padding: 10px 0px;
     color: #ffffff;
     background-color: rgba(0,255,255,.1);
 }

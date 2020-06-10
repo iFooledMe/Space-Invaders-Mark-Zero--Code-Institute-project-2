@@ -70,6 +70,7 @@ function Game () {
 // .... PLAYER ..................................................................................
 function Player(name) {
     this.name = name;
+    this.score = 0;
     this.sizeW =  120; //Width at start
     this.sizeH =  60; //Height at start
     this.posX = 100; //Horizontal axis at start
@@ -119,6 +120,8 @@ function runGame() {
     inGame_objects(ctx); //Images and resources on the screen*/
     window.requestAnimationFrame(gameLoop);
 }
+
+
 
 function resetGame() {
     ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
@@ -187,7 +190,7 @@ $(".quit-button").click(function(){
 
 // ==== REQUEST ANIMATION FRAME LOOP ====
 gameLoop = function() {
-    
+      
     game.canvas.width = document.documentElement.clientWidth;
     game.canvas.height = document.documentElement.clientHeight;
 
@@ -230,7 +233,7 @@ function create_player() {
         player = new Player("iFooledMe");
     }
     
-    $("#player-user-name").html(` Welcome Captain <strong>${player.name}!</strong> Enjoy your Game!`);
+    $("#player-info").html(`Welcome Captain <strong>${player.name}!</strong> Enjoy your Game!`);
     setControls(); //Key Commands
 };
 
@@ -315,6 +318,9 @@ function drawEnemy(enemy) {
     var index = enemiesArray.indexOf(enemy);
   
     if (this.enemy.posX <= -this.enemy.sizeW) {
+        player.score += 1;
+        $(".score").html(`SCORE: ${player.score}`);
+        console.log(player.score);
         ctx.clearRect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH);
         delete enemiesArray[index]; 
         enemiesArray[index] = random_enemy();
