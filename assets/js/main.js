@@ -59,7 +59,8 @@ function Game () {
         this.context = this.canvas.getContext("2d");
         return this.context;
     };
-    this.isPaused = true; //Game paused at load+
+    this.isPaused = true; //Game paused at load
+    this.isOver = false;
 };
 
 // .... PLAYER ..................................................................................
@@ -168,16 +169,27 @@ gameLoop = function() {
     player.draw();
 
     //Request next frame
-    window.requestAnimationFrame(gameLoop);
+    if (!game.isOver) {
+        window.requestAnimationFrame(gameLoop);
+    }
+    else {
+        gameOver();
+    }  
 }
 
+// ==== GAME OVER ====
+function gameOver() {
+    $(".game-over").css("display", "block");
+}
+
+// ==== ON SCREEN OBJECTS ====
 function inGame_objects() {
 
     create_player(); //Creates the player ship, score and other statuses
     create_enemies();
 }
 
-// ==== CREATE / SETUP PLAYER ===========================================================================
+//CREATE / SETUP PLAYER ..........................................................................
 function create_player() {
     player = new Player("iFooledMe");
     $("#player-user-name").html(` Welcome Captain <strong>${player.name}!</strong> Enjoy your Game!`);
@@ -274,6 +286,7 @@ function drawEnemy(enemy) {
     }
     else if (player.posX < this.enemy.posX + this.enemy.sizeW && player.posX + player.sizeW > this.enemy.posX && player.posY < this.enemy.posY + this.enemy.sizeH && player.posY + player.sizeH > this.enemy.posY) {
         this.enemy.draw(0,0);
+        game.isOver = true;
     }
     else {
         this.enemy.draw(this.enemy.speed,0);
