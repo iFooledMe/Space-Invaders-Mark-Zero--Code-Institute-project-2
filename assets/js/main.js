@@ -6,7 +6,7 @@ var Images = {};
 
 function preload(list, callback){
     var total = 0;
-    $("span").text("Loading...");
+    $(".load-page").css("display", "block");
     for(var i = 0; i < list.length; i++){
         var img = new Image();
         Images[list[i].name] = img;
@@ -14,7 +14,7 @@ function preload(list, callback){
         img.onload = function(){
             total++;
             if(total == list.length){
-                $("span").text("Loaded.");
+                $(".load-page").css("display", "none");
                 callback();
             }
         };
@@ -39,6 +39,8 @@ var preLoadList = [
 var ctx;
 var game;
 var player;
+
+var enemiesArray = [];
 
 
 //#endregion
@@ -113,20 +115,39 @@ function setUpGame() {
 
 function runGame() {
     inGame_objects(ctx); //Images and resources on the screen*/
-    
     window.requestAnimationFrame(gameLoop);
+}
+
+function resetGame() {
+    ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
+    
+    game.isPaused = true;
+    game.isOver = false;
+    player = new Player(player.name);
+    
+}
+
+function restartGame() {
+    resetGame();
+    $(".game-over").css("display", "none");
+    $(".game-info-bar button").text("Start Game!");
+}
+
+function quitToMenu() {
+    $(".game-over").css("display", "none");
+    ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
 }
 
 // ==== START / PAUSE ============================================================================
                                                                                        
-
+// **** Start- / Pause-button **** 
 $("#start-button").click(function(){
-    console.log(Game.isPaused);
-    if (Game.isPaused){
-        pause();
+    console.log(game.isPaused);
+    if (game.isPaused){
+        unPause();
     }
-    else if (!Game.isPaused) {
-        unPause(ctx); 
+    else if (!game.isPaused) {
+        pause(ctx); 
     }
     else {
         console.log("Error! Game is neither started or paused!");
@@ -134,22 +155,33 @@ $("#start-button").click(function(){
 });
 
 function unPause(ctx) {
-    Game.isPaused = true;
     $(".game-info-bar button").text("Game Started!");
+    game.isPaused = false;
     runGame(ctx);
 }
 
 function pause(ctx) {
-    Game.isPaused = false;
     $(".game-info-bar button").text("Game Paused!"); 
+    game.isPaused = true;
+    
 }
+
+// **** Reset button **** 
+$(".reset-button").click(function(){
+    restartGame();
+});
+
+// **** Quit to Menu button **** 
+$(".quit-button").click(function(){
+    quitToMenu();
+ });
  
 // #endregion
 
 // ==============================================================================================
 // #region ==== G A M E - R U N N I N G =========================================================
 
-var enemiesArray = [];
+
 
 // ==== REQUEST ANIMATION FRAME LOOP ====
 gameLoop = function() {
@@ -186,12 +218,16 @@ function gameOver() {
 function inGame_objects() {
 
     create_player(); //Creates the player ship, score and other statuses
-    create_enemies();
+    create_enemies(10); //Creates the specified amount of random enemy objects
 }
 
 //CREATE / SETUP PLAYER ..........................................................................
 function create_player() {
-    player = new Player("iFooledMe");
+    
+    if (player == null || typeof player === "undefined") {
+        player = new Player("iFooledMe");
+    }
+    
     $("#player-user-name").html(` Welcome Captain <strong>${player.name}!</strong> Enjoy your Game!`);
     setControls(); //Key Commands
 };
@@ -261,15 +297,12 @@ function playerActions(key) {
 
 // ==== CREATE ENEMY ====
 // Create an array of random enemies
-function create_enemies() {
-    
-    var maxEnemies = 10;
+function create_enemies(max) {
+    enemiesArray = []; //reset if already existing
+    var numberOfEnemies = max;
     var i;
-    var y = 50;
-
-    for (i = 0; i < maxEnemies; i++) {
+    for (i = 0; i < numberOfEnemies; i++) {
         enemiesArray.push(random_enemy());
-        //y += 50;
     }
 }
 
@@ -295,9 +328,10 @@ function drawEnemy(enemy) {
 
 // Return a enemy object with random properties
 function random_enemy() {
-    let y = getRndInteger(50, game.canvas.height);
-    let speed = getRndInteger(1, 5);
-    let size = randomSize();
+    let y, speed, size = null; //reset
+    y = getRndInteger(50, game.canvas.height);
+    speed = getRndInteger(1, 5);
+    size = randomSize();
     
     function randomSize() {
         let rndSize = getRndInteger(1, 100);
