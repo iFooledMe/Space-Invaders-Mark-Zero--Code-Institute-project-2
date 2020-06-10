@@ -44,6 +44,9 @@ var player;
 
 var enemiesArray = [];
 
+// #region ==== S E T T I N G S =================================================================
+var levelCountdownTime = 120;  //In seconds
+
 
 //#endregion
 
@@ -65,6 +68,8 @@ function Game () {
     };
     this.isPaused = true; //Game paused at load
     this.isOver = false;
+    this.level = 1;
+    this.levelClear = false;
 };
 
 // .... PLAYER ..................................................................................
@@ -113,25 +118,21 @@ function setUpGame() {
     var width = document.documentElement.clientWidth;
     var height = document.documentElement.clientHeight;
     ctx = game.create("canvas-1", width, height);
-    resetTimer(120);
+    resetTimer(levelCountdownTime);
 }
 
 function runGame() {
     inGame_objects(ctx); //Images and resources on the screen*/
-    timer.reset(120);
+    timer.reset(levelCountdownTime);
     timer.start(1000);
     window.requestAnimationFrame(gameLoop);
 }
-
-
-
-
 
 function resetGame() {
     ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
     game.isPaused = true;
     game.isOver = false;
-    resetTimer(120);
+    resetTimer(levelCountdownTime);
     player = new Player(player.name);
     $(".game-info-bar button").text("Start Game!");
     $(".score").html(`SCORE: ${player.score}`); 
@@ -139,13 +140,13 @@ function resetGame() {
 
 function restartGame() {
     resetGame();
-    $(".game-over").css("display", "none");
+    $(".closeMe").css("display", "none");
    
 }
 
 function quitToMenu() {
     resetGame();
-    $(".game-over").css("display", "none");
+    $(".closeMe").css("display", "none");
 }
 
 // ==== START / PAUSE ============================================================================
@@ -209,17 +210,25 @@ gameLoop = function() {
     player.draw();
 
     //Request next frame
-    if (!game.isOver) {
-        window.requestAnimationFrame(gameLoop);
+    if (game.isOver) {
+        gameOver();
+    }
+    else if (game.levelClear) {
+        levelClear();
     }
     else {
-        gameOver();
+        window.requestAnimationFrame(gameLoop);
     }  
 }
 
 // ==== GAME OVER ====
 function gameOver() {
     $(".game-over").css("display", "block");
+}
+
+// ==== LEVEL CLEAR ====
+function levelClear() {
+    $(".level-clear").css("display", "block");
 }
 
 // ==== ON SCREEN OBJECTS ==============================================================================
@@ -364,11 +373,7 @@ function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
-
-
-
- // #endregion
-
+// #endregion
  
 // ==== GAME TIMER =================================================================
 function runTimer(levelTimeOut) {
@@ -499,7 +504,8 @@ $(document).ready(function(e)
             if(time == 0)
             {
                 timer.stop();
-                alert('time out');
+                game.levelClear = true;
+                
             }
         }
     );
