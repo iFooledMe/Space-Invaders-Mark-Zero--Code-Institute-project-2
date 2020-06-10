@@ -113,13 +113,17 @@ function setUpGame() {
     var width = document.documentElement.clientWidth;
     var height = document.documentElement.clientHeight;
     ctx = game.create("canvas-1", width, height);
+    resetTimer(120);
 }
-
 
 function runGame() {
     inGame_objects(ctx); //Images and resources on the screen*/
+    timer.reset(120);
+    timer.start(1000);
     window.requestAnimationFrame(gameLoop);
 }
+
+
 
 
 
@@ -127,19 +131,21 @@ function resetGame() {
     ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
     game.isPaused = true;
     game.isOver = false;
+    resetTimer(120);
     player = new Player(player.name);
+    $(".game-info-bar button").text("Start Game!");
     $(".score").html(`SCORE: ${player.score}`); 
 }
 
 function restartGame() {
     resetGame();
     $(".game-over").css("display", "none");
-    $(".game-info-bar button").text("Start Game!");
+   
 }
 
 function quitToMenu() {
+    resetGame();
     $(".game-over").css("display", "none");
-    ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
 }
 
 // ==== START / PAUSE ============================================================================
@@ -185,8 +191,6 @@ $(".quit-button").click(function(){
 // ==============================================================================================
 // #region ==== G A M E - R U N N I N G =========================================================
 
-
-
 // ==== REQUEST ANIMATION FRAME LOOP ====
 gameLoop = function() {
       
@@ -218,7 +222,7 @@ function gameOver() {
     $(".game-over").css("display", "block");
 }
 
-// ==== ON SCREEN OBJECTS ====
+// ==== ON SCREEN OBJECTS ==============================================================================
 function inGame_objects() {
 
     create_player(); //Creates the player ship, score and other statuses
@@ -327,6 +331,7 @@ function drawEnemy(enemy) {
         enemiesArray[index] = random_enemy();
     }
     else if (player.posX < this.enemy.posX + this.enemy.sizeW && player.posX + player.sizeW > this.enemy.posX && player.posY < this.enemy.posY + this.enemy.sizeH && player.posY + player.sizeH > this.enemy.posY) {
+        stopTimer();
         this.enemy.draw(0,0);
         game.isOver = true;
     }
@@ -363,3 +368,142 @@ function getRndInteger(min, max) {
 
 
  // #endregion
+
+ 
+// ==== GAME TIMER =================================================================
+function runTimer(levelTimeOut) {
+    $("#displayTimer").css("display", "block");
+    timer.reset(levelTimeOut);
+    timer.start(1000);
+}
+
+function stopTimer() {
+    timer.stop();
+}
+
+function resetTimer(levelTimeOut) {
+    timer.reset(levelTimeOut);
+}
+
+
+// ==== Source: da vinci harsha - https://codepen.io/davinciharsha/pen/vGBXzR
+function _timer(callback)
+{
+    var time = 0;     //  The default time of the timer
+    var mode = 0;     //    Mode: count up or count down
+    var status = 0;    //    Status: timer is running or stoped
+    var timer_id;    //    This is used by setInterval function
+    
+    // this will start the timer ex. start the timer with 1 second interval timer.start(1000) 
+    this.start = function(interval)
+    {
+        interval = (typeof(interval) !== 'undefined') ? interval : 1000;
+ 
+        if(status == 0)
+        {
+            status = 1;
+            timer_id = setInterval(function()
+            {
+                switch(mode)
+                {
+                    default:
+                    if(time)
+                    {
+                        time--;
+                        generateTime();
+                        if(typeof(callback) === 'function') callback(time);
+                    }
+                    break;
+                    
+                    case 1:
+                    if(time < 86400)
+                    {
+                        time++;
+                        generateTime();
+                        if(typeof(callback) === 'function') callback(time);
+                    }
+                    break;
+                }
+            }, interval);
+        }
+    }
+    
+    //  Same as the name, this will stop or pause the timer ex. timer.stop()
+    this.stop =  function()
+    {
+        if(status == 1)
+        {
+            status = 0;
+            clearInterval(timer_id);
+        }
+    }
+    
+    // Reset the timer to zero or reset it to your own custom time ex. reset to zero second timer.reset(0)
+    this.reset =  function(sec)
+    {
+        sec = (typeof(sec) !== 'undefined') ? sec : 0;
+        time = sec;
+        generateTime(time);
+    }
+    
+    // Change the mode of the timer, count-up (1) or countdown (0)
+    this.mode = function(tmode)
+    {
+        mode = tmode;
+    }
+    
+    // This methode return the current value of the timer
+    this.getTime = function()
+    {
+        return time;
+    }
+    
+    // This methode return the current mode of the timer count-up (1) or countdown (0)
+    this.getMode = function()
+    {
+        return mode;
+    }
+    
+    // This methode return the status of the timer running (1) or stoped (1)
+    this.getStatus
+    {
+        return status;
+    }
+    
+    // This methode will render the time variable to hour:minute:second format
+    function generateTime()
+    {
+        var second = time % 60;
+        var minute = Math.floor(time / 60) % 60;
+        var hour = Math.floor(time / 3600) % 60;
+        
+        second = (second < 10) ? '0'+second : second;
+        minute = (minute < 10) ? '0'+minute : minute;
+        hour = (hour < 10) ? '0'+hour : hour;
+        
+        $('div.timer span.second').html(second);
+        $('div.timer span.minute').html(minute);
+        $('div.timer span.hour').html(hour);
+    }
+}
+ 
+// example use
+var timer;
+ 
+$(document).ready(function(e) 
+{
+    timer = new _timer
+    (
+        function(time)
+        {
+            if(time == 0)
+            {
+                timer.stop();
+                alert('time out');
+            }
+        }
+    );
+    timer.reset(0);
+    timer.mode(0);
+});
+    

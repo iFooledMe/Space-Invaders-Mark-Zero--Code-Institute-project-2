@@ -37,7 +37,7 @@ html, body  {
     height: 50px;
     padding: 10px 0px;
     color: #ffffff;
-    background-color: rgba(0,255,255,.1);
+    background-color: rgba(0,0,0,.5);
 }
 
 .game-info-bar div button {
@@ -74,6 +74,10 @@ html, body  {
     padding-top: 300px;
     background-color: #000000;
     text-align: center;
+}
+
+#displayTimer {
+    display: none;
 }
 
 
