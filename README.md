@@ -4,9 +4,9 @@
 ## Project #2 - User-Centric Frontend Development
 
 <a href="https://ifooledme.github.io/project-2-concept/">VIEW THE LATEST LIVE VERSION HERE</a>
-Click "Start Game!" to start a new game. Use the up (or 'W') and down (or 'S') arrows on your keyboard to move your spaceship up and down on the screen. Avoid geting hit by any of the asteroids coming in from the right (As for now a asteroid hitting your ship will just stop in front of it).
+Click "Start Game!" to start a new game. Use the up (or 'W') and down (or 'S') arrows on your keyboard to move your spaceship up and down on the screen. Avoid getting hit by any of the asteroids coming in from the right (As for now an asteroid hitting your ship will just stop in front of it).
 
-<strong>Please Note!</strong> There has been some issues with the game running with ad-blockers activated. If the game do not start, try disable ad-blocker software.
+<strong>Please Note!</strong> There have been some issues with the game running with ad-blockers activated. If the game does not start, try disable ad-blocker software.
 
 This is the second of four individual projects we are to make during the 3 months Full Stack Developer course at Code Institute. Beside HTML5 and CSS3 this project is restricted to use of Javascript.
 
