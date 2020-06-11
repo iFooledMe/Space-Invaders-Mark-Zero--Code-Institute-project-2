@@ -141,7 +141,6 @@ function resetGame(playerName) {
     resetTimer(levelCountdownTime);
     player_createNew("Player name")
     $(".player-info").html(`Welcome Captain <span>${player.name}!</span> Enjoy your Game!`);
-    $(".game-info-bar button").text("Start Game!");
     $(".score").html(`SCORE: ${player.score}`); 
 }
 
@@ -169,12 +168,14 @@ function newGame() {
     $(".score").html(`SCORE: <span>${player.score}</span>`);
     $(".closeMe").css("display", "none");
     $(".game-info-bar").css("display", "block");
+    runGame();
 }
 
 // **** Restart Game ****
 function restartGame() {
     resetGame(player.name);
-    $(".closeMe").css("display", "none");  
+    $(".closeMe").css("display", "none");
+    runGame();  
 }
 
 // ==== MENU BUTTONS ============================================================================
@@ -196,36 +197,7 @@ $(".quit-button").click(function(){
 
 // #endregion
 
-// ==== START - / PAUSE - BUTTON ============================================================================
-                                                                                       
-// **** Start- / Pause-button **** 
-$("#start-button").click(function(){
-    console.log(game.isPaused);
-    if (game.isPaused){
-        unPause();
-    }
-    else if (!game.isPaused) {
-        pause(ctx); 
-    }
-    else {
-        console.log("Error! Game is neither started or paused!");
-    }
-});
 
-function unPause(ctx) {
-    $(".game-info-bar button").text("Game Started!");
-    game.isPaused = false;
-    runGame(ctx);
-}
-
-function pause(ctx) {
-    $(".game-info-bar button").text("Game Paused!"); 
-    game.isPaused = true;
-    
-}
-
-
- 
 // ==============================================================================================
 // #region ==== G A M E - R U N N I N G =========================================================
 

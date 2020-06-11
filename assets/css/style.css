@@ -1,5 +1,9 @@
+/* ======================================================================================= */
+/* ===== IMPORTED FONTS (Google fonts) =================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&family=Lexend+Tera&family=Open+Sans+Condensed:ital,wght@0,300;0,700;1,300&display=swap');
 
+/* ======================================================================================= */
+/* ==== STANDARD ELEMENTS ================================================================ */
 html, body  {
     margin: 0;
     padding: 0;
@@ -9,6 +13,8 @@ html, body  {
     font-size: 100%;
 }
 
+/* ======================================================================================= */
+/* ==== TEXT STYLES ====================================================================== */
 h1 {
     font-family: "Lexend Tera", sans-serif;
     color: #e78a21;
@@ -36,7 +42,7 @@ h3 {
 }
 
 .txt-small {
-    font-size: 0.6em;
+    font-size: 0.8em;
 }
 
 .txt-normal {
@@ -45,6 +51,124 @@ h3 {
 
 .txt-large {
     font-size: 1.2em;
+}
+
+/* ======================================================================================= */
+/* ==== REUSABLE GENERAL PURPOSE ========================================================= */
+
+/* **** FULL SCREEN OVERLAY - TRANSPARENT **** */
+.closeMe {
+    display: none;
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    padding-top: 150px;
+    background-color: rgba(0,0,0,.5);
+    text-align: center;
+}
+
+/* **** FULL SCREEN OVERLAY - BLACK **** */
+.load-page {
+    display: block;
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    padding-top: 300px;
+    background-color: #000000;
+    text-align: center;
+}
+
+/* **** BUTTONS **** */
+button, .button {
+    font-family: "Dosis", sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-size: 1.2em;
+    border-radius: 3px;
+    border: none;
+    color: #666666;
+}
+
+button:hover {
+    background-color: #c39853;
+    color: #434343;
+}
+
+.button:hover {
+    background-color: #c39853;
+    color: #434343;
+}
+
+/* ======================================================================================= */
+/* ==== BACKGROUND IMAGES ================================================================ */
+.bg-image-1 {
+    background-image: url(../images/bg-space-2560x1700.jpg);
+}
+
+.bg-image-full {
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+/* ======================================================================================= */
+/* ==== CANVAS =========================================================================== */
+#canvas-1 {
+    margin: 0;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+
+}
+
+/* ======================================================================================= */
+/* ==== MAIN MENU ======================================================================== */
+.main-menu {
+    margin: auto;
+    text-align: center;
+    justify-content: center;
+}
+
+.main-menu div button {
+    width: 400px;
+    margin: 10px 0;
+}
+
+.logo {
+    text-align: center;
+}
+
+.logo img {
+    max-width: 200px;
+    padding: 20px 0;
+}
+
+.user-name-form form input {
+    width: 300px;
+    margin: 10px 0;
+}
+
+/* ======================================================================================= */
+/* ==== IN GAME INFO BAR ================================================================= */
+.game-info-bar {
+    display: none;
+    position: absolute;
+    z-index: 5;
+    text-align: center;
+    height: 60px;
+    padding: 10px 0px;
+    color: #ffffff;
+    background-color: rgba(0,0,0,.7);
+}
+
+.game-info-bar div button {
+    width: 250px;
 }
 
 .player-info {
@@ -73,114 +197,24 @@ h3 {
 }
 
 
-button {
-    font-family: "Dosis", sans-serif;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 5px;
-    font-size: 1.2em;
-    border-radius: 3px;
-    border: none;
-    color: #666666;
-}
 
-button:hover {
-    background-color: #c39853;
-    color: #434343;
-}
 
-.bg-image-1 {
-    background-image: url(../images/bg-space-2560x1700.jpg);
-}
 
-.bg-image-full {
-    background-repeat: no-repeat;
-    background-position: left center;
-    background-size: cover;
-    min-height: 100vh;
-}
 
-.main-menu {
-    margin: auto;
-    text-align: center;
-    justify-content: center;
-}
 
-.main-menu div button {
-    width: 400px;
-    margin: 10px 0;
-}
 
-.logo {
-    text-align: center;
-}
 
-.logo img {
-    max-width: 200px;
-    padding: 20px 0;
-}
 
-.game-info-bar {
-    display: none;
-    position: absolute;
-    z-index: 5;
-    text-align: center;
-    height: 60px;
-    padding: 10px 0px;
-    color: #ffffff;
-    background-color: rgba(0,0,0,.7);
-}
 
-.game-info-bar div button {
-    width: 250px;
-}
 
-#canvas-1 {
-    margin: 0;
-    height: 100%;
-    position: fixed;
-    width: 100%;
-    background-color: transparent;
-    border: none;
 
-}
 
-.closeMe {
-    display: none;
-    position: absolute;
-    z-index: 5;
-    width: 100%;
-    height: 100%;
-    padding-top: 150px;
-    background-color: rgba(0,0,0,.5);
-    text-align: center;
-}
 
-.load-page {
-    display: block;
-    position: absolute;
-    z-index: 10;
-    width: 100%;
-    height: 100%;
-    padding-top: 300px;
-    background-color: #000000;
-    text-align: center;
-}
 
-#displayTimer {
-    display: none;
-}
 
 /* ========================================================================================== */
 /* ==== MEDIA QUERYS ======================================================================== */
 
-
-
-@media screen and (max-width: 1460px) {
-    body {
-      font-size: 80%;
-    }
-}
 
 
   
