@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&family=Lexend+Tera&family=Open+Sans+Condensed:ital,wght@0,300;0,700;1,300&display=swap');
 
 html, body  {
     margin: 0;
@@ -6,17 +6,77 @@ html, body  {
     position: relative;
     width: 100%;
     height: 100%;
+}
+
+h1 {
+    font-family: "Lexend Tera", sans-serif;
+    color: #e78a21;
+    letter-spacing: 5px;
+}
+
+h1 span {
+    color: #ff6e64;
+}
+
+h3 {
+    font-family: "Dosis", sans-serif;
+    text-transform: uppercase;
+    font-size: 1rem;
+    color: #db9f8f;
+    letter-spacing: 5px;
+}
+
+.normal-txt {
+    font-family: "Dosis", sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 5px;
     color: #ffffff;
 }
 
-.body-body {
-    margin: 0;
-    padding: 0;
-    color: #ffffff;
-    text-align: center;
-    margin: auto;
-    height: 100vh;
-    overflow: hidden;
+.txt-small {
+    font-size: 0.6rem;
+}
+
+.txt-normal {
+    font-size: 1rem;
+}
+
+.txt-large {
+    font-size: 1.2rem;
+}
+
+.player-info span {
+    color: #ff6e64;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.timer span {
+    font-size: 1.4rem;
+    color: #ff6e64;
+}
+
+.score span {
+    font-size: 1.4rem;
+    color: #ff6e64;
+}
+
+
+button {
+    font-family: "Dosis", sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-size: 1.2rem;
+    border-radius: 3px;
+    border: none;
+    color: #666666;
+}
+
+button:hover {
+    background-color: #c39853;
+    color: #434343;
 }
 
 .bg-image-1 {
@@ -39,6 +99,7 @@ html, body  {
 .main-menu div button {
     width: 400px;
     margin: 10px 0;
+
 }
 
 .game-info-bar {
@@ -49,13 +110,13 @@ html, body  {
     height: 60px;
     padding: 10px 0px;
     color: #ffffff;
-    background-color: rgba(0,0,0,.5);
+    background-color: rgba(0,0,0,.7);
 }
 
 
 
 .game-info-bar div button {
-    width: 200px;
+    width: 250px;
 }
 
 #canvas-1 {

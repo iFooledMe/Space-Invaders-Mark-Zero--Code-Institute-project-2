@@ -139,7 +139,8 @@ function resetGame(playerName) {
     game.isOver = false;
     resetTimer(levelCountdownTime);
     player_createNew("Player name")
-    $(".player-info").html(`Welcome Captain <strong>${player.name}!</strong> Enjoy your Game!`);
+    $(".player-info").html(`Welcome Captain <span>${player.name}!</span> Enjoy your Game!`);
+    $(".score").html(`SCORE: <span>${player.score}</span>`);
     $(".game-info-bar button").text("Start Game!");
     $(".score").html(`SCORE: ${player.score}`); 
 }
@@ -153,6 +154,7 @@ function displayMainMenu() {
 // ==== New Game ====
 function newGame() {
     resetGame("A name");
+    $(".score").html(`SCORE: <span>${player.score}</span>`);
     $(".closeMe").css("display", "none");
     $(".game-info-bar").css("display", "block");
 }
@@ -164,13 +166,14 @@ function restartGame() {
    
 }
 
+// ==== Main Menu ====
 function quitToMenu() {
     resetGame();
     $(".closeMe").css("display", "none");
     displayMainMenu();
 }
 
-// ==== START / PAUSE ============================================================================
+// ==== START - / PAUSE - BUTTON ============================================================================
                                                                                        
 // **** Start- / Pause-button **** 
 $("#start-button").click(function(){
@@ -370,9 +373,7 @@ function drawEnemy(enemy) {
   
     if (this.enemy.posX <= -this.enemy.sizeW) {
         player.score += 1;
-       
-        $(".score").html(`SCORE: ${player.score}`);
-        
+        $(".score").html(`SCORE: <span>${player.score}</span>`);
         ctx.clearRect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH);
         delete enemiesArray[index]; 
         enemiesArray[index] = random_enemy();
