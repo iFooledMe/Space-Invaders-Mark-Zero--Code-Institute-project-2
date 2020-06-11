@@ -140,7 +140,6 @@ function resetGame(playerName) {
     resetTimer(levelCountdownTime);
     player_createNew("Player name")
     $(".player-info").html(`Welcome Captain <span>${player.name}!</span> Enjoy your Game!`);
-    $(".score").html(`SCORE: <span>${player.score}</span>`);
     $(".game-info-bar button").text("Start Game!");
     $(".score").html(`SCORE: ${player.score}`); 
 }

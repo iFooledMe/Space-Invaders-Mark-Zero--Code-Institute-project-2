@@ -99,7 +99,15 @@ button:hover {
 .main-menu div button {
     width: 400px;
     margin: 10px 0;
+}
 
+.logo {
+    text-align: center;
+}
+
+.logo img {
+    max-width: 200px;
+    padding: 20px 0;
 }
 
 .game-info-bar {
@@ -112,8 +120,6 @@ button:hover {
     color: #ffffff;
     background-color: rgba(0,0,0,.7);
 }
-
-
 
 .game-info-bar div button {
     width: 250px;
@@ -135,7 +141,7 @@ button:hover {
     z-index: 5;
     width: 100%;
     height: 100%;
-    padding-top: 300px;
+    padding-top: 150px;
     background-color: rgba(0,0,0,.5);
     text-align: center;
 }
