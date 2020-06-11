@@ -128,14 +128,14 @@ button:hover {
 }
 
 /* ======================================================================================= */
-/* ==== MAIN MENU ======================================================================== */
-.main-menu {
+/* ==== MENU ======================================================================== */
+.menu {
     margin: auto;
     text-align: center;
     justify-content: center;
 }
 
-.main-menu div button {
+.menu div button {
     width: 400px;
     margin: 10px 0;
 }
@@ -161,54 +161,65 @@ button:hover {
     position: absolute;
     z-index: 5;
     text-align: center;
-    height: 60px;
+    height: 50px;
     padding: 10px 0px;
     color: #ffffff;
-    background-color: rgba(0,0,0,.7);
+    background-color: rgba(0,0,0,.5);
 }
 
-.game-info-bar div button {
-    width: 250px;
-}
-
-.player-info {
-    min-height: 25px;
-}
-
-.player-info span {
-    color: #ff6e64;
-    font-size: 1em;
-    font-weight: 600;
-}
-
-.score-time {
-    height: 25px;
+.game-info-row-one {
+    height: 20px;
     padding-bottom: 5px;
 }
 
-.timer span {
-    font-size: 1.4em;
+.game-info-row-two {
+    height: 30px;
+    padding-bottom: 5px;
+}
+
+/* **** USER NAME ************************ */
+.user-name {
+    text-transform: uppercase;
+    font-size: 0.7em;
+}
+
+.user-name span {
+    position: relative;
+    top: 1px;
     color: #ff6e64;
+    font-size: 1.3em;
+    font-weight: 600;
+}
+
+/* **** SCORE ***************************** */
+.score {
+    text-align: center;
 }
 
 .score span {
+    position: relative;
+    top: 2px;
+    padding-left: 5px;
     font-size: 1.4em;
     color: #ff6e64;
 }
 
+/* **** TIMER ***************************** */
+.timer {
+    text-align: center;
+}
 
+.timer span {
+    position: relative;
+    top: 2px;
+    padding-left: 5px;
+    padding-left: 5px;
+    font-size: 1.4em;
+    color: #ff6e64;
+}
 
-
-
-
-
-
-
-
-
-
-
-
+/* ======================================================================================= */
+/* ==== GAME PAUSED SCREEN ================================================================ */
 
 
 

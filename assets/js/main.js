@@ -127,21 +127,40 @@ function setUpGame() {
 // ==== Run Game (Triggered by start-button) ====
 function runGame() {
     inGame_objects(ctx); //Images and resources on the screen*/
+    game.isPaused = false;
     timer.reset(levelCountdownTime);
     timer.start(1000);
+    updateDisplayInfo();
     window.requestAnimationFrame(gameLoop);
 }
 
 // ==== Reset Game ====
 function resetGame(playerName) {
     ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
-    game.isPaused = true;
+    game.isPaused = false;
     game.isOver = false;
     game.levelClear = false;
     resetTimer(levelCountdownTime);
-    player_createNew("Player name")
-    $(".player-info").html(`Welcome Captain <span>${player.name}!</span> Enjoy your Game!`);
-    $(".score").html(`SCORE: ${player.score}`); 
+    player_createNew("Player name");
+}
+
+
+
+// #endregion
+
+// ==============================================================================================
+// #region ==== G A M E   I N F O   B A R =======================================================
+function updateDisplayInfo () {
+    displayUserName();
+    displayScore();
+}
+
+function displayScore() {
+    $(".score").html(`SCORE <span>${player.score}</span>`);
+}
+
+function displayUserName() {
+    $(".user-name").html(`Welcome Captain <span>${player.name}!</span> Enjoy your Game!`);
 }
 
 // #endregion
@@ -195,6 +214,11 @@ $(".quit-button").click(function(){
     quitToMenu();
  });
 
+ // **** Resume Game button **** 
+$(".resume-button").click(function(){
+    unPauseGame();
+ });
+
 // #endregion
 
 
@@ -225,20 +249,47 @@ gameLoop = function() {
     else if (game.levelClear) {
         levelClear();
     }
+    else if (game.isPaused) {
+        console.log("Game Paused");
+    }
     else {
         window.requestAnimationFrame(gameLoop);
     }  
 }
 
-// ==== GAME OVER ====
+// ==== GAME STATES ===================================================================
+
+// **** PAUSED **************************************
+
+function pauseGame() {
+    $(".closeMe").css("display", "none");
+    game.isPaused = true;   
+    $(".game-paused").css("display", "block");
+}
+
+function inGameMenu() {
+    $(".closeMe").css("display", "none");
+    game.isPaused = true;   
+    $(".in-game-menu").css("display", "block");
+}
+
+function unPauseGame() {
+    $(".closeMe").css("display", "none");
+    game.isPaused = false;
+    requestAnimationFrame(gameLoop);
+}
+
+
+
+// **** GAME OVER ************************************
 function gameOver() {
-    $(".game-info-bar button").text("Game Over!");
+    $(".closeMe").css("display", "none");
     $(".game-over").css("display", "block");
 }
 
-// ==== LEVEL CLEAR ====
+// **** LEVEL CLEAR **********************************
 function levelClear() {
-    $(".game-info-bar button").text("Level 1 complete");
+    $(".closeMe").css("display", "none");
     $(".level-clear").css("display", "block");
 }
 
@@ -263,9 +314,6 @@ function player_createNew(playerName) {
 
 // Setup player .....
 function player_setup() {
-   
-    
-    
     setControls(); //Key Commands
 };
 
@@ -326,6 +374,28 @@ function playerActions(key) {
         case "KeyD":
             
             break;
+        
+        // === Pause ===  
+        case 'KeyP':
+            if(!game.isPaused){
+                pauseGame();
+            }
+            else {
+                unPauseGame();
+            }
+            break;
+
+        // === Pause ===  
+        case 'Escape':
+            if(!game.isPaused){
+                inGameMenu();
+            }
+            else {
+                unPauseGame();
+            }
+            break;
+
+        // === Default ===  
         default:          
         console.log(`Some other Key! var KeyStroke = ${key}`);
           break;
@@ -351,7 +421,7 @@ function drawEnemy(enemy) {
   
     if (this.enemy.posX <= -this.enemy.sizeW) {
         player.score += 1;
-        $(".score").html(`SCORE: <span>${player.score}</span>`);
+        displayScore();
         ctx.clearRect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH);
         delete enemiesArray[index]; 
         enemiesArray[index] = random_enemy();
