@@ -15,7 +15,7 @@
 		<div class="container-fluid no-gutters p-0"> <!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Bootstrap Container START :::: -->
 
 
-			
+				<!-- ==== IN GAME INFO BAR ==== -->
 				<div class="row no-gutters w-100 py-2 normal-txt game-info-bar"> <!-- :::::::::::::::::::::::::::::::::: MAIN CONTENT :::: -->
 					<div class="col-12 mx-auto">
 						<div class="row no-gutters">
@@ -23,9 +23,9 @@
 								<div class="row no-gutters txt-small">
 									<div class="col-12 player-info"></div>
 								</div>
-								<div class="row no-gutters txt-normal">
+								<div class="row no-gutters txt-normal score-time">
 									<div class="col-6 score"></div>
-									<div class="col-6 timer">NEXT LEVEL IN: <span class="minute">00</span>:<span class="second">10</span></div>
+									<div class="col-6 timer">LEVEL: <span class="minute">00</span>:<span class="second">10</span></div>
 								</div>
 							</div>
 							<div class="col-4 mx-auto">
@@ -36,18 +36,14 @@
 					</div> 
 				</div>
 
+				<!-- ==== CANVAS ==== -->
 				<div class="row no-gutters mx-auto w-100">
 					<div class="col-12 d-none d-lg-block w-100">
-					<canvas id="canvas-1"></canvas>
-						
-
-					</div> <!-- TODO: Pause if screen gets to small during active game -->
-					<div class="col-12 d-sm-block d-lg-none mx-auto small-screen-imfo"> <!-- ....................................................... To small screen info .... --> 
-						<h2>Sorry! You need a wider screen to play!</h2>
-						<p>If you're on a mobile device, try and tilt your device to a horizontal position.</p>
-					</div>
+						<canvas id="canvas-1"></canvas>
+					</div> 
 				</div>
 
+				<!-- ==== MAIN MENU ==== -->
 				<div class="main-menu closeMe">
 					<h1>SPACE INVADERS<br></h1>
 					<div class="logo">
@@ -62,6 +58,16 @@
 					<div><button class="reset-button">Credits / Contact</button></div>
 				</div>
 
+				<!-- ==== USER NAME FORM ==== -->
+				<div class="user-name-form closeMe">
+					<form action="">
+						<label for="userName">Add a prefered User Name:</label>
+						  <input type="text" id="userName" name="userName">
+						  <input type="text" id="userName" name="userName">
+					</form>
+				</div>
+
+				<!-- ==== GAME OVER SCREEN ==== -->
 				<div class="game-over closeMe">
 					<h1>GAME OVER!</h1>
 					<h3><span class="score"></span></h3>
@@ -69,6 +75,7 @@
 					<button class="quit-button">Quit to main menu</button>
 				</div>
 
+				<!-- ==== FINISHED LEVEL SCREEN ==== -->
 				<div class="level-clear normal-txt closeMe">
 					<h1>Finished Level 1</h1>
 					<h3><span class="score"></span></h3>
@@ -77,9 +84,16 @@
 					<button class="quit-button">Quit to main menu</button>
 				</div>
 
+				<!-- ==== LOAD PAGE ==== -->
 				<div class="load-page">
 					<h1>LOADING GAME</h1>
 					<h3>Please hold on</h3>
+				</div>
+
+				<!-- ==== SMALL SCREEN INFO ==== -->
+				<div class="d-block d-md-none normal-txt load-page"> <!-- ....................................................... To small screen info .... --> 
+					<h2>Sorry! You need a wider screen to play!</h2>
+					<p class="txt-normal">If you're on a mobile device, try and tilt your device to a horizontal position.</p>
 				</div>
 			
 	

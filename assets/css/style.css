@@ -6,6 +6,7 @@ html, body  {
     position: relative;
     width: 100%;
     height: 100%;
+    font-size: 100%;
 }
 
 h1 {
@@ -21,7 +22,7 @@ h1 span {
 h3 {
     font-family: "Dosis", sans-serif;
     text-transform: uppercase;
-    font-size: 1rem;
+    font-size: 1em;
     color: #db9f8f;
     letter-spacing: 5px;
 }
@@ -35,30 +36,39 @@ h3 {
 }
 
 .txt-small {
-    font-size: 0.6rem;
+    font-size: 0.6em;
 }
 
 .txt-normal {
-    font-size: 1rem;
+    font-size: 1em;
 }
 
 .txt-large {
-    font-size: 1.2rem;
+    font-size: 1.2em;
+}
+
+.player-info {
+    min-height: 25px;
 }
 
 .player-info span {
     color: #ff6e64;
-    font-size: 1rem;
+    font-size: 1em;
     font-weight: 600;
 }
 
+.score-time {
+    height: 25px;
+    padding-bottom: 5px;
+}
+
 .timer span {
-    font-size: 1.4rem;
+    font-size: 1.4em;
     color: #ff6e64;
 }
 
 .score span {
-    font-size: 1.4rem;
+    font-size: 1.4em;
     color: #ff6e64;
 }
 
@@ -68,7 +78,7 @@ button {
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 5px;
-    font-size: 1.2rem;
+    font-size: 1.2em;
     border-radius: 3px;
     border: none;
     color: #666666;
@@ -146,20 +156,6 @@ button:hover {
     text-align: center;
 }
 
-.small-screen-info {
-    width: 100%;
-    height: 100%;
-    padding-top: 300px;
-    background-color: rgba(0,0,0,.5);
-    margin: auto;
-    text-align: center;
-}
-.small-screen-info h2 {
-    display: block;
-}
-
-
-
 .load-page {
     display: block;
     position: absolute;
@@ -174,6 +170,20 @@ button:hover {
 #displayTimer {
     display: none;
 }
+
+/* ========================================================================================== */
+/* ==== MEDIA QUERYS ======================================================================== */
+
+
+
+@media screen and (max-width: 1460px) {
+    body {
+      font-size: 80%;
+    }
+}
+
+
+  
 
 
 
