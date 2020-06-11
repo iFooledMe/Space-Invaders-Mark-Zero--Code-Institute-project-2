@@ -45,7 +45,7 @@ var player;
 var enemiesArray = [];
 
 // #region ==== S E T T I N G S =================================================================
-var levelCountdownTime = 120;  //In seconds
+var levelCountdownTime = 15;  //In seconds
 
 
 //#endregion
@@ -106,12 +106,15 @@ function Enemy(posY, sizeW, sizeH, speed) {
 // ==============================================================================================
 // #region ==== S T A R T =======================================================================
 
-    preload (preLoadList, function() {
-        $(document).ready(function() {
-            setUpGame ();
-            });  
-    })  
+// ==== Preload resources and Main entry point ====
+preload (preLoadList, function() {
+    $(document).ready(function() {
+        setUpGame ();
+        displayMainMenu();
+        });  
+})  
 
+// ==== SetUp Game (New game object and context) ====
 function setUpGame() {
     //Create Canvas
     game = new Game();
@@ -121,6 +124,7 @@ function setUpGame() {
     resetTimer(levelCountdownTime);
 }
 
+// ==== Run Game ====
 function runGame() {
     inGame_objects(ctx); //Images and resources on the screen*/
     timer.reset(levelCountdownTime);
@@ -128,18 +132,33 @@ function runGame() {
     window.requestAnimationFrame(gameLoop);
 }
 
-function resetGame() {
+// ==== Reset Game ====
+function resetGame(playerName) {
     ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
     game.isPaused = true;
     game.isOver = false;
     resetTimer(levelCountdownTime);
-    player = new Player(player.name);
+    player_createNew("Player name")
+    $(".player-info").html(`Welcome Captain <strong>${player.name}!</strong> Enjoy your Game!`);
     $(".game-info-bar button").text("Start Game!");
     $(".score").html(`SCORE: ${player.score}`); 
 }
 
+// ==== Display Main Menu ====
+function displayMainMenu() {
+    $(".main-menu").css("display", "block");
+}
+
+// ==== New Game ====
+function newGame() {
+    resetGame("A name");
+    $(".closeMe").css("display", "none");
+    $(".game-info-bar").css("display", "block");
+}
+
+// ==== Restart Game ====
 function restartGame() {
-    resetGame();
+    resetGame(player.name);
     $(".closeMe").css("display", "none");
    
 }
@@ -176,6 +195,13 @@ function pause(ctx) {
     game.isPaused = true;
     
 }
+
+// ==== MENU BUTTONS ============================================================================
+
+// **** New Game button **** 
+$(".new-game-button").click(function(){
+    newGame();
+});
 
 // **** Reset button **** 
 $(".reset-button").click(function(){
@@ -223,30 +249,40 @@ gameLoop = function() {
 
 // ==== GAME OVER ====
 function gameOver() {
+    $(".game-info-bar button").text("Game Over!");
     $(".game-over").css("display", "block");
 }
 
 // ==== LEVEL CLEAR ====
 function levelClear() {
+    $(".game-info-bar button").text("Level 1 complete");
     $(".level-clear").css("display", "block");
 }
 
 // ==== ON SCREEN OBJECTS ==============================================================================
 function inGame_objects() {
 
-    create_player(); //Creates the player ship, score and other statuses
+    player_setup(); //Creates the player ship, score and other statuses
     create_enemies(10); //Creates the specified amount of random enemy objects
 }
 
-//CREATE / SETUP PLAYER ..........................................................................
-function create_player() {
-    
+// ==== Player ====
+
+// New player .....
+function player_createNew(playerName) {
     if (player == null || typeof player === "undefined") {
-        player = new Player("iFooledMe");
+        player = new Player(playerName);
     }
+    else {
+        player = new Player(player.name);
+    }
+}
+
+// Setup player .....
+function player_setup() {
+   
     
-    $("#player-info").html(`Welcome Captain <strong>${player.name}!</strong> Enjoy your Game!`);
-    $(".score").html(`SCORE: ${player.score}`);
+    
     setControls(); //Key Commands
 };
 

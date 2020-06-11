@@ -16,34 +16,57 @@
 
 
 			
-				<div class="row d-none d-lg-flex no-gutters w-100 py-2 game-info-bar"> <!-- :::::::::::::::::::::::::::::::::: MAIN CONTENT :::: -->
-					<div class="col-4 mx-auto">
-						<div id="player-info"></div> <!-- .............................. Player userName .... -->
-						<div class="row">
-							<div class="col-6 score px-2">SCORE: 0</div> <!-- .............................. Live Score .... -->
-							<div class="col-6 px-2">
-								<div class="timer">
-									NEXT LEVEL IN: <span class="minute">00</span>:<span class="second">10</span>
+				<div class="row no-gutters w-100 py-2 game-info-bar"> <!-- :::::::::::::::::::::::::::::::::: MAIN CONTENT :::: -->
+					<div class="col-12 mx-auto">
+						<div class="row no-gutters">
+							<div class="col-4 mx-auto">
+								
+								<div class="row no-gutters">
+									<div class="col-12 player-info"></div>
 								</div>
-							</div> <!-- .............................. Live Score .... -->
+								
+								<div class="row no-gutters">
+									<div class="col-6 score">SCORE: 0</div>
+									<div class="col-6 timer">NEXT LEVEL IN: <span class="minute">00</span>:<span class="second">10</span></div>
+								</div>
+							</div>
+
+							<div class="col-4 mx-auto">
+								<button id="start-button">Start Game!</button>
+							</div>
+
+							<div class="col-4 mx-auto">menu</div>
+
+
+
+
 						</div>
+						
+
 					</div> 
-					
-					<div class="col 4 mx-auto" >
-						<button id="start-button">Start Game!</button> <!-- ........................................ Start/Pause Button .... -->
-					</div>
-					<div class="col-4 mx-auto" id="game-menu">Menu button</div>
 				</div>
+
 				<div class="row no-gutters mx-auto w-100">
 					<div class="col-12 d-none d-lg-block w-100">
 					<canvas id="canvas-1"></canvas>
 						
 
 					</div> <!-- TODO: Pause if screen gets to small during active game -->
-					<div class="col-12 d-sm-block d-lg-none"> <!-- ....................................................... To small screen info .... --> 
+					<div class="col-12 d-sm-block d-lg-none mx-auto small-screen-imfo"> <!-- ....................................................... To small screen info .... --> 
 						<h2>Sorry! You need a wider screen to play!</h2>
 						<p>If you're on a mobile device, try and tilt your device to a horizontal position.</p>
 					</div>
+				</div>
+
+				<div class="main-menu closeMe">
+					<h1>SPACE INVADERS MARK-ZERO</h1>
+
+
+					<div><button class="new-game-button">New Game</button></div>
+					<div><button class="reset-button">High Scores</button></div>
+					<div><button class="reset-button">Game Info</button></div>
+					<div><button class="reset-button">Game Instructions</button></div>
+					<div><button class="reset-button">Credits / Contact</button></div>
 				</div>
 
 				<div class="game-over closeMe">
