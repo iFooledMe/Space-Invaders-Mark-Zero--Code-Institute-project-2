@@ -146,6 +146,7 @@ function resetGame(playerName) {
 
 // ==== Display Main Menu ====
 function displayMainMenu() {
+    $(".game-info-bar").css("display", "none");
     $(".main-menu").css("display", "block");
 }
 
@@ -166,6 +167,7 @@ function restartGame() {
 function quitToMenu() {
     resetGame();
     $(".closeMe").css("display", "none");
+    displayMainMenu();
 }
 
 // ==== START / PAUSE ============================================================================
