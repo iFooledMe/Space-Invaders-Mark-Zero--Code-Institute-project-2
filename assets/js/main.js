@@ -124,7 +124,7 @@ function setUpGame() {
     resetTimer(levelCountdownTime);
 }
 
-// ==== Run Game ====
+// ==== Run Game (Triggered by start-button) ====
 function runGame() {
     inGame_objects(ctx); //Images and resources on the screen*/
     timer.reset(levelCountdownTime);
@@ -137,6 +137,7 @@ function resetGame(playerName) {
     ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
     game.isPaused = true;
     game.isOver = false;
+    game.levelClear = false;
     resetTimer(levelCountdownTime);
     player_createNew("Player name")
     $(".player-info").html(`Welcome Captain <span>${player.name}!</span> Enjoy your Game!`);
@@ -144,13 +145,25 @@ function resetGame(playerName) {
     $(".score").html(`SCORE: ${player.score}`); 
 }
 
-// ==== Display Main Menu ====
+// #endregion
+
+// ==============================================================================================
+// #region ==== M E N U Functions ===============================================================
+
+// **** Display Main Menu ****
 function displayMainMenu() {
     $(".game-info-bar").css("display", "none");
     $(".main-menu").css("display", "block");
 }
 
-// ==== New Game ====
+// **** Open Main Menu ****
+function quitToMenu() {
+    resetGame();
+    $(".closeMe").css("display", "none");
+    displayMainMenu();
+}
+
+// **** New Game ****
 function newGame() {
     resetGame("A name");
     $(".score").html(`SCORE: <span>${player.score}</span>`);
@@ -158,19 +171,30 @@ function newGame() {
     $(".game-info-bar").css("display", "block");
 }
 
-// ==== Restart Game ====
+// **** Restart Game ****
 function restartGame() {
     resetGame(player.name);
-    $(".closeMe").css("display", "none");
-   
+    $(".closeMe").css("display", "none");  
 }
 
-// ==== Main Menu ====
-function quitToMenu() {
-    resetGame();
-    $(".closeMe").css("display", "none");
-    displayMainMenu();
-}
+// ==== MENU BUTTONS ============================================================================
+
+// **** New Game button **** 
+$(".new-game-button").click(function(){
+    newGame();
+});
+
+// **** Reset button **** 
+$(".reset-button").click(function(){
+    restartGame();
+});
+
+// **** Quit to Menu button **** 
+$(".quit-button").click(function(){
+    quitToMenu();
+ });
+
+// #endregion
 
 // ==== START - / PAUSE - BUTTON ============================================================================
                                                                                        
@@ -200,25 +224,8 @@ function pause(ctx) {
     
 }
 
-// ==== MENU BUTTONS ============================================================================
 
-// **** New Game button **** 
-$(".new-game-button").click(function(){
-    newGame();
-});
-
-// **** Reset button **** 
-$(".reset-button").click(function(){
-    restartGame();
-});
-
-// **** Quit to Menu button **** 
-$(".quit-button").click(function(){
-    quitToMenu();
- });
  
-// #endregion
-
 // ==============================================================================================
 // #region ==== G A M E - R U N N I N G =========================================================
 
