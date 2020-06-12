@@ -240,6 +240,8 @@ button:hover {
     color: #ff6e64;
     font-size: 1.3em;
     font-weight: 600;
+    text-transform: none;
+    padding: 0 5px;
 }
 
 /* **** SCORE ***************************** */

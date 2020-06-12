@@ -208,7 +208,7 @@ function displayScore() {
 }
 
 function displayUserName() {
-    $(".user-name").html(`Welcome Captain <span>${player.name}!</span> Enjoy your Game!`);
+    $(".user-name").html(`Welcome Captain <span>${player.name}</span> Enjoy your Game!`);
 }
 
 // #endregion
