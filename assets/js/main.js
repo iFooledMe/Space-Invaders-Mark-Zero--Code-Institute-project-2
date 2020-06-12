@@ -6,7 +6,9 @@ var Images = {};
 
 function preload(list, callback){
     var total = 0;
+
     $(".load-page").css("display", "block");
+    
     for(var i = 0; i < list.length; i++){
         var img = new Image();
         Images[list[i].name] = img;
@@ -24,14 +26,54 @@ function preload(list, callback){
 
 // .... Images List ............................................................................
 var preLoadList = [   
-    {   name: "player_starship_small",
-        url: "assets/images/spaceship2_100x50.png"      },
-    {   name: "player_starship_medium",
-        url: "assets/images/spaceship2_120x60.png"      },
-    {   name: "astroid_lg",
-        url: "assets/images/astroid1_200x200.png"      },
+    {   name: "player_starship_100",
+        url: "assets/images/spaceship2_100x50.png"          },
+    {   name: "player_starship_120",
+        url: "assets/images/spaceship2_120x60.png"          },
+    {   name: "player_starship_250",
+        url: "assets/images/spaceship2_250x125.png"         },
+    {   name: "player_starship_500",
+        url: "assets/images/spaceship2_500x250.png"         },
+    {   name: "player_starship_1000",
+        url: "assets/images/spaceship2_1000x500.png"        },
+    {   name: "enemy_astroid_20",
+        url: "assets/images/astroid1_20x20.png"             },
+    {   name: "enemy_astroid_50",
+        url: "assets/images/astroid1_50x50.png"             },
+    {   name: "enemy_astroid_100",
+        url: "assets/images/astroid1_100x100.png"           },
+    {   name: "enemy_astroid_200",
+        url: "assets/images/astroid1_200x200.png"           },
+    {   name: "enemy_astroid_300",
+        url: "assets/images/astroid1_300x300.png"           },
+    {   name: "enemy_astroid_400",
+        url: "assets/images/astroid1_400x400.png"           },
     {   name: "bg-1",
-        url: "assets/images/bg-space-2560x1700.jpg"      }
+        url: "assets/images/bg-space1-2560x1700.jpg"        },
+    {   name: "bg-2",
+        url: "assets/images/bg-space2-2560x1700.jpg"         },
+    {   name: "bg-3",
+        url: "assets/images/bg-space3-2560x1700.jpg"         },
+    {   name: "bg-4",
+        url: "assets/images/bg-space4-2560x1700.jpg"         },
+    {   name: "bg-5",
+        url: "assets/images/bg-space5-2560x1700.jpg"         },
+    {   name: "bg-6",
+        url: "assets/images/bg-space6-2560x1700.jpg"         },
+    {   name: "bg-7",
+        url: "assets/images/bg-space7-2560x1700.jpg"         },
+    {   name: "bg-8",
+        url: "assets/images/bg-space8-2560x1700.jpg"         },
+    {   name: "bg-9",
+        url: "assets/images/bg-space9-2560x1700.jpg"         },
+    {   name: "lg-1",
+        url: "assets/images/large1.jpg"                      },
+    {   name: "lg-2",
+        url: "assets/images/large2.jpg"                      },
+    {   name: "lg-3",
+        url: "assets/images/large3.jpg"                      }
+    
+    
 ]
 
 // #endregion
@@ -46,6 +88,7 @@ var enemiesArray = [];
 
 // #region ==== S E T T I N G S =================================================================
 var levelCountdownTime = 15;  //In seconds
+var playerSpeed = 5;
 
 
 //#endregion
@@ -76,12 +119,12 @@ function Game () {
 function Player(name) {
     this.name = name;
     this.score = 0;
-    this.sizeW =  120; //Width at start
-    this.sizeH =  60; //Height at start
+    this.sizeW =  160; //Width at start
+    this.sizeH =  80; //Height at start
     this.posX = 100; //Horizontal axis at start
     this.posY = ((game.canvas.height / 2) - (this.sizeH)); //Vertical axis at start
     this.draw = function() {
-        return ctx.drawImage(Images["player_starship_small"], 
+        return ctx.drawImage(Images["player_starship_1000"], 
             this.posX, this.posY, this.sizeW, this.sizeH);
     };
 };
@@ -96,7 +139,7 @@ function Enemy(posY, sizeW, sizeH, speed) {
     this.draw = function(newX, newY) {  
         this.posX -= newX;
         this.posY -= newY;
-        return ctx.drawImage(Images["astroid_lg"], 
+        return ctx.drawImage(Images["enemy_astroid_400"], 
             this.posX, this.posY, this.sizeW, this.sizeH);
     };
 }
@@ -308,8 +351,6 @@ function unPauseGame() {
     requestAnimationFrame(gameLoop);
 }
 
-
-
 // **** GAME OVER ************************************
 function gameOver() {
     $(".closeMe").css("display", "none");
@@ -363,10 +404,10 @@ function setControls() {
 function playerActions(key) { 
     
     // SETTINGS 
-    var mrg_vrt = 30;           // Margin to top and bottom canvas borders 
-    var mrg_hrz = 30;           // Margin to left and right canvas borders 
-    var speed_vrt = 15;         // Speed of vertical movement 
-    var speed_hrz = 0;          // Speed of horizontal movement
+    var mrg_vrt = 30;               // Margin to top and bottom canvas borders 
+    var mrg_hrz = 30;               // Margin to left and right canvas borders 
+    var speed_vrt = playerSpeed;    // Speed of vertical movement 
+    var speed_hrz = 0;              // Speed of horizontal movement
 
     switch (key) {
         
