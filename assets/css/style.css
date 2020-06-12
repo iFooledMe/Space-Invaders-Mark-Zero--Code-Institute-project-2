@@ -186,9 +186,23 @@ button:hover {
     padding: 20px 0;
 }
 
-.user-name-form form input {
-    width: 300px;
+/* **** UserName Form **** */
+.form-buttons {
+    width: 400px;
     margin: 10px 0;
+}
+
+.form-text-input {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #434343;
+    letter-spacing: 5px;
+    text-align: center;
+    background-color: #efd1a5;
+    border-radius: 3px;
+    border: none;
+    margin-bottom: 10px;
+    width: 400px;
 }
 
 /* ======================================================================================= */

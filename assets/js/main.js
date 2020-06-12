@@ -178,15 +178,21 @@ function runGame() {
 }
 
 // ==== Reset Game ====
-function resetGame(playerName) {
+function resetGame(userName) {
     ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
     game.isPaused = false;
     game.isOver = false;
     game.levelClear = false;
     resetTimer(levelCountdownTime);
-    player_createNew("Player name");
+    player_createNew(userName);
 }
 
+
+// ==== Get User Name and start game ====
+function getUserNameAndStart() {
+    var userName = document.getElementById("userName").value;
+    newGame(userName);
+}
 
 // #endregion
 
@@ -228,9 +234,15 @@ function backToMenu() {
     displayMainMenu();
 }
 
+// ==== Get User Name and start game ====
+function getUserNameAndStart() {
+    var userName = document.getElementById("userName").value;
+    newGame(userName);
+}
+
 // **** New Game ****
-function newGame() {
-    resetGame("A name");
+function newGame(userName) {
+    resetGame(userName);
     $(".score").html(`SCORE: <span>${player.score}</span>`);
     $(".closeMe").css("display", "none");
     $(".game-info-bar").css("display", "block");
@@ -250,6 +262,12 @@ function restartGame() {
 $(".new-game-button").click(function(){
     newGame();
 });
+
+// **** Open User Name Form Button **** 
+$(".open-form-button").click(function(){
+    $(".closeMe").css("display", "none");
+    $(".user-name-form").css("display", "block");
+ });
 
 // **** Reset button **** 
 $(".reset-button").click(function(){
@@ -288,7 +306,6 @@ $(".credits-info-button").click(function(){
     $(".closeMe").css("display", "none");
     $(".credits-info").css("display", "block");
  });
-
 
 
 // #endregion

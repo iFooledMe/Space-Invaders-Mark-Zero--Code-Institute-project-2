@@ -54,11 +54,22 @@
 					</div>
 					<h3>"In space no one can hear you scream!"</h3>
 					<h1><span>MARK-ZERO</span></h1>
-					<div><button class="new-game-button">New Game</button></div>
+					<div><button class="open-form-button">New Game</button></div>
 					<div><button class="reset-button">High Scores</button></div>
 					<div><button class="game-info-button">Game Info</button></div>
 					<div><button class="game-instructions-button">Game Instructions</button></div>
 					<div><button class="credits-info-button">Credits / Contact</button></div>
+				</div>
+
+				<!-- ==== USER NAME FORM ==== -->
+				<div class="closeMe normal-txt user-name-form">
+					<form method="POST" id="userNameForm">
+						<label for="userName"><h2>Add a prefered User Name</h2> in the text field below and click the "Start!" button.</label><br>
+						  <input class="form-text-input" type="text" id="userName" name="userName" placeholder="User Name..." onchange="getUserNameAndStart()" required>
+						  <br>
+						  <input class="button form-buttons" type="submit" value="START!">
+					</form>
+					<button class="back-button form-buttons txt-small">Back to main menu</button>
 				</div>
 
 				<!-- ==== GAME INFO ==== -->
