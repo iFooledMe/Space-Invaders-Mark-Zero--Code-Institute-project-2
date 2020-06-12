@@ -25,6 +25,11 @@ h1 span {
     color: #ff6e64;
 }
 
+h2 {
+    color: #ff6e64;
+    margin-top: 20px;
+}
+
 h3 {
     font-family: "Dosis", sans-serif;
     text-transform: uppercase;
@@ -85,6 +90,7 @@ h3 {
     z-index: 15;
     padding-top: 50px;
     overflow: auto;
+    text-align: center;
 }
 
 .text-info-page p {
@@ -105,8 +111,6 @@ h3 {
 .text-info-page h6{
     padding-top: 20px;
 }
-
-
 
 .text-info-page button {
     width: 75%;
@@ -138,7 +142,7 @@ button:hover {
 /* ======================================================================================= */
 /* ==== BACKGROUND IMAGES ================================================================ */
 .bg-image-1 {
-    background-image: url(../images/bg-space-2560x1700.jpg);
+    background-image: url(../images/bg-space1-2560x1700.jpg);
 }
 
 .bg-image-full {
@@ -250,6 +254,14 @@ button:hover {
     font-size: 1.4em;
     color: #ff6e64;
 }
+
+/* ======================================================================================= */
+/* ==== GAME INSTRUCTIONS ================================================================= */
+.game-instructions p span {
+    color: #ff6e64;
+}
+
+
 
 /* ======================================================================================= */
 /* ==== GAME PAUSED SCREEN ================================================================ */
