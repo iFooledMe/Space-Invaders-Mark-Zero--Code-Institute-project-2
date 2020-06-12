@@ -80,6 +80,39 @@ h3 {
     text-align: center;
 }
 
+/* **** TEXT INFO  **** */
+.text-info-page {
+    z-index: 15;
+    padding-top: 50px;
+    overflow: auto;
+}
+
+.text-info-page p {
+    width: 75%;
+    margin: auto;
+    padding: 20px 0;
+    text-align: justify;
+}
+
+.justify-center {
+    text-align: center;
+}
+
+.text-info-page p span {
+    color: #e78a21;
+}
+
+.text-info-page h6{
+    padding-top: 20px;
+}
+
+
+
+.text-info-page button {
+    width: 75%;
+    margin-top: 20px;
+}
+
 /* **** BUTTONS **** */
 button, .button {
     font-family: "Dosis", sans-serif;
@@ -227,9 +260,12 @@ button:hover {
 /* ==== MEDIA QUERYS ======================================================================== */
 
 
-
+@media screen and (max-width: 768px) {
+    
+    .text-info-page {
+        background-color: #000000;
+    }
   
-
-
+}
 
 

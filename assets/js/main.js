@@ -145,7 +145,6 @@ function resetGame(playerName) {
 }
 
 
-
 // #endregion
 
 // ==============================================================================================
@@ -177,6 +176,11 @@ function displayMainMenu() {
 // **** Open Main Menu ****
 function quitToMenu() {
     resetGame();
+    $(".closeMe").css("display", "none");
+    displayMainMenu();
+}
+
+function backToMenu() {
     $(".closeMe").css("display", "none");
     displayMainMenu();
 }
@@ -214,10 +218,35 @@ $(".quit-button").click(function(){
     quitToMenu();
  });
 
+ // **** Back to Menu button **** 
+$(".back-button").click(function(){
+    backToMenu();
+ });
+
  // **** Resume Game button **** 
 $(".resume-button").click(function(){
     unPauseGame();
  });
+
+// **** Game Info button **** 
+$(".game-info-button").click(function(){
+    $(".closeMe").css("display", "none");
+    $(".game-info").css("display", "block");
+ });
+
+ // **** Game Instructions button **** 
+$(".game-instructions-button").click(function(){
+    $(".closeMe").css("display", "none");
+    $(".game-instructions").css("display", "block");
+ });
+
+  // **** Credits Info Button **** 
+$(".credits-info-button").click(function(){
+    $(".closeMe").css("display", "none");
+    $(".credits-info").css("display", "block");
+ });
+
+
 
 // #endregion
 
@@ -394,6 +423,8 @@ function playerActions(key) {
                 unPauseGame();
             }
             break;
+
+           
 
         // === Default ===  
         default:          
