@@ -4,6 +4,8 @@
 
 var Images = {};
 
+//
+
 function preload(list, callback){
     var total = 0;
 
@@ -12,9 +14,11 @@ function preload(list, callback){
     for(var i = 0; i < list.length; i++){
         var img = new Image();
         Images[list[i].name] = img;
+        $(".total-to-load").html(list.length);
         
         img.onload = function(){
             total++;
+            $(".load-counter").html(total);
             if(total == list.length){
                 $(".load-page").css("display", "none");
                 callback();
