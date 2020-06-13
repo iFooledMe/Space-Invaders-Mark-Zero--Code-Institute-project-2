@@ -277,6 +277,25 @@ button:hover {
     color: #ff6e64;
 }
 
+/* ======================================================================================= */
+/* ==== ABOUT THIS PROJECT ================================================================= */
+
+.credits-info {
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+}
+
+.credits-info button {
+    width: 80%;
+    margin-top: 0;
+}
+
+.credits-info iframe {
+    width: 80%;
+    height: 100%;
+    margin-top: 30px;
+}
 
 
 /* ======================================================================================= */

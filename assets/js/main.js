@@ -72,8 +72,6 @@ var preLoadList = [
         url: "assets/images/large2.jpg"                      },
     {   name: "lg-3",
         url: "assets/images/large3.jpg"                      }
-    
-    
 ]
 
 // #endregion
@@ -85,10 +83,12 @@ var game;
 var player;
 
 var enemiesArray = [];
+var scoresArray = [];
 
 // #region ==== S E T T I N G S =================================================================
 var levelCountdownTime = 15;  //In seconds
 var playerSpeed = 5;
+var completeLevelScore = 50;
 
 
 //#endregion
@@ -214,6 +214,22 @@ function displayUserName() {
 // #endregion
 
 // ==============================================================================================
+// #region ==== H I G H   S C O R E =============================================================
+
+// .... HIGH SCORE ..................................................................................
+function Score(userName, score) {
+    this.userName = userName;
+    this.score = score;
+    this.date = Date.now();
+}
+
+function addScore() {
+    let newScore = new Score(player.name, player.score);
+    scores = JSON.stringify(newScore);
+    localStorage.setItem("localScoresJSON", scores);
+}
+
+// ==============================================================================================
 // #region ==== M E N U Functions ===============================================================
 
 // **** Display Main Menu ****
@@ -289,6 +305,12 @@ $(".resume-button").click(function(){
     unPauseGame();
  });
 
+ // **** High Scores button **** 
+$(".high-scores-button").click(function(){
+    $(".closeMe").css("display", "none");
+    $(".high-scores").css("display", "block");
+ });
+
 // **** Game Info button **** 
 $(".game-info-button").click(function(){
     $(".closeMe").css("display", "none");
@@ -309,7 +331,6 @@ $(".credits-info-button").click(function(){
 
 
 // #endregion
-
 
 // ==============================================================================================
 // #region ==== G A M E - R U N N I N G =========================================================
@@ -370,19 +391,22 @@ function unPauseGame() {
 
 // **** GAME OVER ************************************
 function gameOver() {
+    addScore();
     $(".closeMe").css("display", "none");
     $(".game-over").css("display", "block");
 }
 
 // **** LEVEL CLEAR **********************************
 function levelClear() {
+    player.score += completeLevelScore;
+    displayScore();
+    addScore();
     $(".closeMe").css("display", "none");
     $(".level-clear").css("display", "block");
 }
 
 // ==== ON SCREEN OBJECTS ==============================================================================
 function inGame_objects() {
-
     player_setup(); //Creates the player ship, score and other statuses
     create_enemies(10); //Creates the specified amount of random enemy objects
 }
@@ -688,4 +712,22 @@ $(document).ready(function(e)
     timer.reset(0);
     timer.mode(0);
 });
+
+// ==============================================================================================
+// #region ==== H I G H   S C O R E S ===========================================================
+const baseURL = "https://ci-swapi.herokuapp.com/api/";
+
+function getData(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", url);  
+    xhr.send();
+
+    var data;
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            callback(JSON.parse(this.responseText));
+        }
+    }
+}
     
