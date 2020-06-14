@@ -75,6 +75,7 @@ function Enemy(posY, sizeW, sizeH, speed) {
 preload (preLoadList, function() {
     $(document).ready(function() {
         setUpGame ();
+        setControls();
         displayMainMenu();
         });  
 })  
@@ -96,6 +97,7 @@ function runGame() {
     timer.reset(levelCountdownTime);
     timer.start(1000);
     updateDisplayInfo();
+
     window.requestAnimationFrame(gameLoop);
 }
 
@@ -105,6 +107,7 @@ function resetGame(userName) {
     game.isPaused = false;
     game.isOver = false;
     game.levelClear = false;
+    
     resetTimer(levelCountdownTime);
     player_createNew(userName);
 }
@@ -192,19 +195,22 @@ gameLoop = function() {
 
 function pauseGame() {
     $(".closeMe").css("display", "none");
-    game.isPaused = true;   
+    game.isPaused = true;
+    stopTimer();
     $(".game-paused").css("display", "block");
 }
 
 function inGameMenu() {
     $(".closeMe").css("display", "none");
-    game.isPaused = true;   
+    game.isPaused = true;
+    stopTimer(); 
     $(".in-game-menu").css("display", "block");
 }
 
 function unPauseGame() {
     $(".closeMe").css("display", "none");
     game.isPaused = false;
+    startTimer();
     requestAnimationFrame(gameLoop);
 }
 
@@ -244,7 +250,7 @@ function player_createNew(playerName) {
 
 // Setup player .....
 function player_setup() {
-    setControls(); //Key Commands
+     //Key Commands
 };
 
 // **** SET CONTROLS ****************************************************************************
@@ -398,6 +404,10 @@ function getRndInteger(min, max) {
 function runTimer(levelTimeOut) {
     $("#displayTimer").css("display", "block");
     timer.reset(levelTimeOut);
+    timer.start(1000);
+}
+
+function startTimer() {
     timer.start(1000);
 }
 
