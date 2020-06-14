@@ -46,15 +46,14 @@ function Game () {
     };
     this.reset = function(userName) {
         ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
-        player.userName(userName);
         player.setStartPos();
         timerReset(levelCountdownTime);
     }
 };
 
 // .... PLAYER ..................................................................................
-function Player(userName) {
-    this.userName = userName;
+function Player() {
+    this.userName = "User Name not set";
     this.score = 0;
     this.sizeW =  160; //Width at start
     this.sizeH =  80; //Height at start
@@ -68,9 +67,6 @@ function Player(userName) {
         this.posX = 100; //Horizontal axis at start
         this.posY = ((game.canvas.height / 2) - (this.sizeH)); //Vertical axis at start
     };
-    this.userName = function(userName) {
-        this.userName = userName; //Horizontal axis at start
-    };    
 };
 
 // .... ENEMY ..................................................................................
@@ -109,6 +105,7 @@ function setUpGame() {
     var width = document.documentElement.clientWidth;
     var height = document.documentElement.clientHeight;
     ctx = game.create("canvas-1", width, height);
+    player = new Player();
 }
 
 // ==== Run Game (Triggered by start-button) ====
@@ -118,8 +115,8 @@ function runGame() {
 }
 
 // ==== Reset Game ====
-function resetGame(userName) {
-    game.reset(userName);
+function resetGame() {
+    game.reset();
 }
 
 // #endregion
@@ -144,19 +141,46 @@ function displayUserName() {
 
 // ==============================================================================================
 // #region ==== H I G H   S C O R E =============================================================
-
-// .... HIGH SCORE ..................................................................................
-function Score(userName, score) {
-    this.userName = userName;
-    this.score = score;
-    this.date = Date.now();
+// .... GAME SCORE ..................................................................................
+function GameScore(gameEnd) {
+    this.userName = player.name;
+    this.score = player.score;
+    this.date = getDateTime();
+    this.level = game.level;
+    this.gameTime = "Game Time";
+    this.gameEnd = gameEnd;
 }
 
-function addScore() {
-    let newScore = new Score(player.name, player.score);
-    scores = JSON.stringify(newScore);
-    localStorage.setItem("localScoresJSON", scores);
+function saveGameScore(endType) {
+    var gameScore = new GameScore(endType);
+    gameScoresList.push(gameScore);
+};
+
+function displayHighScores() {
+    
+    gameScoresList.forEach(entry => {
+    //string += entry.score + " - " + entry.userName + " - " + entry.date + " - " + entry.level + "<br>";
+    $(".high-scores-list").append(
+        entry.score + " - " + 
+        entry.userName + " - " + 
+        entry.date.toString() + " - " + 
+        entry.gameEnd + " on Level " + entry.level + 
+        "<br>");
+    });   
 }
+
+function getDateTime() {
+    var currentdate = new Date(); 
+    var datetime = currentdate.getDate() + "/"
+                + currentdate.getMonth() + "/" 
+                + currentdate.getFullYear() + " "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+    return datetime;
+}
+
+// #endregion
 
 // ==============================================================================================
 // #region ==== G A M E - L O O P ===============================================================
@@ -220,7 +244,7 @@ function unPauseGame() {
 
 // **** GAME OVER ************************************
 function gameOver() {
-    addScore();
+    
     $(".closeMe").css("display", "none");
     $(".game-over").css("display", "block");
 }
@@ -229,7 +253,7 @@ function gameOver() {
 function levelClear() {
     player.score += completeLevelScore;
     displayScore();
-    addScore();
+    
     $(".closeMe").css("display", "none");
     $(".level-clear").css("display", "block");
 }
@@ -241,7 +265,7 @@ function create_gameObjects() {
     create_enemies(10); //Creates the specified amount of random enemy objects
 }
 
-
+// #endregion
 
 
 // ==============================================================================================
@@ -332,6 +356,8 @@ function playerActions(key) {
     }  
  }
 
+ // #endregion
+
 // ==== CREATE ENEMY ====
 // Create an array of random enemies
 function create_enemies(max) {
@@ -391,8 +417,9 @@ function getRndInteger(min, max) {
 }
 
 // #endregion
- 
-// ==== GAME TIMER =================================================================
+
+// ==============================================================================================
+// #region ==== G A M E  T I M E R ==============================================================
 function timerStart() {
     timer.start(1000);
 }
@@ -528,21 +555,5 @@ $(document).ready(function(e)
     timer.mode(0);
 });
 
-// ==============================================================================================
-// #region ==== H I G H   S C O R E S ===========================================================
-const baseURL = "https://ci-swapi.herokuapp.com/api/";
+// #endregion
 
-function getData(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", url);  
-    xhr.send();
-
-    var data;
-
-    xhr.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            callback(JSON.parse(this.responseText));
-        }
-    }
-}
-    

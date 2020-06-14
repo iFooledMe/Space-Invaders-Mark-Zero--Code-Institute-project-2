@@ -26,11 +26,9 @@ function backToMenu() {
 // ==== Get User Name and start game ====
 function getUserNameAndStart() {
     $(".closeMe").css("display", "none");
-    let userName = document.getElementById("userName").value;
-    if (player == null || typeof player === "undefined") {
-        player = new Player(userName);
-    }
-    resetGame(userName);
+    var userName = document.getElementById("userName").value;
+    player.userName = userName;
+    resetGame();
     runGame();
 }
 
