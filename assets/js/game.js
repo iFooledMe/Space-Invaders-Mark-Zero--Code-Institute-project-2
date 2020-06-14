@@ -31,15 +31,30 @@ function Game () {
         this.context = this.canvas.getContext("2d");
         return this.context;
     };
-    this.isPaused = true; //Game paused at load
+    this.isPaused = true; 
     this.isOver = false;
     this.level = 1;
     this.levelClear = false;
+    this.run = function() { 
+        this.isPaused = false; 
+        this.isOver = false;
+        this.levelClear = false;
+        updateDisplayInfo();
+        player.setStartPos();
+        timerStart();
+        window.requestAnimationFrame(gameLoop);
+    };
+    this.reset = function(userName) {
+        ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
+        player.userName(userName);
+        player.setStartPos();
+        timerReset(levelCountdownTime);
+    }
 };
 
 // .... PLAYER ..................................................................................
-function Player(name) {
-    this.name = name;
+function Player(userName) {
+    this.userName = userName;
     this.score = 0;
     this.sizeW =  160; //Width at start
     this.sizeH =  80; //Height at start
@@ -49,6 +64,13 @@ function Player(name) {
         return ctx.drawImage(Images["player_starship_1000"], 
             this.posX, this.posY, this.sizeW, this.sizeH);
     };
+    this.setStartPos = function() {
+        this.posX = 100; //Horizontal axis at start
+        this.posY = ((game.canvas.height / 2) - (this.sizeH)); //Vertical axis at start
+    };
+    this.userName = function(userName) {
+        this.userName = userName; //Horizontal axis at start
+    };    
 };
 
 // .... ENEMY ..................................................................................
@@ -87,36 +109,17 @@ function setUpGame() {
     var width = document.documentElement.clientWidth;
     var height = document.documentElement.clientHeight;
     ctx = game.create("canvas-1", width, height);
-    resetTimer(levelCountdownTime);
 }
 
 // ==== Run Game (Triggered by start-button) ====
 function runGame() {
-    inGame_objects(ctx); //Images and resources on the screen*/
-    game.isPaused = false;
-    timer.reset(levelCountdownTime);
-    timer.start(1000);
-    updateDisplayInfo();
-
-    window.requestAnimationFrame(gameLoop);
+    create_gameObjects(); //Images and resources on the screen*/
+    game.run();
 }
 
 // ==== Reset Game ====
 function resetGame(userName) {
-    ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
-    game.isPaused = false;
-    game.isOver = false;
-    game.levelClear = false;
-    
-    resetTimer(levelCountdownTime);
-    player_createNew(userName);
-}
-
-
-// ==== Get User Name and start game ====
-function getUserNameAndStart() {
-    var userName = document.getElementById("userName").value;
-    newGame(userName);
+    game.reset(userName);
 }
 
 // #endregion
@@ -126,6 +129,7 @@ function getUserNameAndStart() {
 function updateDisplayInfo () {
     displayUserName();
     displayScore();
+    $(".game-info-bar").css("display", "block");
 }
 
 function displayScore() {
@@ -133,7 +137,7 @@ function displayScore() {
 }
 
 function displayUserName() {
-    $(".user-name").html(`Welcome Captain <span>${player.name}</span> Enjoy your Game!`);
+    $(".user-name").html(`Welcome Captain <span>${player.userName}</span> Enjoy your Game!`);
 }
 
 // #endregion
@@ -196,21 +200,21 @@ gameLoop = function() {
 function pauseGame() {
     $(".closeMe").css("display", "none");
     game.isPaused = true;
-    stopTimer();
+    timerStop();
     $(".game-paused").css("display", "block");
 }
 
 function inGameMenu() {
     $(".closeMe").css("display", "none");
     game.isPaused = true;
-    stopTimer(); 
+    timerStop(); 
     $(".in-game-menu").css("display", "block");
 }
 
 function unPauseGame() {
     $(".closeMe").css("display", "none");
     game.isPaused = false;
-    startTimer();
+    timerStart();
     requestAnimationFrame(gameLoop);
 }
 
@@ -230,30 +234,18 @@ function levelClear() {
     $(".level-clear").css("display", "block");
 }
 
-// ==== ON SCREEN OBJECTS ==============================================================================
-function inGame_objects() {
-    player_setup(); //Creates the player ship, score and other statuses
+// ==============================================================================================
+// ==== ON SCREEN OBJECTS =======================================================================
+function create_gameObjects() {
+   
     create_enemies(10); //Creates the specified amount of random enemy objects
 }
 
-// ==== Player ====
 
-// New player .....
-function player_createNew(playerName) {
-    if (player == null || typeof player === "undefined") {
-        player = new Player(playerName);
-    }
-    else {
-        player = new Player(player.name);
-    }
-}
 
-// Setup player .....
-function player_setup() {
-     //Key Commands
-};
 
-// **** SET CONTROLS ****************************************************************************
+// ==============================================================================================
+// #region ==== C O N T R O L S =================================================================
 
 function setControls() {
 
@@ -365,7 +357,7 @@ function drawEnemy(enemy) {
         enemiesArray[index] = random_enemy();
     }
     else if (player.posX < this.enemy.posX + this.enemy.sizeW && player.posX + player.sizeW > this.enemy.posX && player.posY < this.enemy.posY + this.enemy.sizeH && player.posY + player.sizeH > this.enemy.posY) {
-        stopTimer();
+        timerStop();
         this.enemy.draw(0,0);
         game.isOver = true;
     }
@@ -401,21 +393,15 @@ function getRndInteger(min, max) {
 // #endregion
  
 // ==== GAME TIMER =================================================================
-function runTimer(levelTimeOut) {
-    $("#displayTimer").css("display", "block");
-    timer.reset(levelTimeOut);
+function timerStart() {
     timer.start(1000);
 }
 
-function startTimer() {
-    timer.start(1000);
-}
-
-function stopTimer() {
+function timerStop() {
     timer.stop();
 }
 
-function resetTimer(levelTimeOut) {
+function timerReset(levelTimeOut) {
     timer.reset(levelTimeOut);
 }
 

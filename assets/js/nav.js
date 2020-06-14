@@ -1,3 +1,5 @@
+
+
 // ==============================================================================================
 // ==== M E N U Functions ===============================================================
 
@@ -7,46 +9,39 @@ function displayMainMenu() {
     $(".main-menu").css("display", "block");
 }
 
-// **** Open Main Menu ****
+// **** Open Main Menu (from within a game) ****
 function quitToMenu() {
     resetGame();
     $(".closeMe").css("display", "none");
     displayMainMenu();
 }
 
+// **** back to Main Menu ****
 function backToMenu() {
     $(".closeMe").css("display", "none");
     displayMainMenu();
 }
+  
 
 // ==== Get User Name and start game ====
 function getUserNameAndStart() {
-    var userName = document.getElementById("userName").value;
-    newGame(userName);
-}
-
-// **** New Game ****
-function newGame(userName) {
-    resetGame(userName);
-    $(".score").html(`SCORE: <span>${player.score}</span>`);
     $(".closeMe").css("display", "none");
-    $(".game-info-bar").css("display", "block");
+    let userName = document.getElementById("userName").value;
+    if (player == null || typeof player === "undefined") {
+        player = new Player(userName);
+    }
+    resetGame(userName);
     runGame();
 }
 
-// **** Restart Game ****
-function restartGame() {
-    resetGame(player.name);
-    $(".closeMe").css("display", "none");
-    runGame();  
-}
 
 // ==== MENU BUTTONS ============================================================================
 
-// **** New Game button **** 
-$(".new-game-button").click(function(){
-    newGame();
-});
+// **** Start Game Button **** 
+$(".start-game-button").click(function(){
+    getUserNameAndStart();
+ });
+
 
 // **** Open User Name Form Button **** 
 $(".open-form-button").click(function(){
@@ -56,7 +51,9 @@ $(".open-form-button").click(function(){
 
 // **** Reset button **** 
 $(".reset-button").click(function(){
-    restartGame();
+    resetGame(player.name);
+    $(".closeMe").css("display", "none");
+    runGame();  
 });
 
 // **** Quit to Menu button **** 
