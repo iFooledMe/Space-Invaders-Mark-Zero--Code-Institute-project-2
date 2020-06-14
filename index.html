@@ -1,185 +1,287 @@
+<!-- @format -->
+
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8" />
-	
-		<!-- ::::::::::::::::::::::::::::::::::::::: CSS RESOURCES ::::::::::::::::::::::::::::::::::::::: -->
+
+ 		<!-- ============================================================================================== -->
+		<!-- #region ==== H E A D ========================================================================= -->
+  <head>
+    <meta charset="utf-8" />
+
+
+		<!-- #region ==== C S S  R E S O U R C E S ======================================================== -->
 		<!-- Bootstrap -->
-		<link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css" />
 		<!-- Font Awesome -->
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
+		<link
+		rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+		integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V"
+		crossorigin="anonymous"
+		/>
 		<!-- Local css -->
 		<link rel="stylesheet" type="text/css" href="assets/css/style.css" />
-		<title>Space Invaders Mark-Zero</title>
-	</head>
- 
-	<body class="bg-image-1 bg-image-full">
-		<div class="container-fluid w-100 no-gutters p-0"> <!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Bootstrap Container START :::: -->
 
+		<!-- #endregion -->
 
-				<!-- ==== IN GAME INFO BAR ==== -->
-			<div class="row no-gutters w-100 p-0 mx-auto game-info-bar">
-				<div class="row no-gutters w-100 game-info-row-one">
-					<div class="col-1"></div>
-					<div class="col-10 mx-auto user-name"></div>
-					<div class="col-1"></div>
-				</div>
-				<div class="row no-gutters w-100 txt-normal game-info-row-two">
-					
-					<div class="col-3"></div>
-					<div class="col-3 score">SCORE <span>0</span></div>
-					<div class="col-3 timer">NEXT LEVEL <span class="minute">00</span> :<span class="second">10</span></div>
-					<div class="col-3"></div>
-				</div>
+    <title>Space Invaders Mark-Zero</title>
+  </head>
+
+  		<!-- #endregion -->
+
+  <body class="bg-image-1 bg-image-full">
+    <div class="container-fluid w-100 no-gutters p-0">  <!-- ::::::::::::::: Bootstrap Container START :::: -->
+     
+        <!-- ============================================================================================== -->
+		<!-- #region ==== I N  G A M E  I N F O  B A R ==================================================== -->
+		<div class="row no-gutters w-100 p-0 mx-auto game-info-bar">
+			<div class="row no-gutters w-100 game-info-row-one">
+			<div class="col-1"></div>
+			<div class="col-10 mx-auto user-name"></div>
+			<div class="col-1"></div>
 			</div>
+			<div class="row no-gutters w-100 txt-normal game-info-row-two">
+			<div class="col-3"></div>
+			<div class="col-3 score">SCORE <span>0</span></div>
+			<div class="col-3 timer">
+				NEXT LEVEL <span class="minute">00</span> :<span class="second">10</span>
+			</div>
+			<div class="col-3"></div>
+			</div>
+		</div>
 
-				<!-- ==== CANVAS ==== -->
-				<div class="row no-gutters mx-auto w-100">
-					<div class="col-12 d-none d-lg-block w-100">
-						<canvas id="canvas-1"></canvas>
-					</div> 
-				</div>
+		<!-- #endregion -->
 
-				<!-- ==== MAIN MENU ==== -->
-				<div class="main-menu menu closeMe">
-					<h1>SPACE INVADERS<br></h1>
-					<div class="logo">
-						<img src="assets/images/spaceship2_250x125.png" alt="Space Invaders Mark-Zero Logotype - A cartoony looking spaceship">
-					</div>
-					<h3>"In space no one can hear you scream!"</h3>
-					<h1><span>MARK-ZERO</span></h1>
-					<div><button class="open-form-button">New Game</button></div>
-					<div><button class="reset-button">High Scores</button></div>
-					<div><button class="game-info-button">Game & Rules</button></div>
-					<div><button class="game-instructions-button">Game controls</button></div>
-					<div><button class="credits-info-button">About this project</button></div>
-				</div>
+        <!-- ============================================================================================== -->
+		<!-- #region ==== C A N V A S ===================================================================== -->
+		<div class="row no-gutters mx-auto w-100">
+			<div class="col-12 d-none d-lg-block w-100">
+			<canvas id="canvas-1"></canvas>
+			</div>
+		</div>
 
-				<!-- ==== USER NAME FORM ==== -->
-				<div class="closeMe normal-txt user-name-form">
-					<form id="userNameForm">
-						<label for="userName"><h2>Add a prefered User Name</h2> in the text field below and click the "Start!" button.</label><br>
-						  <input class="form-text-input" type="text" id="userName" name="userName" placeholder="User Name..." onchange="getUserNameAndStart()" required>
-						  <br>
-						  <input class="button form-buttons start-game-button" type="submit" value="START!">
-					</form>
-					<button class="back-button form-buttons txt-small">Back to main menu</button>
-				</div>
-
-				<!-- ==== GAME INFO ==== -->
-				<div class="normal-txt closeMe text-info-page game-info">
-					<h1>GAME & RULES</h1>
-					<h3>Space Invaders Mark-Zero</h3>
-					<p> the game is about a small spaceship fighting obstacles and possibly enemies in a 2d environment. While the classical ”Space Invader” (Created by Tomohiro Nishikado 1978) had a bottom/up perspective, this version goes from the left side of the screen where the player can move a spaceship up and down (on the vertical axis).
-					</p>
-					<h2>"Game Over!"</h2>
-					<h3>Don't get hit</h3>
-					<p>
-						From the right side of the screen obstacles and enemies are appearing and move towards the player. These obstacles appear in various random positions, directions, speed, size and appearance. The player has to avoid being struck by these enemy objects, or the game is over.
-					</p>
-					<h2>"Duck and Cover!"</h2>
-					<h3>Passing enemy objects not hitting you</h3>
-					<p>
-						Each "enemy obstacle" passing the player and the game screen generates +1 game score. 
-					</p>
-					<h2>Stand the test of time!</h2>
-					<h3>About two minutes - To finish a level</h3>
-					<p>
-						To complete a level the player must stay alive until the Level timer (Counting down at the top of the game screen) reaches 0. 
-						Doing so grants the player +50 points to game score.
-					</p>
-					<div><button class="button back-button">Back to Main Menu</button></div>
-				</div>
-
-				<!-- ==== GAME INSTRUCTIONS ==== -->
-				<div class="normal-txt closeMe game-instructions">
-					<h1>GAME CONTROLS</h1>
-					<h3>Space Invaders Mark-Zero</h3>
-					<br>
-					
-					<p> 
-						<span>Move UP</span> - Keyboard "Arrow up" or "W"
-						<br>
-						<span>Move DOWN</span> - Keyboard "Arrow down" or "S"
-					</p>
-					
-					<p> 
-						<span>Pause Game</span> - Keyboard "P"
-					</p>
-					
-					<p> 
-						<span>Game Menu</span> - Keyboard "Esc"
-					</p>
+		<!-- #endregion -->
 	
-					<div><button class="button back-button">Back to Main Menu</button></div>
-				</div>
+        <!-- ============================================================================================== -->
+		<!-- #region ==== M A I N  M E N U ================================================================ -->
+		<div class="main-menu menu closeMe">
+			<h1>SPACE INVADERS<br /></h1>
+			<div class="logo">
+			<img
+				src="assets/images/spaceship2_250x125.png"
+				alt="Space Invaders Mark-Zero Logotype - A cartoony looking spaceship"
+			/>
+			</div>
+			<h3>"In space no one can hear you scream!"</h3>
+			<h1><span>MARK-ZERO</span></h1>
+			<div><button class="open-form-button">New Game</button></div>
+			<div><button class="high-scores-button">High Scores</button></div>
+			<div><button class="game-info-button">Game & Rules</button></div>
+			<div>
+			<button class="game-instructions-button">Game controls</button>
+			</div>
+			<div>
+			<button class="credits-info-button">About this project</button>
+			</div>
+		</div>
 
-				<!-- ==== CREDITS / CONTACT ==== -->
-				<div class="normal-txt closeMe text-info-page credits-info">
-					<div><button class="back-button">back to Main Menu</button></div>
-					<iframe src="https://docs.google.com/document/d/e/2PACX-1vTjgjlMFTStshewv_yNAKXnGowZ9NNXeZduu1t0PPEqOHzTGAzQMq4y0y-bV5T9N5rBTHcHcwJ8hlvT/pub?embedded=true"></iframe>
-				</div>
+		<!-- #endregion -->
 
-				<!-- ==== IN GAME MENU ==== -->
-				<div class="in-game-menu menu closeMe">
-					<h1>Game Menu</h1>
-					<div><button class="resume-button">Resume (Esc)</button></div>
-					<div><button class="reset-button">Restart Game</button></div>
-					<div><button class="quit-button">Quit to Main Menu</button></div>
-				</div>
+        <!-- ============================================================================================== -->
+		<!-- #region ==== U S E R  N A M E  F O R M  ====================================================== -->
+		<div class="closeMe normal-txt user-name-form">
+			<form id="userNameForm">
+			<label for="userName"
+				><h2>Add a prefered User Name</h2>
+				in the text field below and click the "Start!" button.</label
+			><br />
+			<input
+				class="form-text-input"
+				type="text"
+				id="userName"
+				name="userName"
+				placeholder="User Name..."
+				onchange="getUserNameAndStart()"
+				required
+			/>
+			<br />
+			<input
+				class="button form-buttons start-game-button"
+				type="submit"
+				value="START!"
+			/>
+			</form>
+			<button class="back-button form-buttons txt-small">
+			Back to main menu
+			</button>
+		</div>
 
-				<!-- ==== GAME PAUSED ==== -->
-				<div class="closeMe game-paused">
-					<h1>GAME IS PAUSED</h1>
-					<h3>Press "P" or "Esc" to continue.</h3>
-				</div>
-				
-				<!-- ==== GAME OVER SCREEN ==== -->
-				<div class="game-over closeMe">
-					<h1>GAME OVER!</h1>
-					<h3><span class="score"></span></h3>
-					<button class="reset-button">New Game</button>
-					<button class="quit-button">Quit to main menu</button>
-				</div>
+		<!-- #endregion -->
 
-				<!-- ==== FINISHED LEVEL SCREEN ==== -->
-				<div class="level-clear normal-txt closeMe">
-					<h1>Finished Level 1</h1>
-					<h3><span class="score"></span></h3>
-					<p>As for now, this is the complete game. Sorry!</p>
-					<button class="reset-button">New Game</button>
-					<button class="quit-button">Quit to main menu</button>
-				</div>
+        <!-- ============================================================================================== -->
+		<!-- #region ==== H I G H  S C O R E S ============================================================ -->
+		<div class="closeMe normal-txt high-scores">
+			<div class="high-scores-list"></div>
+			<button class="back-button button txt-small">Back to main menu</button>
+		</div>
 
-				<!-- ==== LOAD PAGE ==== -->
-				<div class="load-page">
-					<h1>LOADING GAME</h1>
-					<h3>Please hold on</h3>
-					<h2>Loading <span class="load-counter"></span> of <span class="total-to-load"></span></h2>
-				</div>
+		<!-- #endregion -->
 
-				<!-- ==== SMALL SCREEN INFO ==== -->
-				<div class="d-block d-md-none normal-txt load-page"> <!-- ....................................................... To small screen info .... --> 
-					<h2>Sorry! You need a wider screen to play!</h2>
-					<p class="txt-normal">If you're on a mobile device, try and tilt your device to a horizontal position.</p>
-				</div>
-			
+        <!-- ============================================================================================== -->
+		<!-- #region ==== G A M E  A N D  R U L E S ======================================================= -->
+		<div class="normal-txt closeMe text-info-page game-info">
+			<h1>GAME & RULES</h1>
+			<h3>Space Invaders Mark-Zero</h3>
+			<p>
+			the game is about a small spaceship fighting obstacles and possibly
+			enemies in a 2d environment. While the classical ”Space Invader”
+			(Created by Tomohiro Nishikado 1978) had a bottom/up perspective, this
+			version goes from the left side of the screen where the player can
+			move a spaceship up and down (on the vertical axis).
+			</p>
+			<h2>"Game Over!"</h2>
+			<h3>Don't get hit</h3>
+			<p>
+			From the right side of the screen obstacles and enemies are appearing
+			and move towards the player. These obstacles appear in various random
+			positions, directions, speed, size and appearance. The player has to
+			avoid being struck by these enemy objects, or the game is over.
+			</p>
+			<h2>"Duck and Cover!"</h2>
+			<h3>Passing enemy objects not hitting you</h3>
+			<p>
+			Each "enemy obstacle" passing the player and the game screen generates
+			+1 game score.
+			</p>
+			<h2>Stand the test of time!</h2>
+			<h3>About two minutes - To finish a level</h3>
+			<p>
+			To complete a level the player must stay alive until the Level timer
+			(Counting down at the top of the game screen) reaches 0. Doing so
+			grants the player +50 points to game score.
+			</p>
+			<div><button class="button back-button">Back to Main Menu</button></div>
+		</div>
+
+		<!-- #endregion -->
+
+        <!-- ============================================================================================== -->
+		<!-- #region ==== G A M E  C O N T R O L S ======================================================== -->
+		<div class="normal-txt closeMe game-instructions">
+			<h1>GAME CONTROLS</h1>
+			<h3>Space Invaders Mark-Zero</h3>
+			<br />
+			<p>
+			<span>Move UP</span> - Keyboard "Arrow up" or "W"
+			<br />
+			<span>Move DOWN</span> - Keyboard "Arrow down" or "S"
+			</p>
+			<p><span>Pause Game</span> - Keyboard "P"</p>
+			<p><span>Game Menu</span> - Keyboard "Esc"</p>
+			<div><button class="button back-button">Back to Main Menu</button></div>
+		</div>
+
+		<!-- #endregion -->
 	
+    	<!-- ============================================================================================== -->
+		<!-- #region ==== I N  G A M E  M E N U =========================================================== -->
+		<div class="in-game-menu menu closeMe">
+			<h1>Game Menu</h1>
+			<div><button class="resume-button">Resume (Esc)</button></div>
+			<div><button class="reset-button">Restart Game</button></div>
+			<div><button class="quit-button">Quit to Main Menu</button></div>
+		</div>
 
-		</div> <!-- ................................................................................................... Bootstrap Container END .... -->
+		<!-- #endregion -->
 
+    	<!-- ============================================================================================== -->
+		<!-- #region ==== P A U S E  S C R E E N ========================================================== -->
+      <div class="closeMe game-paused">
+        <h1>GAME IS PAUSED</h1>
+        <h3>Press "P" or "Esc" to continue.</h3>
+	  </div>
+	  
+	  <!-- #endregion -->
 
-	<!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: JAVASCRIPTS ;;;; -->
-	<!-- JQuery -->
-	<script src="assets/js/jquery-3.5.1.slim.min.js"></script>
-	<!-- Popper -->
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	<!-- Bootstrap -->
-	<script src="assets/js/bootstrap.min.js"></script>
-	<!-- Local scripts -->
-	<script type="text/javascript" src="assets/js/preload.js"></script>
-	<script type="text/javascript" src="assets/js/game.js"></script>
-	<script type="text/javascript" src="assets/js/nav.js"></script>
+    	<!-- ============================================================================================== -->
+		<!-- #region ==== G A M E  O V E R  S C R E E N =================================================== -->
+      	<div class="game-over closeMe">
+			<h1>GAME OVER!</h1>
+			<h3><span class="score"></span></h3>
+			<div><button class="reset-button">New Game</button></div>
+			<div><button class="quit-button">Quit to main menu</button></div>
+		  </div>
+		  
+		  <!-- #endregion -->
+
+    	<!-- ============================================================================================== -->
+		<!-- #region ==== F I N I S H E D  L E V E L  S C R E E N ========================================= -->
+      	<div class="level-clear normal-txt closeMe">
+			<h1>Finished Level 1</h1>
+			<h3><span class="score"></span></h3>
+			<p>As for now, this is the complete game. Sorry!</p>
+			<div><button class="reset-button">New Game</button></div>
+			<div><button class="quit-button">Quit to main menu</button></div>
+		  </div>
+		  
+		  <!-- #endregion -->
+
+    	<!-- ============================================================================================== -->
+		<!-- #region ==== L O A D  P A G E ================================================================ -->
+      	<div class="load-page">
+			<h1>LOADING GAME</h1>
+			<h3>Please hold on</h3>
+			<h2>
+			Loading <span class="load-counter"></span> of
+			<span class="total-to-load"></span>
+			</h2>
+		  </div>
+		  
+		  <!-- #endregion -->
+
+		<!-- ============================================================================================== -->
+		<!-- #region ==== S M A L L  S C R E E N  I N F O ================================================= -->
+		<div class="d-block d-md-none normal-txt load-page">
+			<!-- ....................................................... To small screen info .... -->
+			<h2>Sorry! You need a wider screen to play!</h2>
+			<p class="txt-normal">
+			If you're on a mobile device, try and tilt your device to a horizontal
+			position.
+			</p>
+		</div>
+
+		<!-- #endregion -->
 	
-	</body>
+		<!-- ============================================================================================== -->
+		<!-- #region ==== A B O U T  T H I S  P R O J E C T =============================================== -->
+		<div class="normal-txt closeMe text-info-page credits-info">
+			<div><button class="back-button">back to Main Menu</button></div>
+			<iframe
+			src="https://docs.google.com/document/d/e/2PACX-1vTjgjlMFTStshewv_yNAKXnGowZ9NNXeZduu1t0PPEqOHzTGAzQMq4y0y-bV5T9N5rBTHcHcwJ8hlvT/pub?embedded=true"
+			></iframe>
+		</div>
+
+		<!-- #endregion -->
+		
+	</div> <!-- :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: Bootstrap Container END :::: -->
+
+		<!-- ============================================================================================== -->
+		<!-- #region ==== J A V A   S C R I P T S ========================================================= -->
+		<!-- JQuery -->
+		<script src="assets/js/jquery-3.5.1.slim.min.js"></script>
+		<!-- Popper -->
+		<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"
+		></script>
+		<!-- Bootstrap -->
+		<script src="assets/js/bootstrap.min.js"></script>
+		<!-- Local scripts -->
+		<script type="text/javascript" src="assets/js/preload.js"></script>
+		<script type="text/javascript" src="assets/js/game.js"></script>
+		<script type="text/javascript" src="assets/js/nav.js"></script>
+		<!-- #endregion -->
+
+  </body>
 </html>

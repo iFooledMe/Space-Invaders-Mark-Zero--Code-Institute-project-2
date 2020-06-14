@@ -1,17 +1,16 @@
-// =============================================================================================
+// ==============================================================================================
 // #region ==== G L O B A L   V A R I A B L E S =================================================
 var ctx;
 var game;
 var player;
 
 var enemiesArray = [];
-var scoresArray = [];
 
-// #region ==== S E T T I N G S =================================================================
+
+// ==== S E T T I N G S =================================================================
 var levelCountdownTime = 15;  //In seconds
 var playerSpeed = 5;
 var completeLevelScore = 50;
-
 
 //#endregion
 
@@ -40,13 +39,13 @@ function Game () {
         this.isOver = false;
         this.levelClear = false;
         updateDisplayInfo();
-        player.setStartPos();
         timerStart();
         window.requestAnimationFrame(gameLoop);
     };
     this.reset = function(userName) {
         ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
         player.setStartPos();
+        player.resetScore();
         timerReset(levelCountdownTime);
     }
 };
@@ -59,6 +58,7 @@ function Player() {
     this.sizeH =  80; //Height at start
     this.posX = 100; //Horizontal axis at start
     this.posY = ((game.canvas.height / 2) - (this.sizeH)); //Vertical axis at start
+    this.gameScoresList = [];
     this.draw = function() {
         return ctx.drawImage(Images["player_starship_1000"], 
             this.posX, this.posY, this.sizeW, this.sizeH);
@@ -66,6 +66,9 @@ function Player() {
     this.setStartPos = function() {
         this.posX = 100; //Horizontal axis at start
         this.posY = ((game.canvas.height / 2) - (this.sizeH)); //Vertical axis at start
+    };
+    this.resetScore = function() {
+        this.score = 0; 
     };
 };
 
@@ -141,26 +144,30 @@ function displayUserName() {
 
 // ==============================================================================================
 // #region ==== H I G H   S C O R E =============================================================
-// .... GAME SCORE ..................................................................................
-function GameScore(gameEnd) {
-    this.userName = player.name;
-    this.score = player.score;
-    this.date = getDateTime();
-    this.level = game.level;
-    this.gameTime = "Game Time";
-    this.gameEnd = gameEnd;
-}
 
-function saveGameScore(endType) {
-    var gameScore = new GameScore(endType);
-    gameScoresList.push(gameScore);
+function saveGameScore(userName_, score_, level_, gameEnd_) {
+        
+    player.gameScoresList = JSON.parse(localStorage.getItem("localHighScores"));
+    console.log(player.gameScoresList);
+    let scoreToSave = {
+    userName: userName_,
+    score: score_,
+    date: getDateTime(),
+    level: level_,
+    gameTime: "gameTime",
+    gameEnd: gameEnd_
+    };
+
+    player.gameScoresList.push(scoreToSave);
+    
+    var gameScoresListToJSON = JSON.stringify(player.gameScoresList);
+    localStorage.setItem("localHighScores", gameScoresListToJSON);
 };
 
-function displayHighScores() {
-    
-    gameScoresList.forEach(entry => {
-    //string += entry.score + " - " + entry.userName + " - " + entry.date + " - " + entry.level + "<br>";
-    $(".high-scores-list").append(
+function displayHighScores() { 
+    player.gameScoresList = JSON.parse(localStorage.getItem("localHighScores")); 
+    player.gameScoresList.forEach(entry => {
+        $(".high-scores-list").append(
         entry.score + " - " + 
         entry.userName + " - " + 
         entry.date.toString() + " - " + 
@@ -217,7 +224,7 @@ gameLoop = function() {
     }  
 }
 
-// ==== GAME STATES ===================================================================
+// ==== GAME STATES ==============================================================================
 
 // **** PAUSED **************************************
 
@@ -244,7 +251,7 @@ function unPauseGame() {
 
 // **** GAME OVER ************************************
 function gameOver() {
-    
+    saveGameScore(player.userName, player.score, game.level, "Game Over");
     $(".closeMe").css("display", "none");
     $(".game-over").css("display", "block");
 }
@@ -253,20 +260,12 @@ function gameOver() {
 function levelClear() {
     player.score += completeLevelScore;
     displayScore();
-    
+    saveGameScore(player.userName, player.score, game.level, "Finished");
     $(".closeMe").css("display", "none");
     $(".level-clear").css("display", "block");
 }
 
-// ==============================================================================================
-// ==== ON SCREEN OBJECTS =======================================================================
-function create_gameObjects() {
-   
-    create_enemies(10); //Creates the specified amount of random enemy objects
-}
-
 // #endregion
-
 
 // ==============================================================================================
 // #region ==== C O N T R O L S =================================================================
@@ -351,12 +350,20 @@ function playerActions(key) {
 
         // === Default ===  
         default:          
-        console.log(`Some other Key! var KeyStroke = ${key}`);
+        //console.log(`Some other Key! var KeyStroke = ${key}`);
           break;
     }  
  }
 
  // #endregion
+
+// ==============================================================================================
+// #region ==== O N  S C R E E N  O B J E C T S =================================================
+
+function create_gameObjects() {
+   
+    create_enemies(10); //Creates the specified amount of random enemy objects
+}
 
 // ==== CREATE ENEMY ====
 // Create an array of random enemies

@@ -28,7 +28,7 @@ function preload(list, callback){
     }
 }
 
-// .... Images List ............................................................................
+//#region ==== PRELOAD LIST =================================================================
 var preLoadList = [   
     {   name: "player_starship_100",
         url: "assets/images/spaceship2_100x50.png"          },

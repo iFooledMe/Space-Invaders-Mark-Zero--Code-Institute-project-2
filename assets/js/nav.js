@@ -1,7 +1,7 @@
 
 
-// ==============================================================================================
-// ==== M E N U Functions ===============================================================
+// ===============================================================
+// #region M E N U Functions =====================================
 
 // **** Display Main Menu ****
 function displayMainMenu() {
@@ -32,8 +32,10 @@ function getUserNameAndStart() {
     runGame();
 }
 
+//#endregion
 
-// ==== MENU BUTTONS ============================================================================
+// ===============================================================
+// #region M E N U Buttons =======================================
 
 // **** Start Game Button **** 
 $(".start-game-button").click(function(){
@@ -70,9 +72,10 @@ $(".resume-button").click(function(){
  });
 
  // **** High Scores button **** 
-$(".high-scores-button").click(function(){
+ $(".high-scores-button").click(function(){
     $(".closeMe").css("display", "none");
     $(".high-scores").css("display", "block");
+    displayHighScores();
  });
 
 // **** Game Info button **** 
@@ -92,3 +95,5 @@ $(".credits-info-button").click(function(){
     $(".closeMe").css("display", "none");
     $(".credits-info").css("display", "block");
  });
+
+ //#endregion
