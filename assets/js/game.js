@@ -4,6 +4,7 @@ var ctx;
 var game;
 var player;
 
+var bulletsArray = [];
 var enemiesArray = [];
 
 
@@ -72,6 +73,20 @@ function Player() {
         this.score = 0; 
     };
 };
+
+function Weapon() {
+    this.sizeW =  40; //Width at start
+    this.sizeH =  20; //Height at start
+    this.posX = player.posX + player.sizeW; //Horizontal axis at start
+    this.posY = player.posY + (player.sizeH / 2) - (this.sizeH / 2); //Vertical axis at start
+    this.speed = -10;
+    this.draw = function(newX, newY) {  
+        this.posX -= newX;
+        this.posY -= newY;
+        return ctx.drawImage(Images["laser-bullet"], 
+            this.posX, this.posY, this.sizeW, this.sizeH);
+    };
+}
 
 // .... ENEMY ..................................................................................
 function Enemy(posY, sizeW, sizeH, speed) {
@@ -207,6 +222,10 @@ gameLoop = function() {
         drawEnemy(enemy);
     });
 
+    bulletsArray.forEach(bullet => {
+        drawBullet(bullet);
+    });
+
     //Draw player
     player.draw();
 
@@ -337,7 +356,7 @@ function playerActions(key) {
             }
             break;
 
-        // === Pause ===  
+        // === In game menu ===  
         case 'Escape':
             if(!game.isPaused){
                 inGameMenu();
@@ -346,8 +365,12 @@ function playerActions(key) {
                 unPauseGame();
             }
             break;
-
-           
+        
+            // === In game menu ===  
+         case 'Space':
+            create_bullet();
+     
+            break;        
 
         // === Default ===  
         default:          
@@ -366,13 +389,42 @@ function create_gameObjects() {
     create_enemies(10); //Creates the specified amount of random enemy objects
 }
 
-// ==== CREATE ENEMY ====
+// ==== CREATE BULLET =============================================================================
+// Create an array of bullets
+function create_bullet() {
+        bulletsArray.push(new Weapon);
+}
+
+function drawBullet(bullet) {
+
+    this.bullet = bullet;
+    var index = bulletsArray.indexOf(bullet);
+
+   
+  
+    if (this.bullet.posX >= game.canvas.width + this.bullet.sizeW ) {
+        ctx.clearRect(this.bullet.posX, this.bullet.posY, this.bullet.sizeW, this.bullet.sizeH);
+        delete bulletsArray[index]; 
+        bulletsArray.length -= 1;
+        console.log(bulletsArray.length);
+    }
+    /*else if (player.posX < this.enemy.posX + this.enemy.sizeW && player.posX + player.sizeW > this.enemy.posX && player.posY < this.enemy.posY + this.enemy.sizeH && player.posY + player.sizeH > this.enemy.posY) {
+        this.enemy.draw(0,0);
+    }*/
+    else {
+        this.bullet.draw(this.bullet.speed,0);
+        
+    }
+}
+
+
+
+// ==== CREATE ENEMY =============================================================================
 // Create an array of random enemies
 function create_enemies(max) {
     enemiesArray = []; //reset if already existing
-    var numberOfEnemies = max;
     var i;
-    for (i = 0; i < numberOfEnemies; i++) {
+    for (i = 0; i < max; i++) {
         enemiesArray.push(random_enemy());
     }
 }

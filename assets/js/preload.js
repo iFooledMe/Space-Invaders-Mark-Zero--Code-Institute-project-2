@@ -75,5 +75,7 @@ var preLoadList = [
     {   name: "lg-2",
         url: "assets/images/large2.jpg"                      },
     {   name: "lg-3",
-        url: "assets/images/large3.jpg"                      }
+        url: "assets/images/large3.jpg"                      },
+    {   name: "laser-bullet",
+        url: "assets/images/laser_bullet_40x20.png"          }
 ]
