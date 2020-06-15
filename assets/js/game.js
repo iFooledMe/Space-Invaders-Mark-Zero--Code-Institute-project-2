@@ -386,7 +386,7 @@ function playerActions(key) {
 
 function create_gameObjects() {
    
-    create_enemies(10); //Creates the specified amount of random enemy objects
+    create_enemies(1); //Creates the specified amount of random enemy objects
 }
 
 // ==== CREATE BULLET =============================================================================
@@ -400,8 +400,8 @@ function drawBullet(bullet) {
     this.bullet = bullet;
     var index = bulletsArray.indexOf(bullet);
 
-   
-  
+    testForHit(enemiesArray, this.bullet);
+
     if (this.bullet.posX >= game.canvas.width + this.bullet.sizeW ) {
         ctx.clearRect(this.bullet.posX, this.bullet.posY, this.bullet.sizeW, this.bullet.sizeH);
         delete bulletsArray[index]; 
@@ -417,7 +417,18 @@ function drawBullet(bullet) {
     }
 }
 
-
+function testForHit (array, bullet) {
+    var thisArray = array;
+    var thisBullet = bullet;
+    thisArray.forEach(enemy => {
+        var index = enemiesArray.indexOf(enemy);
+        this.enemy = enemy;
+        console.log("Enemy X:" + this.enemy.posX);
+         if (this.enemy.posX < thisBullet.posX + thisBullet.sizeW && this.enemy.posX + this.enemy.sizeW > thisBullet.posX && this.enemy.posY < thisBullet.posY + thisBullet.sizeH && this.enemy.posY + this.enemy.sizeH > thisBullet.posY) {
+            alert("Hit!!!");
+        }
+    });
+}
 
 // ==== CREATE ENEMY =============================================================================
 // Create an array of random enemies
@@ -431,6 +442,7 @@ function create_enemies(max) {
 
 // Draw, redraw and delete from canvas
 function drawEnemy(enemy) {
+
 
     this.enemy = enemy;
     var index = enemiesArray.indexOf(enemy);
