@@ -59,6 +59,7 @@ function Player() {
     this.posX = 100; //Horizontal axis at start
     this.posY = ((game.canvas.height / 2) - (this.sizeH)); //Vertical axis at start
     this.gameScoresList = [];
+    this.gameScoresListJSON = [];
     this.draw = function() {
         return ctx.drawImage(Images["player_starship_1000"], 
             this.posX, this.posY, this.sizeW, this.sizeH);
@@ -146,9 +147,7 @@ function displayUserName() {
 // #region ==== H I G H   S C O R E =============================================================
 
 function saveGameScore(userName_, score_, level_, gameEnd_) {
-        
-    player.gameScoresList = JSON.parse(localStorage.getItem("localHighScores"));
-    console.log(player.gameScoresList);
+
     let scoreToSave = {
     userName: userName_,
     score: score_,
@@ -158,22 +157,24 @@ function saveGameScore(userName_, score_, level_, gameEnd_) {
     gameEnd: gameEnd_
     };
 
-    player.gameScoresList.push(scoreToSave);
+    var scoreToSaveJSON = JSON.stringify(scoreToSave);
     
-    var gameScoresListToJSON = JSON.stringify(player.gameScoresList);
-    localStorage.setItem("localHighScores", gameScoresListToJSON);
+    //player.gameScoresList.push(scoreToSave);
+    player.gameScoresListJSON.push(scoreToSaveJSON);
+    localStorage.setItem("localHighScores", player.gameScoresList);
 };
 
-function displayHighScores() { 
-    player.gameScoresList = JSON.parse(localStorage.getItem("localHighScores")); 
-    player.gameScoresList.forEach(entry => {
+function displayHighScores() {
+    /*var scoresList = localStorage.getItem("localHighScores");
+    scoresList.forEach(entry => { 
+        entryParsed = JSON.parse(entry);
         $(".high-scores-list").append(
         entry.score + " - " + 
         entry.userName + " - " + 
-        entry.date.toString() + " - " + 
+        entry.date + " - " + 
         entry.gameEnd + " on Level " + entry.level + 
         "<br>");
-    });   
+    });*/   
 }
 
 function getDateTime() {
@@ -251,7 +252,7 @@ function unPauseGame() {
 
 // **** GAME OVER ************************************
 function gameOver() {
-    saveGameScore(player.userName, player.score, game.level, "Game Over");
+    //saveGameScore(player.userName, player.score, game.level, "Game Over");
     $(".closeMe").css("display", "none");
     $(".game-over").css("display", "block");
 }
@@ -260,7 +261,7 @@ function gameOver() {
 function levelClear() {
     player.score += completeLevelScore;
     displayScore();
-    saveGameScore(player.userName, player.score, game.level, "Finished");
+    //saveGameScore(player.userName, player.score, game.level, "Finished");
     $(".closeMe").css("display", "none");
     $(".level-clear").css("display", "block");
 }
