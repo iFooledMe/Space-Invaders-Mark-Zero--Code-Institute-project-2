@@ -12,6 +12,7 @@ var enemiesArray = [];
 var levelCountdownTime = 15;  //In seconds
 var playerSpeed = 5;
 var completeLevelScore = 50;
+var enemyCount = 15;
 
 //#endregion
 
@@ -45,6 +46,7 @@ function Game () {
     };
     this.reset = function(userName) {
         ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
+        enemiesArray.length = 0;
         player.setStartPos();
         player.resetScore();
         timerReset(levelCountdownTime);
@@ -129,7 +131,6 @@ function setUpGame() {
 
 // ==== Run Game (Triggered by start-button) ====
 function runGame() {
-    create_gameObjects(); //Images and resources on the screen*/
     game.run();
 }
 
@@ -218,6 +219,7 @@ gameLoop = function() {
     ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
         
     //Draw enemies
+    create_enemies(enemyCount);
     enemiesArray.forEach(enemy => {
         drawEnemy(enemy);
     });
@@ -384,12 +386,16 @@ function playerActions(key) {
 // ==============================================================================================
 // #region ==== O N  S C R E E N  O B J E C T S =================================================
 
-function create_gameObjects() {
-   
-    create_enemies(1); //Creates the specified amount of random enemy objects
+
+// ==== GENERAL PURPOSE FUNCTIONS ===============================================================
+
+// **** REMOVE OBJECTS FROM ARRAY OF OBJECTS
+function  RemoveObjectFromArray(array, object) {
+    array.splice(array.indexOf(object),1);
 }
 
-// ==== CREATE BULLET =============================================================================
+
+// ==== CREATE BULLET ===========================================================================
 // Create an array of bullets
 function create_bullet() {
         bulletsArray.push(new Weapon);
@@ -433,9 +439,8 @@ function testForHit (array, bullet) {
 // ==== CREATE ENEMY =============================================================================
 // Create an array of random enemies
 function create_enemies(max) {
-    enemiesArray = []; //reset if already existing
-    var i;
-    for (i = 0; i < max; i++) {
+    
+    if (enemiesArray.length < max) {
         enemiesArray.push(random_enemy());
     }
 }
@@ -443,16 +448,12 @@ function create_enemies(max) {
 // Draw, redraw and delete from canvas
 function drawEnemy(enemy) {
 
-
     this.enemy = enemy;
-    var index = enemiesArray.indexOf(enemy);
-  
+      
     if (this.enemy.posX <= -this.enemy.sizeW) {
         player.score += 1;
         displayScore();
-        ctx.clearRect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH);
-        delete enemiesArray[index]; 
-        enemiesArray[index] = random_enemy();
+        RemoveObjectFromArray(enemiesArray, this.enemy);
     }
     else if (player.posX < this.enemy.posX + this.enemy.sizeW && player.posX + player.sizeW > this.enemy.posX && player.posY < this.enemy.posY + this.enemy.sizeH && player.posY + player.sizeH > this.enemy.posY) {
         timerStop();
