@@ -12,7 +12,7 @@ var enemiesArray = [];
 var levelCountdownTime = 15;  //In seconds
 var playerSpeed = 5;
 var completeLevelScore = 50;
-var enemyCount = 15;
+var enemyCount = 1;
 
 //#endregion
 
@@ -387,11 +387,23 @@ function playerActions(key) {
 // #region ==== O N  S C R E E N  O B J E C T S =================================================
 
 
-// ==== GENERAL PURPOSE FUNCTIONS ===============================================================
+// ==== GENERIC GENERAL PURPOSE FUNCTIONS ===============================================================
 
-// **** REMOVE OBJECTS FROM ARRAY OF OBJECTS
+// **** REMOVE OBJECTS FROM ARRAY OF OBJECTS ****
 function  RemoveObjectFromArray(array, object) {
     array.splice(array.indexOf(object),1);
+}
+
+// **** TEST IF AN OBJECT IS COLLIDING/HITTING ANY OBJECTS IN AN ARRAY OF OBJECTS ****
+function testForHit (array_, object_) {
+    var array = array_;
+    var object = object_;
+    array.forEach(arrayObject => {    
+        this.arrayObject = arrayObject;
+         if (this.arrayObject.posX < object.posX + object.sizeW && this.arrayObject.posX + this.arrayObject.sizeW > object.posX && this.arrayObject.posY < object.posY + object.sizeH && this.arrayObject.posY + this.arrayObject.sizeH > object.posY) {
+            RemoveObjectFromArray(array, this.arrayObject);
+        }
+    });
 }
 
 
@@ -421,19 +433,6 @@ function drawBullet(bullet) {
         this.bullet.draw(this.bullet.speed,0);
         
     }
-}
-
-function testForHit (array, bullet) {
-    var thisArray = array;
-    var thisBullet = bullet;
-    thisArray.forEach(enemy => {
-        var index = enemiesArray.indexOf(enemy);
-        this.enemy = enemy;
-        console.log("Enemy X:" + this.enemy.posX);
-         if (this.enemy.posX < thisBullet.posX + thisBullet.sizeW && this.enemy.posX + this.enemy.sizeW > thisBullet.posX && this.enemy.posY < thisBullet.posY + thisBullet.sizeH && this.enemy.posY + this.enemy.sizeH > thisBullet.posY) {
-            alert("Hit!!!");
-        }
-    });
 }
 
 // ==== CREATE ENEMY =============================================================================
