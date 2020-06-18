@@ -4,13 +4,18 @@ var ctx;
 var game;
 var player;
 
+var bulletsArray = [];
 var enemiesArray = [];
+var visualEffectsArray = [];
+
+var animation_array_explosion_1 = [];
 
 
 // ==== S E T T I N G S =================================================================
 var levelCountdownTime = 15;  //In seconds
 var playerSpeed = 5;
 var completeLevelScore = 50;
+var enemyCount = 10;
 
 //#endregion
 
@@ -44,6 +49,8 @@ function Game () {
     };
     this.reset = function(userName) {
         ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
+        bulletsArray.length = 0;
+        enemiesArray.length = 0;
         player.setStartPos();
         player.resetScore();
         timerReset(levelCountdownTime);
@@ -73,6 +80,21 @@ function Player() {
     };
 };
 
+// .... WEAPON ..................................................................................
+function Weapon() {
+    this.sizeW =  30; //Width at start
+    this.sizeH =  5; //Height at start
+    this.posX = player.posX + player.sizeW; //Horizontal axis at start
+    this.posY = player.posY + (player.sizeH / 2) - (this.sizeH / 2); //Vertical axis at start
+    this.speed = -10;
+    this.draw = function(newX, newY) {  
+        this.posX -= newX;
+        this.posY -= newY;
+        return ctx.drawImage(Images["laser-bullet"], 
+            this.posX, this.posY, this.sizeW, this.sizeH);
+    };
+}
+
 // .... ENEMY ..................................................................................
 function Enemy(posY, sizeW, sizeH, speed) {
     this.sizeW =  sizeW; //Width at start
@@ -87,6 +109,48 @@ function Enemy(posY, sizeW, sizeH, speed) {
             this.posX, this.posY, this.sizeW, this.sizeH);
     };
 }
+
+function VisualEffect(posX, posY, sizeW, sizeH) {
+    this.sizeW =  sizeW; //Width at start
+    this.sizeH =  sizeH; //Height at start
+    this.posX = posX; //Horizontal axis at start
+    this.posY = posY; //Vertical axis at start
+    this.draw = function() {  
+
+        return ctx.drawImage(Images["static_explosion_1"], 
+            this.posX, this.posY, this.sizeW, this.sizeH);
+    };
+}
+
+
+
+/*
+// .... VISUAL EFFECT ..................................................................................
+function VisualEffect(targetPosX, targetPosY, targetSizeW, targetSizeH) {
+    this.sizeW =  targetPosX;
+    this.sizeH =  targetPosY;
+    this.posX = targetSizeW;
+    this.posY = targetSizeH;
+    this.onTargetSizeW = targetSizeW;
+    this.onTargetSizeH = targetSizeH;
+    this.onTargetPosX = targetPosX;
+    this.onTargetPosY = targetPosY;
+    this.frameCounter = 0;
+
+    this.draw = function() {
+        return ctx.drawImage(Images["static_explosion_1"], 
+            this.posX, this.posY, this.sizeW, this.sizeH);
+    };
+
+    this.drawNew = function(newPosX, newPosY, newSizeW, newSizeH, image) {  
+        this.posX = newPosX;
+        this.posY = newPosY;
+        this.sizeW = newSizeW;
+        this.sizeH = newSizeH;
+        this.image = image;
+        return ctx.drawImage(Images[this.image], this.posX, this.posY, this.sizeW, this.sizeH);
+    };
+}*/
 
 // #endregion
 
@@ -110,12 +174,13 @@ function setUpGame() {
     var height = document.documentElement.clientHeight;
     ctx = game.create("canvas-1", width, height);
     player = new Player();
+
 }
 
 // ==== Run Game (Triggered by start-button) ====
 function runGame() {
-    create_gameObjects(); //Images and resources on the screen*/
     game.run();
+
 }
 
 // ==== Reset Game ====
@@ -126,91 +191,40 @@ function resetGame() {
 // #endregion
 
 // ==============================================================================================
-// #region ==== G A M E   I N F O   B A R =======================================================
-function updateDisplayInfo () {
-    displayUserName();
-    displayScore();
-    $(".game-info-bar").css("display", "block");
-}
-
-function displayScore() {
-    $(".score").html(`SCORE <span>${player.score}</span>`);
-}
-
-function displayUserName() {
-    $(".user-name").html(`Welcome Captain <span>${player.userName}</span> Enjoy your Game!`);
-}
-
-// #endregion
-
-// ==============================================================================================
-// #region ==== H I G H   S C O R E =============================================================
-
-function saveGameScore(userName_, score_, level_, gameEnd_) {
-
-    let scoreToSave = {
-    userName: userName_,
-    score: score_,
-    date: getDateTime(),
-    level: level_,
-    gameTime: "gameTime",
-    gameEnd: gameEnd_
-    };
-
-    var scoreToSaveJSON = JSON.stringify(scoreToSave);
-    
-    //player.gameScoresList.push(scoreToSave);
-    player.gameScoresListJSON.push(scoreToSaveJSON);
-    localStorage.setItem("localHighScores", player.gameScoresList);
-};
-
-function displayHighScores() {
-    /*var scoresList = localStorage.getItem("localHighScores");
-    scoresList.forEach(entry => { 
-        entryParsed = JSON.parse(entry);
-        $(".high-scores-list").append(
-        entry.score + " - " + 
-        entry.userName + " - " + 
-        entry.date + " - " + 
-        entry.gameEnd + " on Level " + entry.level + 
-        "<br>");
-    });*/   
-}
-
-function getDateTime() {
-    var currentdate = new Date(); 
-    var datetime = currentdate.getDate() + "/"
-                + currentdate.getMonth() + "/" 
-                + currentdate.getFullYear() + " "  
-                + currentdate.getHours() + ":"  
-                + currentdate.getMinutes() + ":" 
-                + currentdate.getSeconds();
-    return datetime;
-}
-
-// #endregion
-
-// ==============================================================================================
 // #region ==== G A M E - L O O P ===============================================================
 
-// ==== REQUEST ANIMATION FRAME LOOP ====
 gameLoop = function() {
-      
+    
+    // ==== DYNAMICALLY (PER FRAME) UPDATE CANVAS SIZE TO CLIENT SCREEN SIZE ====================
     game.canvas.width = document.documentElement.clientWidth;
     game.canvas.height = document.documentElement.clientHeight;
 
-    //Clear Frame
+    // ==== UPDATE OBJECTS IN THE FRAME ==========================================================
+    //Clear Frame...........................................................
     ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
         
-    //Draw enemies
+    //Draw enemies..........................................................
+    create_enemies(enemyCount);
     enemiesArray.forEach(enemy => {
         drawEnemy(enemy);
     });
 
-    //Draw player
+    //Draw player...........................................................
     player.draw();
 
-    //Request next frame
+    //Draw bullets..........................................................
+    bulletsArray.forEach(bullet => {
+        drawBullet(bullet);
+    });
+
+    //Draw visual effects...................................................
+    visualEffectsArray.forEach(visualEffect => {
+        console.log("visualEffectsArray: " + visualEffectsArray.length);
+        this.visualEffect = visualEffect;
+        drawVisualEffect(this.visualEffect);
+    });
+
+    // ==== ACTIVATE A GAMESTATE OR CONTINUE RUNNING BY REQUESTING THE NEXT FRAME ===============
     if (game.isOver) {
         gameOver();
     }
@@ -269,11 +283,139 @@ function levelClear() {
 // #endregion
 
 // ==============================================================================================
+// #region ==== O N  S C R E E N  O B J E C T S =================================================
+
+
+// ==== GENERIC GENERAL PURPOSE FUNCTIONS ===============================================================
+
+// **** REMOVE OBJECTS FROM ARRAY OF OBJECTS ****
+function  RemoveObjectFromArray(array, object) {
+    array.splice(array.indexOf(object),1);
+}
+
+// **** TEST IF AN OBJECT IS COLLIDING/HITTING ANY OBJECTS IN AN ARRAY OF OBJECTS ****
+function testForHit (arrayObjectsToHit_, objectTryHit_, arrayObjectTryHit_) {
+    arrayObjectsToHit = arrayObjectsToHit_;
+    arrayObjectTryHit = arrayObjectTryHit_;
+    this.objectTryHit = objectTryHit_;
+    arrayObjectsToHit.forEach(arrayObject => {    
+        this.arrayObject = arrayObject;
+         if (   this.arrayObject.posX < this.objectTryHit.posX + this.objectTryHit.sizeW && 
+                this.arrayObject.posX + this.arrayObject.sizeW > this.objectTryHit.posX && 
+                this.arrayObject.posY < this.objectTryHit.posY + this.objectTryHit.sizeH && 
+                this.arrayObject.posY + this.arrayObject.sizeH > this.objectTryHit.posY
+            ) {
+                create_visualEffect(this.arrayObject.posX, this.arrayObject.posY, this.arrayObject.sizeW, this.arrayObject.sizeH);
+                RemoveObjectFromArray(arrayObjectsToHit, this.arrayObject);
+                RemoveObjectFromArray(arrayObjectTryHit, this.objectTryHit);
+               
+            }
+    });
+}
+
+// ==== CREATE BULLET ===========================================================================
+// Create an array of bullets
+function create_bullet() {
+    bulletsArray.push(new Weapon);
+}
+
+function drawBullet(bullet) {
+
+    this.bullet = bullet;
+    //var index = bulletsArray.indexOf(bullet);
+
+    testForHit(enemiesArray, this.bullet, bulletsArray);
+
+    if (this.bullet.posX >= game.canvas.width + this.bullet.sizeW ) {
+        RemoveObjectFromArray(bulletsArray, this.bullet);
+    }
+    else {
+        this.bullet.draw(this.bullet.speed,0);
+    }
+}
+
+// ==== CREATE VISUAL EFFECT ===========================================================================
+// Create an array of bullets
+function create_visualEffect(targetPosX, targetPosY, targetSizeW, targetSizeH) {
+    visualEffectsArray.push(new VisualEffect(targetPosX, targetPosY, targetSizeW, targetSizeH));
+    console.log("Target Pos X: " + targetPosX);
+    console.log("Target Pos Y: " + targetPosY);
+    console.log("Target Width: " + targetSizeW);
+    console.log("Target height: " + targetSizeH);
+}
+
+function drawVisualEffect(visualEffect) {
+
+    this.visualEffect = visualEffect;
+    //console.log("Effect Pos X: " + this.visualEffect.PosX);
+    //console.log("Effect Pos Y: " + this.visualEffect.PosY);
+    //console.log("Effect Width: " + this.visualEffect.SizeW);
+    //console.log("Effect height: " + this.visualEffect.SizeH);
+    this.visualEffect.draw(); 
+}
+
+
+// ==== CREATE ENEMY =============================================================================
+// Create an array of random enemies
+function create_enemies(max) {
+    
+    if (enemiesArray.length < max) {
+        enemiesArray.push(random_enemy());
+    }
+}
+
+// Draw, redraw and delete from canvas
+function drawEnemy(enemy) {
+
+    this.enemy = enemy;
+      
+    if (this.enemy.posX <= -this.enemy.sizeW) {
+        player.score += 1;
+        displayScore();
+        RemoveObjectFromArray(enemiesArray, this.enemy);
+    }
+    else if (player.posX < this.enemy.posX + this.enemy.sizeW && player.posX + player.sizeW > this.enemy.posX && player.posY < this.enemy.posY + this.enemy.sizeH && player.posY + player.sizeH > this.enemy.posY) {
+        timerStop();
+        this.enemy.draw(0,0);
+        game.isOver = true;
+    }
+    else {
+        this.enemy.draw(this.enemy.speed,0);
+    }
+}
+
+// Return a enemy object with random properties
+function random_enemy() {
+    let y, speed, size = null; //reset
+    y = getRndInteger(50, game.canvas.height);
+    speed = getRndInteger(1, 5);
+    size = randomSize();
+    
+    function randomSize() {
+        let rndSize = getRndInteger(1, 100);
+        if (rndSize <= 10) { return 20; }
+        else if (rndSize > 10 && rndSize <= 50) { return 50; }
+        else if (rndSize > 50 && rndSize <= 90) { return 100; }
+        else if (rndSize > 90 && rndSize <= 98) { return 200; }
+        else if (rndSize > 98) { return 300; }
+        else { return 100; }
+    }
+
+    return new Enemy(y, size, size, speed);
+}
+
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
+// #endregion
+
+// ==============================================================================================
 // #region ==== C O N T R O L S =================================================================
 
 function setControls() {
 
-    /* Listen for keystrokes */
+    /* Listen for keydown events */
      document.addEventListener('keydown', logKey);
  
      /* Log keystroke and pass to player actions function */
@@ -290,7 +432,7 @@ function playerActions(key) {
     var mrg_hrz = 30;               // Margin to left and right canvas borders 
     var speed_vrt = playerSpeed;    // Speed of vertical movement 
     var speed_hrz = 0;              // Speed of horizontal movement
-
+    
     switch (key) {
         
         // === Move Up ===
@@ -337,7 +479,7 @@ function playerActions(key) {
             }
             break;
 
-        // === Pause ===  
+        // === In game menu ===  
         case 'Escape':
             if(!game.isPaused){
                 inGameMenu();
@@ -346,8 +488,12 @@ function playerActions(key) {
                 unPauseGame();
             }
             break;
-
-           
+        
+            // === In game menu ===  
+         case 'Space':
+            create_bullet();
+     
+            break;        
 
         // === Default ===  
         default:          
@@ -359,69 +505,19 @@ function playerActions(key) {
  // #endregion
 
 // ==============================================================================================
-// #region ==== O N  S C R E E N  O B J E C T S =================================================
-
-function create_gameObjects() {
-   
-    create_enemies(10); //Creates the specified amount of random enemy objects
+// #region ==== G A M E   I N F O   B A R =======================================================
+function updateDisplayInfo () {
+    displayUserName();
+    displayScore();
+    $(".game-info-bar").css("display", "block");
 }
 
-// ==== CREATE ENEMY ====
-// Create an array of random enemies
-function create_enemies(max) {
-    enemiesArray = []; //reset if already existing
-    var numberOfEnemies = max;
-    var i;
-    for (i = 0; i < numberOfEnemies; i++) {
-        enemiesArray.push(random_enemy());
-    }
+function displayScore() {
+    $(".score").html(`SCORE <span>${player.score}</span>`);
 }
 
-// Draw, redraw and delete from canvas
-function drawEnemy(enemy) {
-
-    this.enemy = enemy;
-    var index = enemiesArray.indexOf(enemy);
-  
-    if (this.enemy.posX <= -this.enemy.sizeW) {
-        player.score += 1;
-        displayScore();
-        ctx.clearRect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH);
-        delete enemiesArray[index]; 
-        enemiesArray[index] = random_enemy();
-    }
-    else if (player.posX < this.enemy.posX + this.enemy.sizeW && player.posX + player.sizeW > this.enemy.posX && player.posY < this.enemy.posY + this.enemy.sizeH && player.posY + player.sizeH > this.enemy.posY) {
-        timerStop();
-        this.enemy.draw(0,0);
-        game.isOver = true;
-    }
-    else {
-        this.enemy.draw(this.enemy.speed,0);
-    }
-}
-
-// Return a enemy object with random properties
-function random_enemy() {
-    let y, speed, size = null; //reset
-    y = getRndInteger(50, game.canvas.height);
-    speed = getRndInteger(1, 5);
-    size = randomSize();
-    
-    function randomSize() {
-        let rndSize = getRndInteger(1, 100);
-        if (rndSize <= 10) { return 20; }
-        else if (rndSize > 10 && rndSize <= 50) { return 50; }
-        else if (rndSize > 50 && rndSize <= 90) { return 100; }
-        else if (rndSize > 90 && rndSize <= 98) { return 200; }
-        else if (rndSize > 98) { return 300; }
-        else { return 100; }
-    }
-
-    return new Enemy(y, size, size, speed);
-}
-
-function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) ) + min;
+function displayUserName() {
+    $(".user-name").html(`Welcome Captain <span>${player.userName}</span> Enjoy your Game!`);
 }
 
 // #endregion
@@ -565,3 +661,49 @@ $(document).ready(function(e)
 
 // #endregion
 
+// ==============================================================================================
+// #region ==== H I G H   S C O R E =============================================================
+
+function saveGameScore(userName_, score_, level_, gameEnd_) {
+
+    let scoreToSave = {
+    userName: userName_,
+    score: score_,
+    date: getDateTime(),
+    level: level_,
+    gameTime: "gameTime",
+    gameEnd: gameEnd_
+    };
+
+    var scoreToSaveJSON = JSON.stringify(scoreToSave);
+    
+    //player.gameScoresList.push(scoreToSave);
+    player.gameScoresListJSON.push(scoreToSaveJSON);
+    localStorage.setItem("localHighScores", player.gameScoresList);
+};
+
+function displayHighScores() {
+    /*var scoresList = localStorage.getItem("localHighScores");
+    scoresList.forEach(entry => { 
+        entryParsed = JSON.parse(entry);
+        $(".high-scores-list").append(
+        entry.score + " - " + 
+        entry.userName + " - " + 
+        entry.date + " - " + 
+        entry.gameEnd + " on Level " + entry.level + 
+        "<br>");
+    });*/   
+}
+
+function getDateTime() {
+    var currentdate = new Date(); 
+    var datetime = currentdate.getDate() + "/"
+                + currentdate.getMonth() + "/" 
+                + currentdate.getFullYear() + " "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+    return datetime;
+}
+
+// #endregion
