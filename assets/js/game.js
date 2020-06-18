@@ -1,4 +1,35 @@
 // ==============================================================================================
+// ==== http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+// ==== http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+// ==== requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
+// ==== MIT license
+// #region ==== R E Q U E S T  A N I M A T I O N  F R A M E  P O L Y F I L L ====================
+(function() {
+    var lastTime = 0;
+    var vendors = ['ms', 'moz', 'webkit', 'o'];
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
+                                   || window[vendors[x]+'CancelRequestAnimationFrame'];
+    }
+ 
+    if (!window.requestAnimationFrame)
+        window.requestAnimationFrame = function(callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
+              timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+ 
+    if (!window.cancelAnimationFrame)
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+}());
+
+// ==============================================================================================
 // #region ==== G L O B A L   V A R I A B L E S =================================================
 var ctx;
 var game;
@@ -121,36 +152,6 @@ function VisualEffect(posX, posY, sizeW, sizeH) {
             this.posX, this.posY, this.sizeW, this.sizeH);
     };
 }
-
-
-
-/*
-// .... VISUAL EFFECT ..................................................................................
-function VisualEffect(targetPosX, targetPosY, targetSizeW, targetSizeH) {
-    this.sizeW =  targetPosX;
-    this.sizeH =  targetPosY;
-    this.posX = targetSizeW;
-    this.posY = targetSizeH;
-    this.onTargetSizeW = targetSizeW;
-    this.onTargetSizeH = targetSizeH;
-    this.onTargetPosX = targetPosX;
-    this.onTargetPosY = targetPosY;
-    this.frameCounter = 0;
-
-    this.draw = function() {
-        return ctx.drawImage(Images["static_explosion_1"], 
-            this.posX, this.posY, this.sizeW, this.sizeH);
-    };
-
-    this.drawNew = function(newPosX, newPosY, newSizeW, newSizeH, image) {  
-        this.posX = newPosX;
-        this.posY = newPosY;
-        this.sizeW = newSizeW;
-        this.sizeH = newSizeH;
-        this.image = image;
-        return ctx.drawImage(Images[this.image], this.posX, this.posY, this.sizeW, this.sizeH);
-    };
-}*/
 
 // #endregion
 
