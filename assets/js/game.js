@@ -10,8 +10,7 @@
     var vendors = ['ms', 'moz', 'webkit', 'o'];
     for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
         window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] 
-                                   || window[vendors[x]+'CancelRequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
     }
  
     if (!window.requestAnimationFrame)
@@ -87,8 +86,8 @@ function Game () {
         player.setStartPos();
         player.resetScore();
         timerReset(levelCountdownTime);
-    }
-};
+    };
+}
 
 // .... PLAYER ..................................................................................
 function Player() {
@@ -101,7 +100,7 @@ function Player() {
     this.gameScoresList = [];
     this.gameScoresListJSON = [];
     this.draw = function() {
-        return ctx.drawImage(Images["player_starship_1000"], 
+        return ctx.drawImage(Images["player_starship_1000" ], 
             this.posX, this.posY, this.sizeW, this.sizeH);
     };
     this.setStartPos = function() {
@@ -111,7 +110,7 @@ function Player() {
     this.resetScore = function() {
         this.score = 0; 
     };
-};
+}
 
 // .... WEAPON ..................................................................................
 function Weapon() {
@@ -178,7 +177,7 @@ function VisualEffect(posX, posY, sizeW, sizeH, type, framesPerImg, source) {
         else {
             RemoveObjectFromArray(visualEffectsArray, this.visualEffect);
         }
-    }
+    };
     
     this.runAnimation = function(visualEffect) {
         this.visualEffect = visualEffect;
@@ -196,7 +195,7 @@ function VisualEffect(posX, posY, sizeW, sizeH, type, framesPerImg, source) {
         else {
             RemoveObjectFromArray(visualEffectsArray, this.visualEffect);
         }
-    }
+    };
 }
 
 // #endregion
@@ -211,7 +210,7 @@ preload (preLoadList, function() {
         setControls();
         displayMainMenu();
         });  
-})  
+}); 
 
 // ==== SetUp Game (New game object and context) ====
 function setUpGame() {
@@ -288,7 +287,7 @@ gameLoop = function() {
     else {
         window.requestAnimationFrame(gameLoop);
     }  
-}
+};
 
 // ==== GAME STATES ==============================================================================
 
@@ -367,7 +366,7 @@ function testForHit (arrayObjectsToHit_, objectTryHit_, arrayObjectTryHit_) {
 // ==== CREATE BULLET ===========================================================================
 // Create an array of bullets
 function create_bullet() {
-    bullets_array.push(new Weapon);
+    bullets_array.push(new Weapon());                   
 }
 
 function drawBullet(bullet) {
@@ -430,13 +429,13 @@ function drawEnemy(enemy) {
 
 // Return a enemy object with random properties
 function random_enemy() {
-    let y, speed, size = null; //reset
+    var y, speed, size = null; //reset
     y = getRndInteger(50, game.canvas.height);
     speed = getRndInteger(1, 5);
     size = randomSize();
     
     function randomSize() {
-        let rndSize = getRndInteger(1, 100);
+        var rndSize = getRndInteger(1, 100);
         if (rndSize <= 10) { return 20; }
         else if (rndSize > 10 && rndSize <= 50) { return 50; }
         else if (rndSize > 50 && rndSize <= 90) { return 100; }
@@ -450,7 +449,7 @@ function random_enemy() {
 
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
-}
+} 
 
 // #endregion
 
@@ -621,7 +620,7 @@ function _timer(callback)
                 }
             }, interval);
         }
-    }
+    };
     
     //  Same as the name, this will stop or pause the timer ex. timer.stop()
     this.stop =  function()
@@ -631,7 +630,7 @@ function _timer(callback)
             status = 0;
             clearInterval(timer_id);
         }
-    }
+    };
     
     // Reset the timer to zero or reset it to your own custom time ex. reset to zero second timer.reset(0)
     this.reset =  function(sec)
@@ -639,31 +638,31 @@ function _timer(callback)
         sec = (typeof(sec) !== 'undefined') ? sec : 0;
         time = sec;
         generateTime(time);
-    }
+    };
     
     // Change the mode of the timer, count-up (1) or countdown (0)
     this.mode = function(tmode)
     {
         mode = tmode;
-    }
+    };
     
     // This methode return the current value of the timer
     this.getTime = function()
     {
         return time;
-    }
+    };
     
     // This methode return the current mode of the timer count-up (1) or countdown (0)
     this.getMode = function()
     {
         return mode;
-    }
+    };
     
     // This methode return the status of the timer running (1) or stoped (1)
     this.getStatus
     {
         return status;
-    }
+    };
     
     // This methode will render the time variable to hour:minute:second format
     function generateTime()
@@ -679,7 +678,7 @@ function _timer(callback)
         $('div.timer span.second').html(second);
         $('div.timer span.minute').html(minute);
         $('div.timer span.hour').html(hour);
-    }
+    };
 }
  
 // example use
@@ -710,7 +709,7 @@ $(document).ready(function(e)
 
 function saveGameScore(userName_, score_, level_, gameEnd_) {
 
-    let scoreToSave = {
+    var scoreToSave = {
     userName: userName_,
     score: score_,
     date: getDateTime(),
@@ -724,7 +723,7 @@ function saveGameScore(userName_, score_, level_, gameEnd_) {
     //player.gameScoresList.push(scoreToSave);
     player.gameScoresListJSON.push(scoreToSaveJSON);
     localStorage.setItem("localHighScores", player.gameScoresList);
-};
+}
 
 function displayHighScores() {
     /*var scoresList = localStorage.getItem("localHighScores");
@@ -741,12 +740,7 @@ function displayHighScores() {
 
 function getDateTime() {
     var currentdate = new Date(); 
-    var datetime = currentdate.getDate() + "/"
-                + currentdate.getMonth() + "/" 
-                + currentdate.getFullYear() + " "  
-                + currentdate.getHours() + ":"  
-                + currentdate.getMinutes() + ":" 
-                + currentdate.getSeconds();
+    var datetime = currentdate.getDate() + "/" + currentdate.getMonth() + "/" + currentdate.getFullYear() + " "  + currentdate.getHours() + ":"  + currentdate.getMinutes() + ":" + currentdate.getSeconds();
     return datetime;
 }
 
