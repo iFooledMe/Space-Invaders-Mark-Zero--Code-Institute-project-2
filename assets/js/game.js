@@ -44,9 +44,19 @@ var visualEffectsArray = [];
 
 // ==== S E T T I N G S =========================================================================
 var levelCountdownTime = 60;  //In seconds
+
+// **** PLAYER ****
 var playerSpeed = 5;
+var playerHitPoints = 10;
+
+// **** SCORE ****
 var completeLevelScore = 50;
-var enemyCount = 2;
+
+// **** LEVEL MODIFIERS ****
+var enemyCount = 10;
+var enemyDamageModifier = 1;
+var enemyHitPointsModifier = 1;
+var enemySpeedModifier = 1;
 
 //#endregion
 
@@ -84,7 +94,7 @@ function Game () {
         bullets_array.length = 0;
         enemiesArray.length = 0;
         player.setStartPos();
-        player.resetScore();
+        player.reset();
         timerReset(levelCountdownTime);
     };
 }
@@ -93,6 +103,7 @@ function Game () {
 function Player() {
     this.userName = "User Name not set";
     this.score = 0;
+    this.hitPoints = playerHitPoints;
     this.sizeW =  160; //Width at start
     this.sizeH =  80; //Height at start
     this.posX = 100; //Horizontal axis at start
@@ -107,8 +118,9 @@ function Player() {
         this.posX = 100; //Horizontal axis at start
         this.posY = ((game.canvas.height / 2) - (this.sizeH)); //Vertical axis at start
     };
-    this.resetScore = function() {
+    this.reset = function() {
         this.score = 0; 
+        this.hitPoints = playerHitPoints;
     };
 }
 
@@ -128,18 +140,58 @@ function Weapon() {
 }
 
 // .... ENEMY ..................................................................................
-function Enemy(posY, sizeW, sizeH, speed) {
-    this.sizeW =  sizeW; //Width at start
-    this.sizeH =  sizeH; //Height at start
+function Enemy(posY, size, speed) {
+    this.size = size;
+    this.sizeW;
+    this.sizeH; //Height at start
     this.posX = game.canvas.width; //Horizontal axis at start
     this.posY = posY; //Vertical axis at start
-    this.speed = speed;
+    this.speed = speed * enemySpeedModifier;
+    this.damage;
+    this.hitPoints;
+    this.image;
+    
     this.draw = function(newX, newY) {  
         this.posX -= newX;
         this.posY -= newY;
-        return ctx.drawImage(Images["enemy_astroid_400"], 
+        return ctx.drawImage(Images[this.image], 
             this.posX, this.posY, this.sizeW, this.sizeH);
     };
+    this.setSizeProps = function() {
+        if (this.size == 1) {
+            this.sizeW = 20, this.sizeH = 20;
+            this.image = "enemy_astroid_20";
+            this.setDmgHP(this.size);
+        }
+        else if (this.size == 2) {
+            this.sizeW = 50, this.sizeH = 50;
+            this.image = "enemy_astroid_50";
+            this.setDmgHP(this.size);
+        }
+        else if (this.size == 3) {
+            this.sizeW = 100, this.sizeH = 100;
+            this.image = "enemy_astroid_100";
+            this.setDmgHP(this.size);
+        }
+        else if (this.size == 4) {
+            this.sizeW = 200, this.sizeH = 200;
+            this.image = "enemy_astroid_200";
+            this.setDmgHP(this.size);
+        }
+        else if (this.size == 5) {
+            this.sizeW = 300, this.sizeH = 300;
+            this.image = "enemy_astroid_300";
+            this.setDmgHP(this.size);
+        }
+        else {
+            console.log("No enemy size (1-5) is set!");
+        }
+    }
+    this.setDmgHP = function(size) {
+        this.damage = size * enemyDamageModifier;
+        this.hitPoints = size * enemyHitPointsModifier;
+    }
+    
 }
 
 // .... VISUAL EFFECT ...........................................................................
@@ -409,7 +461,6 @@ function create_enemies(max) {
 
 // Draw, redraw and delete from canvas
 function drawEnemy(enemy) {
-
     this.enemy = enemy;
       
     if (this.enemy.posX <= -this.enemy.sizeW) {
@@ -418,9 +469,19 @@ function drawEnemy(enemy) {
         RemoveObjectFromArray(enemiesArray, this.enemy);
     }
     else if (player.posX < this.enemy.posX + this.enemy.sizeW && player.posX + player.sizeW > this.enemy.posX && player.posY < this.enemy.posY + this.enemy.sizeH && player.posY + player.sizeH > this.enemy.posY) {
-        timerStop();
-        this.enemy.draw(0,0);
-        game.isOver = true;
+        player.hitPoints -= this.enemy.damage;
+        displayHitPoints();
+        console.log(player.hitPoints);
+        if (player.hitPoints <= 0) {
+            timerStop();
+            create_visualEffect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH, "static", 15, "static_explosion_1");
+            create_visualEffect(player.posX - player.sizeW, player.posY - player.sizeH, player.sizeW*3, player.sizeH*3, "static", 15, "static_explosion_1");
+            game.isOver = true;
+       }
+       else {
+            create_visualEffect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH, "static", 15, "static_explosion_1");
+            RemoveObjectFromArray(enemiesArray, this.enemy);
+       }
     }
     else {
         this.enemy.draw(this.enemy.speed,0);
@@ -436,16 +497,20 @@ function random_enemy() {
     
     function randomSize() {
         var rndSize = getRndInteger(1, 100);
-        if (rndSize <= 10) { return 20; }
-        else if (rndSize > 10 && rndSize <= 50) { return 50; }
-        else if (rndSize > 50 && rndSize <= 90) { return 100; }
-        else if (rndSize > 90 && rndSize <= 98) { return 200; }
-        else if (rndSize > 98) { return 300; }
-        else { return 100; }
+        if (rndSize <= 10) { return 1; }
+        else if (rndSize > 10 && rndSize <= 50) { return 2; }
+        else if (rndSize > 50 && rndSize <= 90) { return 3; }
+        else if (rndSize > 90 && rndSize <= 98) { return 4; }
+        else if (rndSize > 98) { return 5; }
+        else { return 3; }
     }
 
-    return new Enemy(y, size, size, speed);
+    var newEnemy = new Enemy(y, size, speed);
+    newEnemy.setSizeProps();
+    return newEnemy;
 }
+
+
 
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
@@ -552,6 +617,7 @@ function playerActions(key) {
 function updateDisplayInfo () {
     displayUserName();
     displayScore();
+    displayHitPoints();
     $(".game-info-bar").css("display", "block");
 }
 
@@ -561,6 +627,13 @@ function displayScore() {
 
 function displayUserName() {
     $(".user-name").html(`Welcome Captain <span>${player.userName}</span> Enjoy your Game!`);
+}
+
+function displayHitPoints() {
+    if (player.hitPoints < 0) {
+        player.hitPoints = 0;
+    }
+    $(".hitpoints").html(`HP <span>${player.hitPoints}</span>`);
 }
 
 // #endregion
