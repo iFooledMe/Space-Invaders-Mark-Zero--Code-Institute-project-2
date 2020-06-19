@@ -26,8 +26,6 @@ function preload(list, callback){
     }
 }
 
-
-
 // =============================================================================================
 // ==== PRELOAD LIST ===========================================================================
 var preLoadList = [   
@@ -229,4 +227,23 @@ var preLoadList = [
         {   name: "animation_explosion_1_68",
         url: "assets/images/animation_explosion_1/68.png"     }
         // #endregion
-]
+];
+
+// =============================================================================================
+// ==== ANIMATION IMG ARRAYS ===================================================================
+var explosion1_animation_array = [];
+createAnimationImg_array("animation_explosion_1_", explosion1_animation_array);
+
+function createAnimationImg_array(baseName, img_array) {
+    let allNamesInPreLoad = preLoadList.map(a => a.name);
+    let baseNameRegex = new RegExp(baseName);
+    allNamesInPreLoad.forEach(name => {
+        if (name.match(baseNameRegex)) {
+            img_array.push(name);
+        }
+    })
+}
+
+
+
+

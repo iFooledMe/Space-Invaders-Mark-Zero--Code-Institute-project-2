@@ -1,9 +1,10 @@
 // ==============================================================================================
+// #region ==== R E Q U E S T  A N I M A T I O N  F R A M E  P O L Y F I L L ====================
 // ==== http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 // ==== http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
 // ==== requestAnimationFrame polyfill by Erik Möller. fixes from Paul Irish and Tino Zijdel
 // ==== MIT license
-// #region ==== R E Q U E S T  A N I M A T I O N  F R A M E  P O L Y F I L L ====================
+// ==============================================================================================
 (function() {
     var lastTime = 0;
     var vendors = ['ms', 'moz', 'webkit', 'o'];
@@ -29,24 +30,24 @@
         };
 }());
 
+//#endregion
+
 // ==============================================================================================
 // #region ==== G L O B A L   V A R I A B L E S =================================================
 var ctx;
 var game;
 var player;
 
-var bulletsArray = [];
+var bullets_array = [];
 var enemiesArray = [];
 var visualEffectsArray = [];
 
-var animation_array_explosion_1 = [];
 
-
-// ==== S E T T I N G S =================================================================
-var levelCountdownTime = 15;  //In seconds
+// ==== S E T T I N G S =========================================================================
+var levelCountdownTime = 60;  //In seconds
 var playerSpeed = 5;
 var completeLevelScore = 50;
-var enemyCount = 10;
+var enemyCount = 2;
 
 //#endregion
 
@@ -80,7 +81,8 @@ function Game () {
     };
     this.reset = function(userName) {
         ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
-        bulletsArray.length = 0;
+        visualEffectsArray.length = 0;
+        bullets_array.length = 0;
         enemiesArray.length = 0;
         player.setStartPos();
         player.resetScore();
@@ -141,16 +143,60 @@ function Enemy(posY, sizeW, sizeH, speed) {
     };
 }
 
-function VisualEffect(posX, posY, sizeW, sizeH) {
-    this.sizeW =  sizeW; //Width at start
-    this.sizeH =  sizeH; //Height at start
-    this.posX = posX; //Horizontal axis at start
-    this.posY = posY; //Vertical axis at start
-    this.draw = function() {  
-
-        return ctx.drawImage(Images["static_explosion_1"], 
-            this.posX, this.posY, this.sizeW, this.sizeH);
+// .... VISUAL EFFECT ...........................................................................
+function VisualEffect(posX, posY, sizeW, sizeH, type, framesPerImg, source) {
+    this.sizeW =  sizeW; 
+    this.sizeH =  sizeH; 
+    this.sizeScaleW = 5;
+    this.sizeScaleH = 3;
+    this.posX = posX; 
+    this.posY = posY; 
+    this.frameCounter = 0;
+    this.imageCounter = 0;
+    this.type = type; 
+    this.framesPerImg = framesPerImg;
+    this.source = source; 
+    this.draw = function(visualEffect) {  
+        this.visualEffect = visualEffect;
+        if (this.type == "static") {
+            this.drawStatic(this.visualEffect);
+        }
+        else if (this.type == "animation") {
+            //runAnimation not working properly at the moment, do not use!
+            this.runAnimation(this.visualEffect);
+        }
+        else {
+            console.log("Visual effect type not set!");
+        }
     };
+    
+    this.drawStatic = function(visualEffect) {
+        this.visualEffect = visualEffect;
+        if (this.frameCounter < this.framesPerImg) {
+            return ctx.drawImage(Images[this.source], this.posX, this.posY, this.sizeW, this.sizeH);
+        }
+        else {
+            RemoveObjectFromArray(visualEffectsArray, this.visualEffect);
+        }
+    }
+    
+    this.runAnimation = function(visualEffect) {
+        this.visualEffect = visualEffect;
+        if (this.imageCounter <= this.source.length) {
+
+            if (this.frameCounter < this.framesPerImg) {
+                //console.log(Images[this.source[this.imageCounter].toString()]);
+                return ctx.drawImage(Images[this.source[this.imageCounter].toString()], this.posX, this.posY, this.sizeW, this.sizeH);
+            }
+            else {
+                this.frameCounter = 0;
+                this.imageCounter += 1;
+            }
+        }
+        else {
+            RemoveObjectFromArray(visualEffectsArray, this.visualEffect);
+        }
+    }
 }
 
 // #endregion
@@ -169,7 +215,6 @@ preload (preLoadList, function() {
 
 // ==== SetUp Game (New game object and context) ====
 function setUpGame() {
-    //Create Canvas
     game = new Game();
     var width = document.documentElement.clientWidth;
     var height = document.documentElement.clientHeight;
@@ -196,14 +241,20 @@ function resetGame() {
 
 gameLoop = function() {
     
-    // ==== DYNAMICALLY (PER FRAME) UPDATE CANVAS SIZE TO CLIENT SCREEN SIZE ====================
+    // ==== CANVAS SETTINGS ======================================================================
+    
+    //Dynamically set the canvas size to match client size
     game.canvas.width = document.documentElement.clientWidth;
     game.canvas.height = document.documentElement.clientHeight;
+    
+    //Clear Frame
+    ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
+
+    //Image Smoothing
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
 
     // ==== UPDATE OBJECTS IN THE FRAME ==========================================================
-    //Clear Frame...........................................................
-    ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
-        
     //Draw enemies..........................................................
     create_enemies(enemyCount);
     enemiesArray.forEach(enemy => {
@@ -214,13 +265,12 @@ gameLoop = function() {
     player.draw();
 
     //Draw bullets..........................................................
-    bulletsArray.forEach(bullet => {
+    bullets_array.forEach(bullet => {
         drawBullet(bullet);
     });
 
     //Draw visual effects...................................................
     visualEffectsArray.forEach(visualEffect => {
-        console.log("visualEffectsArray: " + visualEffectsArray.length);
         this.visualEffect = visualEffect;
         drawVisualEffect(this.visualEffect);
     });
@@ -306,9 +356,9 @@ function testForHit (arrayObjectsToHit_, objectTryHit_, arrayObjectTryHit_) {
                 this.arrayObject.posY < this.objectTryHit.posY + this.objectTryHit.sizeH && 
                 this.arrayObject.posY + this.arrayObject.sizeH > this.objectTryHit.posY
             ) {
-                create_visualEffect(this.arrayObject.posX, this.arrayObject.posY, this.arrayObject.sizeW, this.arrayObject.sizeH);
+                create_visualEffect(this.arrayObject.posX, this.arrayObject.posY, this.arrayObject.sizeW, this.arrayObject.sizeH, "static", 15, "static_explosion_1");
                 RemoveObjectFromArray(arrayObjectsToHit, this.arrayObject);
-                RemoveObjectFromArray(arrayObjectTryHit, this.objectTryHit);
+                RemoveObjectFromArray(bullets_array, this.objectTryHit);
                
             }
     });
@@ -317,7 +367,7 @@ function testForHit (arrayObjectsToHit_, objectTryHit_, arrayObjectTryHit_) {
 // ==== CREATE BULLET ===========================================================================
 // Create an array of bullets
 function create_bullet() {
-    bulletsArray.push(new Weapon);
+    bullets_array.push(new Weapon);
 }
 
 function drawBullet(bullet) {
@@ -325,10 +375,10 @@ function drawBullet(bullet) {
     this.bullet = bullet;
     //var index = bulletsArray.indexOf(bullet);
 
-    testForHit(enemiesArray, this.bullet, bulletsArray);
+    testForHit(enemiesArray, this.bullet, bullets_array);
 
     if (this.bullet.posX >= game.canvas.width + this.bullet.sizeW ) {
-        RemoveObjectFromArray(bulletsArray, this.bullet);
+        RemoveObjectFromArray(bullets_array, this.bullet);
     }
     else {
         this.bullet.draw(this.bullet.speed,0);
@@ -337,22 +387,15 @@ function drawBullet(bullet) {
 
 // ==== CREATE VISUAL EFFECT ===========================================================================
 // Create an array of bullets
-function create_visualEffect(targetPosX, targetPosY, targetSizeW, targetSizeH) {
-    visualEffectsArray.push(new VisualEffect(targetPosX, targetPosY, targetSizeW, targetSizeH));
-    console.log("Target Pos X: " + targetPosX);
-    console.log("Target Pos Y: " + targetPosY);
-    console.log("Target Width: " + targetSizeW);
-    console.log("Target height: " + targetSizeH);
+function create_visualEffect(targetPosX, targetPosY, targetSizeW, targetSizeH, type, framesPerImg, source) {
+    visualEffectsArray.push(new VisualEffect(targetPosX, targetPosY, targetSizeW, targetSizeH, type, framesPerImg, source));
 }
 
 function drawVisualEffect(visualEffect) {
-
     this.visualEffect = visualEffect;
-    //console.log("Effect Pos X: " + this.visualEffect.PosX);
-    //console.log("Effect Pos Y: " + this.visualEffect.PosY);
-    //console.log("Effect Width: " + this.visualEffect.SizeW);
-    //console.log("Effect height: " + this.visualEffect.SizeH);
-    this.visualEffect.draw(); 
+    this.visualEffect.frameCounter += 1;
+    console.log("FrameCounter: " + this.visualEffect.frameCounter);
+    this.visualEffect.draw(this.visualEffect); 
 }
 
 
