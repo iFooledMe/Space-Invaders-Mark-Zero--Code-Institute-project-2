@@ -48,12 +48,14 @@ var levelCountdownTime = 60;  //In seconds
 // **** PLAYER ****
 var playerSpeed = 5;
 var playerHitPoints = 10;
+var playerCannonSpeed = -10;
+var playerGannonDamage = 1;
 
 // **** SCORE ****
 var completeLevelScore = 50;
 
 // **** LEVEL MODIFIERS ****
-var enemyCount = 10;
+var enemyCount = 3;
 var enemyDamageModifier = 1;
 var enemyHitPointsModifier = 1;
 var enemySpeedModifier = 1;
@@ -130,7 +132,8 @@ function Weapon() {
     this.sizeH =  5; //Height at start
     this.posX = player.posX + player.sizeW; //Horizontal axis at start
     this.posY = player.posY + (player.sizeH / 2) - (this.sizeH / 2); //Vertical axis at start
-    this.speed = -10;
+    this.speed = playerCannonSpeed;
+    this.damage = playerGannonDamage;
     this.draw = function(newX, newY) {  
         this.posX -= newX;
         this.posY -= newY;
@@ -407,9 +410,20 @@ function testForHit (arrayObjectsToHit_, objectTryHit_, arrayObjectTryHit_) {
                 this.arrayObject.posY < this.objectTryHit.posY + this.objectTryHit.sizeH && 
                 this.arrayObject.posY + this.arrayObject.sizeH > this.objectTryHit.posY
             ) {
-                create_visualEffect(this.arrayObject.posX, this.arrayObject.posY, this.arrayObject.sizeW, this.arrayObject.sizeH, "static", 15, "static_explosion_1");
-                RemoveObjectFromArray(arrayObjectsToHit, this.arrayObject);
-                RemoveObjectFromArray(bullets_array, this.objectTryHit);
+                this.arrayObject.hitPoints -= this.objectTryHit.damage;
+                console.log("Damage: " + this.objectTryHit.damage);
+                console.log("Enemy HP: " + this.arrayObject.hitPoints);
+                if (this.arrayObject.hitPoints <= 0) {
+                    create_visualEffect(this.arrayObject.posX, this.arrayObject.posY, this.arrayObject.sizeW, this.arrayObject.sizeH, "static", 15, "static_explosion_1");
+                    RemoveObjectFromArray(arrayObjectsToHit, this.arrayObject);
+                    RemoveObjectFromArray(bullets_array, this.objectTryHit);
+                }
+                else {
+                    create_visualEffect(this.objectTryHit.posX, this.objectTryHit.posY, this.objectTryHit.sizeW * 2, this.objectTryHit.sizeH * 5, "static", 15, "static_explosion_1");
+                    RemoveObjectFromArray(bullets_array, this.objectTryHit);
+                }
+
+
                
             }
     });
@@ -445,7 +459,6 @@ function create_visualEffect(targetPosX, targetPosY, targetSizeW, targetSizeH, t
 function drawVisualEffect(visualEffect) {
     this.visualEffect = visualEffect;
     this.visualEffect.frameCounter += 1;
-    console.log("FrameCounter: " + this.visualEffect.frameCounter);
     this.visualEffect.draw(this.visualEffect); 
 }
 
@@ -509,8 +522,6 @@ function random_enemy() {
     newEnemy.setSizeProps();
     return newEnemy;
 }
-
-
 
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
