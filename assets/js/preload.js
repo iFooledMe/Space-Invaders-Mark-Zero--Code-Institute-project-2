@@ -32,15 +32,15 @@ var preLoadList = [
     
     // #region ==== PLAYER IMAGES ==============================================================
     {   name: "player_starship_100",
-        url: "assets/images/spaceship2_100x50.png"          },
+        url: "assets/images/spaceship_50.png"          },
     {   name: "player_starship_120",
-        url: "assets/images/spaceship2_120x60.png"          },
+        url: "assets/images/spaceship_60.png"          },
     {   name: "player_starship_250",
-        url: "assets/images/spaceship2_250x125.png"         },
+        url: "assets/images/spaceship_125.png"         },
     {   name: "player_starship_500",
-        url: "assets/images/spaceship2_500x250.png"         },
+        url: "assets/images/spaceship_250.png"         },
     {   name: "player_starship_1000",
-        url: "assets/images/spaceship2_1000x500.png"        },
+        url: "assets/images/spaceship_1000.png"        },
     // #endregion
 
     // #region ==== HOSTILE OBJECTS ============================================================
