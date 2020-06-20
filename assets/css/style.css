@@ -23,6 +23,7 @@ h1 {
     font-family: "Lexend Tera", sans-serif;
     color: #e78a21;
     letter-spacing: 5px;
+    text-transform: uppercase;
 }
 
 h1 span {
@@ -32,6 +33,13 @@ h1 span {
 h2 {
     color: #ff6e64;
     margin-top: 20px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+h2 span {
+    color: #db9f8f;
+    font-size: 1.2em;
 }
 
 h3 {
@@ -235,6 +243,19 @@ button:hover {
     margin: auto;
 }
 
+.info-bar-col-1 {
+    width: 90px;
+}
+
+.info-bar-col-2 {
+    width: 40px;
+}
+
+.info-bar-col-3 {
+    width: 100px;
+    padding-right: 10px;
+}
+
 .highlight {
     position: relative;
     color: #ff6e64;
@@ -243,8 +264,9 @@ button:hover {
     font-size: 1.4em;
 }
 
-.highlight-lg {
-    
+.energyTimer span {
+    color: #ff6e64;
+    font-size: 1.2em;
 }
 
 .higlight-sm {
@@ -257,11 +279,7 @@ button:hover {
     top: -6px;
 }
 
-
-
 /* **** USER NAME ************************ */
-
-
 .userName {
     text-align: center;
     font-size: 0.7em;
@@ -271,16 +289,20 @@ button:hover {
     text-transform: none;
 }
 
+/* ==== IN GAME MESSAGE ================================================================== */
+.in-game-message {
+    position: absolute;
+    display: none;
+    text-align: center;
+    padding: 0 30px;
+    background-color: rgba(0,0,0,.5);
+}
 
-
-
-
-
-
-
-
-
-
+.in-game-message h2 {
+    font-size: 1em;
+    letter-spacing: 10px;
+    color: #c39853;
+}
 
 /* #endregion /*
 

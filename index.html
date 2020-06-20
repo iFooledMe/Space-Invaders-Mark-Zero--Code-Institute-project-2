@@ -29,24 +29,22 @@
 
   <body class="bg-image-1 bg-image-full">
     <div class="container-fluid w-100 no-gutters p-0">  <!-- ::::::::::::::: Bootstrap Container START :::: -->
-		<!-- Github Pages did not update last commit so trying again -->
         <!-- ============================================================================================== -->
-		<!-- #region ==== I N  G A M E  I N F O  B A R ==================================================== -->
+		<!-- #region ==== I N  G A M E  I N F O  B A R ==================================================== --> 
 		
 		<div class="row no-gutters w-100 p-0 m-0 game-info-bar ">
-	
-
-			
 			<div class="d-flex flex-row w-100 normal-txt">
 				<div class="d-inline-flex w-100 mx-auto">
 					<table class="table-healthEnergy">
 						<tr>
-							<td>ENERGY</td>
-							<td class="highlight energypoints">10</td>
+							<td class="info-bar-col-1">ENERGY</td>
+							<td class="info-bar-col-2 highlight energypoints"></td>
+							<td class="txt-small energyTimer"></td>
 						</tr>
 						<tr>
 							<td>HEALTH</td>
-							<td class="highlight hitpoints">10</td>
+							<td class="highlight hitpoints"></td>
+							<td></td>
 						</tr>
 					</table>
 				</div>
@@ -60,17 +58,17 @@
 				<div class="d-inline-flex w-100">
 					<table class="table-healthEnergy">
 						<tr>
-							<td class="highlight highlight score">00000</td>
+							<td class="info-bar-col-3 align-right highlight score">00000</td>
 							<td>SCORE</td>
 						</tr>
 						<tr>
-							<td><div class="timer align-right"><span class="highlight minute"></span><span class="timer-colon">:</span><span class="highlight second"></span></div></td>
+							<td><div class="info-bar-col-3 align-right gameTimer "><span class="highlight minute"></span><span class="timer-colon">:</span><span class="highlight second"></span></div></td>
 							<td>NEXT LEVEL</td>
 						</tr>
 					</table>
 				</div>
 			</div>
-		
+			<div class="row no-gutters w-100 mx-auto in-game-message"><h2 class="in-game-message-display"></h2></div>
 		</div>
 	
 		<!-- #endregion -->
@@ -230,7 +228,7 @@
 		<!-- #region ==== G A M E  O V E R  S C R E E N =================================================== -->
       	<div class="game-over closeMe">
 			<h1>GAME OVER!</h1>
-			<h3><span class="score"></span></h3>
+			<h2>Your Score <span class="score"></span></h2>
 			<div><button class="reset-button">New Game</button></div>
 			<div><button class="quit-button">Quit to main menu</button></div>
 		  </div>
@@ -241,7 +239,7 @@
 		<!-- #region ==== F I N I S H E D  L E V E L  S C R E E N ========================================= -->
       	<div class="level-clear normal-txt closeMe">
 			<h1>Finished Level 1</h1>
-			<h3><span class="score"></span></h3>
+			<h2>Your Score <span class="score"></span></h2>
 			<p>As for now, this is the complete game. Sorry!</p>
 			<div><button class="reset-button">New Game</button></div>
 			<div><button class="quit-button">Quit to main menu</button></div>

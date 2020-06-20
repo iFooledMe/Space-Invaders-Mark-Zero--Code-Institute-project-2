@@ -40,16 +40,25 @@ var player;
 var bullets_array = [];
 var enemiesArray = [];
 var visualEffectsArray = [];
+var messages_array = [];
 
+// **** TIMERS ****************************************************************
+var timer;
+var messageTimer;
+var rechargeTimer;
 
 // ==== S E T T I N G S =========================================================================
-var levelCountdownTime = 60;  //In seconds
+var levelCountdownTime = 160;  //In seconds
+var inGameMessageTime = 1;
 
 // **** PLAYER ****
 var playerSpeed = 5;
 var playerHitPoints = 10;
+var playerMaxEnergyPoints = 10;
+var playerEnergyRechargeRate = 3; //seconds to recharge 1 energy point
 var playerCannonSpeed = -10;
-var playerGannonDamage = 1;
+var playerCannonDamage = 1;
+var playerCannonEnergyCost = 1;
 
 // **** SCORE ****
 var completeLevelScore = 50;
@@ -87,6 +96,7 @@ function Game () {
         this.isOver = false;
         this.levelClear = false;
         updateDisplayInfo();
+        rechargeCheck();
         timerStart();
         window.requestAnimationFrame(gameLoop);
     };
@@ -105,6 +115,7 @@ function Game () {
 function Player() {
     this.userName = "User Name not set";
     this.score = 0;
+    this.energy = playerMaxEnergyPoints;
     this.hitPoints = playerHitPoints;
     this.sizeW =  160; //Width at start
     this.sizeH =  80; //Height at start
@@ -123,6 +134,7 @@ function Player() {
     this.reset = function() {
         this.score = 0; 
         this.hitPoints = playerHitPoints;
+        this.energy = playerMaxEnergyPoints;
     };
 }
 
@@ -133,7 +145,8 @@ function Weapon() {
     this.posX = player.posX + player.sizeW; //Horizontal axis at start
     this.posY = player.posY + (player.sizeH / 2) - (this.sizeH / 2); //Vertical axis at start
     this.speed = playerCannonSpeed;
-    this.damage = playerGannonDamage;
+    this.damage = playerCannonDamage;
+    this.energyCost = playerCannonEnergyCost;
     this.draw = function(newX, newY) {  
         this.posX -= newX;
         this.posY -= newY;
@@ -308,6 +321,9 @@ gameLoop = function() {
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
 
+    //In game timer updates
+    showTimers();
+
     // ==== UPDATE OBJECTS IN THE FRAME ==========================================================
     //Draw enemies..........................................................
     create_enemies(enemyCount);
@@ -398,7 +414,7 @@ function  RemoveObjectFromArray(array, object) {
     array.splice(array.indexOf(object),1);
 }
 
-// **** TEST IF AN OBJECT IS COLLIDING/HITTING ANY OBJECTS IN AN ARRAY OF OBJECTS ****
+// **** TEST IF AN OBJECT IS HITTING ANY OBJECTS IN AN ARRAY OF OBJECTS ****
 function testForHit (arrayObjectsToHit_, objectTryHit_, arrayObjectTryHit_) {
     arrayObjectsToHit = arrayObjectsToHit_;
     arrayObjectTryHit = arrayObjectTryHit_;
@@ -411,10 +427,8 @@ function testForHit (arrayObjectsToHit_, objectTryHit_, arrayObjectTryHit_) {
                 this.arrayObject.posY + this.arrayObject.sizeH > this.objectTryHit.posY
             ) {
                 this.arrayObject.hitPoints -= this.objectTryHit.damage;
-                console.log("Damage: " + this.objectTryHit.damage);
-                console.log("Enemy HP: " + this.arrayObject.hitPoints);
                 if (this.arrayObject.hitPoints <= 0) {
-                    create_visualEffect(this.arrayObject.posX, this.arrayObject.posY, this.arrayObject.sizeW, this.arrayObject.sizeH, "static", 15, "static_explosion_1");
+                    create_visualEffect(this.arrayObject.posX, this.arrayObject.posY, this.arrayObject.sizeW * 2, this.arrayObject.sizeH * 2, "static", 15, "static_explosion_1");
                     RemoveObjectFromArray(arrayObjectsToHit, this.arrayObject);
                     RemoveObjectFromArray(bullets_array, this.objectTryHit);
                 }
@@ -426,10 +440,30 @@ function testForHit (arrayObjectsToHit_, objectTryHit_, arrayObjectTryHit_) {
     });
 }
 
+// ==== CREATE VISUAL EFFECT ===========================================================================
+// Create an array of bullets
+function create_visualEffect(targetPosX, targetPosY, targetSizeW, targetSizeH, type, framesPerImg, source) {
+    visualEffectsArray.push(new VisualEffect(targetPosX, targetPosY, targetSizeW, targetSizeH, type, framesPerImg, source));
+}
+
+function drawVisualEffect(visualEffect) {
+    this.visualEffect = visualEffect;
+    this.visualEffect.frameCounter += 1;
+    this.visualEffect.draw(this.visualEffect); 
+}
+
 // ==== CREATE BULLET ===========================================================================
 // Create an array of bullets
 function create_bullet() {
-    bullets_array.push(new Weapon());                   
+    if (player.energy >= playerCannonEnergyCost) {
+        bullets_array.push(new Weapon()); 
+        player.energy -= playerCannonEnergyCost;
+        displayEnergyPoints();
+        rechargeCheck();
+    }
+    else {
+        showMessage("Out of energy!")
+    }                  
 }
 
 function drawBullet(bullet) {
@@ -446,20 +480,7 @@ function drawBullet(bullet) {
         this.bullet.draw(this.bullet.speed,0);
     }
 }
-
-// ==== CREATE VISUAL EFFECT ===========================================================================
-// Create an array of bullets
-function create_visualEffect(targetPosX, targetPosY, targetSizeW, targetSizeH, type, framesPerImg, source) {
-    visualEffectsArray.push(new VisualEffect(targetPosX, targetPosY, targetSizeW, targetSizeH, type, framesPerImg, source));
-}
-
-function drawVisualEffect(visualEffect) {
-    this.visualEffect = visualEffect;
-    this.visualEffect.frameCounter += 1;
-    this.visualEffect.draw(this.visualEffect); 
-}
-
-
+   
 // ==== CREATE ENEMY =============================================================================
 // Create an array of random enemies
 function create_enemies(max) {
@@ -481,10 +502,9 @@ function drawEnemy(enemy) {
     else if (player.posX < this.enemy.posX + this.enemy.sizeW && player.posX + player.sizeW > this.enemy.posX && player.posY < this.enemy.posY + this.enemy.sizeH && player.posY + player.sizeH > this.enemy.posY) {
         player.hitPoints -= this.enemy.damage;
         displayHitPoints();
-        console.log(player.hitPoints);
         if (player.hitPoints <= 0) {
             timerStop();
-            create_visualEffect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH, "static", 15, "static_explosion_1");
+            create_visualEffect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH, "animation", 6, explosion1_animation_array);
             create_visualEffect(player.posX - player.sizeW, player.posY - player.sizeH, player.sizeW*3, player.sizeH*3, "static", 15, "static_explosion_1");
             game.isOver = true;
        }
@@ -626,6 +646,7 @@ function updateDisplayInfo () {
     displayUserName();
     displayScore();
     displayHitPoints();
+    displayEnergyPoints();
     $(".game-info-bar").css("display", "block");
 }
 
@@ -650,24 +671,137 @@ function displayHitPoints() {
     $(".hitpoints").html(`${player.hitPoints}`);
 }
 
+function displayEnergyPoints() {
+    $(".energypoints").html(`${player.energy}`);
+}
+
 // #endregion
 
 // ==============================================================================================
 // #region ==== G A M E  T I M E R ==============================================================
+
+
+// **** DISPLAY TIMERS (updates every frame in gameLoop) ****************************************
+function showTimers() {
+    var gameTime = timer.getTime();
+    var rechargeTime = rechargeTimer.getTime();
+    
+    showTime(gameTime, ".gameTimer");
+    showRechargeTime(rechargeTime);
+
+    function showTime(time, targetClass)
+    {
+        var second = time % 60;
+        var minute = Math.floor(time / 60) % 60;
+        var hour = Math.floor(time / 3600) % 60;
+        
+        second = (second < 10) ? '0'+second : second;
+        minute = (minute < 10) ? '0'+minute : minute;
+        hour = (hour < 10) ? '0'+hour : hour;
+        
+        targetSec = targetClass + " span.second";
+        targetMin = targetClass + " span.minute";
+        targetHour = targetClass + " span.hour";
+
+        $(targetSec).html(second);
+        $(targetMin).html(minute);
+        $(targetHour).html(hour);
+    };
+
+    function showRechargeTime(rechargeTime) {
+        if (player.energy < playerMaxEnergyPoints) {
+            $(".energyTimer").html(`Recharging... <span>${rechargeTime}</span> sec`);
+        }
+        else {
+            $(".energyTimer").html(`Fully recharged`);
+        }
+    };
+}
+
+// **** GAME LEVEL TIMER ****************************************************************
 function timerStart() {
     timer.start(1000);
 }
 
 function timerStop() {
     timer.stop();
+    rechargeTimer.stop();
 }
 
 function timerReset(levelTimeOut) {
     timer.reset(levelTimeOut);
 }
 
+timer = new _timer
+(
+    function(time)
+    {
+        if(time == 0)
+        {
+            timer.stop();
+            game.levelClear = true;
+        }
+    }
+);
+timer.reset(0);
+timer.mode(0);
 
-// ==== Source: da vinci harsha - https://codepen.io/davinciharsha/pen/vGBXzR
+// **** IN GAME INFO MESSAGE TIMER ****************************************************
+function showMessage(message) {
+    $(".in-game-message").css("display", "block");
+    $(".in-game-message-display").html(`${message}`);
+    messageTimer.reset(inGameMessageTime);
+    messageTimer.start(1000);
+}
+
+messageTimer = new _timer
+(
+    function(time)
+    {
+        if(time == 0)
+        {
+            messageTimer.stop();
+            $(".in-game-message").css("display", "none");
+        }
+    }
+);
+messageTimer.mode(0);
+
+// **** RECHARGE ENERGY POINTS TIMER ****************************************************
+var rechargeIsRunning = false;
+function rechargeCheck() {
+    if (player.energy < playerMaxEnergyPoints && !rechargeIsRunning) {
+        rechargeTimer.reset(playerEnergyRechargeRate);  
+        rechargeIsRunning = true;
+        rechargeTimer.start(1000);
+    }
+}
+
+rechargeTimer = new _timer
+(
+    function(time)
+    {
+        if(time == 0)
+        {
+            if (player.energy < playerMaxEnergyPoints) {
+                player.energy += 1;
+                displayEnergyPoints();
+                rechargeTimer.stop();
+                rechargeTimer.reset(playerEnergyRechargeRate);
+                rechargeIsRunning = false;
+                rechargeCheck();
+            }
+        }
+    }
+);
+rechargeTimer.reset(0);
+rechargeTimer.mode(0);
+
+// #endregion
+
+// ==============================================================================================
+// #region ==== G A M E  T I M E R - S O U R C E  C O D E =======================================
+// ==== Source: da vinci harsha - https://codepen.io/davinciharsha/pen/vGBXzR ===================
 function _timer(callback)
 {
     var time = 0;     //  The default time of the timer
@@ -767,27 +901,6 @@ function _timer(callback)
         $('div.timer span.hour').html(hour);
     };
 }
- 
-// example use
-var timer;
- 
-$(document).ready(function(e) 
-{
-    timer = new _timer
-    (
-        function(time)
-        {
-            if(time == 0)
-            {
-                timer.stop();
-                game.levelClear = true;
-                
-            }
-        }
-    );
-    timer.reset(0);
-    timer.mode(0);
-});
 
 // #endregion
 
