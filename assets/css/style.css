@@ -110,6 +110,10 @@ h3 {
     text-align: center;
 }
 
+.align-right {
+    text-align: right;
+}
+
 .text-info-page p span {
     color: #e78a21;
 }
@@ -146,6 +150,9 @@ button:hover {
     background-color: #c39853;
     color: #434343;
 }
+
+/* **** TEXT ALIGN  **** */
+
 
 /* #endregion /*
 
@@ -221,51 +228,59 @@ button:hover {
     display: none;
     position: absolute;
     z-index: 5;
-    text-align: center;
-    height: 50px;
-    padding: 10px 0px;
-    color: #ffffff;
     background-color: rgba(0,0,0,.5);
 }
 
-.game-info-row-one {
-    height: 20px;
-    padding-bottom: 5px;
+.game-info-bar table {
+    margin: auto;
 }
 
-.game-info-row-two {
-    height: 30px;
-    padding-bottom: 5px;
+.highlight {
+    position: relative;
+    color: #ff6e64;
+    top: 0px;
+    vertical-align: bottom;
+    font-size: 1.4em;
 }
+
+.highlight-lg {
+    
+}
+
+.higlight-sm {
+    font-size: 0.7em;
+    text-transform: none;
+}
+
+.timer-colon {
+    position: relative;
+    top: -6px;
+}
+
+
 
 /* **** USER NAME ************************ */
-.user-name {
-    text-transform: uppercase;
+
+
+.userName {
+    text-align: center;
     font-size: 0.7em;
 }
 
-.user-name span {
-    position: relative;
-    top: 1px;
-    color: #ff6e64;
-    font-size: 1.3em;
-    font-weight: 600;
+.userName span {
     text-transform: none;
-    padding: 0 5px;
 }
 
-/* **** HP, SCORE, TIMER **************** */
-.score, .timer, .hitpoints {
-    text-align: center;
-}
 
-.game-info-row-two span {
-    position: relative;
-    top: 2px;
-    padding-left: 5px;
-    font-size: 1.4em;
-    color: #ff6e64;
-}
+
+
+
+
+
+
+
+
+
 
 /* #endregion /*
 

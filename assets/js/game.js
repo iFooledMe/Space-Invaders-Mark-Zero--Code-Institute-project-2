@@ -55,7 +55,7 @@ var playerGannonDamage = 1;
 var completeLevelScore = 50;
 
 // **** LEVEL MODIFIERS ****
-var enemyCount = 3;
+var enemyCount = 10;
 var enemyDamageModifier = 1;
 var enemyHitPointsModifier = 1;
 var enemySpeedModifier = 1;
@@ -422,9 +422,6 @@ function testForHit (arrayObjectsToHit_, objectTryHit_, arrayObjectTryHit_) {
                     create_visualEffect(this.objectTryHit.posX, this.objectTryHit.posY, this.objectTryHit.sizeW * 2, this.objectTryHit.sizeH * 5, "static", 15, "static_explosion_1");
                     RemoveObjectFromArray(bullets_array, this.objectTryHit);
                 }
-
-
-               
             }
     });
 }
@@ -633,18 +630,24 @@ function updateDisplayInfo () {
 }
 
 function displayScore() {
-    $(".score").html(`SCORE <span>${player.score}</span>`);
+    var scoreStr = '' + player.score;
+    var length = 5;
+    while (scoreStr.length < length) {
+        scoreStr = '0' + scoreStr;
+    }
+
+    $(".score").html(`${scoreStr}`);
 }
 
 function displayUserName() {
-    $(".user-name").html(`Welcome Captain <span>${player.userName}</span> Enjoy your Game!`);
+    $(".userName").html(`Welcome Captain<br><span class="highlight">${player.userName}</span><br> Enjoy your Game!`);
 }
 
 function displayHitPoints() {
     if (player.hitPoints < 0) {
         player.hitPoints = 0;
     }
-    $(".hitpoints").html(`HP <span>${player.hitPoints}</span>`);
+    $(".hitpoints").html(`${player.hitPoints}`);
 }
 
 // #endregion

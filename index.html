@@ -32,22 +32,47 @@
 		<!-- Github Pages did not update last commit so trying again -->
         <!-- ============================================================================================== -->
 		<!-- #region ==== I N  G A M E  I N F O  B A R ==================================================== -->
-		<div class="row no-gutters w-100 p-0 mx-auto game-info-bar">
-			<div class="row no-gutters w-100 game-info-row-one">
-			<div class="col-1"></div>
-			<div class="col-10 mx-auto user-name"></div>
-			<div class="col-1"></div>
-			</div>
-			<div class="row no-gutters w-100 txt-normal game-info-row-two">
-			<div class="col-3 hitpoints"></div>
-			<div class="col-3 score">SCORE <span>0</span></div>
-			<div class="col-3 timer">
-				NEXT LEVEL <span class="minute">00</span> :<span class="second">10</span>
-			</div>
-			<div class="col-3"></div>
-			</div>
-		</div>
+		
+		<div class="row no-gutters w-100 p-0 m-0 game-info-bar ">
+	
 
+			
+			<div class="d-flex flex-row w-100 normal-txt">
+				<div class="d-inline-flex w-100 mx-auto">
+					<table class="table-healthEnergy">
+						<tr>
+							<td>ENERGY</td>
+							<td class="highlight energypoints">10</td>
+						</tr>
+						<tr>
+							<td>HEALTH</td>
+							<td class="highlight hitpoints">10</td>
+						</tr>
+					</table>
+				</div>
+				<div class="d-inline-flex w-100">
+					<table class="table-healthEnergy">
+						<tr>
+							<td class="userName"></td>
+						</tr>
+					</table>
+				</div>
+				<div class="d-inline-flex w-100">
+					<table class="table-healthEnergy">
+						<tr>
+							<td class="highlight highlight score">00000</td>
+							<td>SCORE</td>
+						</tr>
+						<tr>
+							<td><div class="timer align-right"><span class="highlight minute"></span><span class="timer-colon">:</span><span class="highlight second"></span></div></td>
+							<td>NEXT LEVEL</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		
+		</div>
+	
 		<!-- #endregion -->
 
         <!-- ============================================================================================== -->
