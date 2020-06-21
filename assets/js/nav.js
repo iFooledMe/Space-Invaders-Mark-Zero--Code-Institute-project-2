@@ -56,6 +56,13 @@ $(".reset-button").click(function(){
     runGame();  
 });
 
+// **** New Level button **** 
+$(".next-level-button").click(function(){
+    nextLevel(player.name);
+    $(".closeMe").css("display", "none");
+    runGame();  
+});
+
 // **** Quit to Menu button **** 
 $(".quit-button").click(function(){
     quitToMenu();

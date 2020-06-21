@@ -32,38 +32,40 @@
         <!-- ============================================================================================== -->
 		<!-- #region ==== I N  G A M E  I N F O  B A R ==================================================== --> 
 		
-		<div class="row no-gutters w-100 p-0 m-0 game-info-bar ">
-			<div class="d-flex flex-row w-100 normal-txt">
-				<div class="d-inline-flex w-100 mx-auto">
-					<table class="table-healthEnergy">
+		<div class="row no-gutters w-100 p-0 m-0 game-info-bar temp">
+			<div class="d-flex flex-row w-100 normal-txt temp2">
+				<div class="d-inline-flex w-100 game-info-bar-left">
+					<table>
 						<tr>
-							<td class="info-bar-col-1">ENERGY</td>
-							<td class="info-bar-col-2 highlight energypoints"></td>
-							<td class="txt-small energyTimer"></td>
+							<td class="extra-column-left txt-small energyTimer"></td>
+							<td class="text-column-left">ENERGY</td>
+							<td class="highlight higlight-column-left energypoints"></td>
+							
 						</tr>
 						<tr>
-							<td>HEALTH</td>
-							<td class="highlight hitpoints"></td>
 							<td></td>
+							<td class="text-column-left">HEALTH</td>
+							<td class="highlight higlight-column-left hitpoints"></td>
 						</tr>
 					</table>
 				</div>
-				<div class="d-inline-flex w-100">
-					<table class="table-healthEnergy">
+				<div class="d-inline-flex w-100 game-info-bar-center">
+					<table>
 						<tr>
 							<td class="userName"></td>
+							<td class="level-info"><div class="txt-small">CURRENT LEVEL</div><div class="highlight level"></div></td>
 						</tr>
 					</table>
 				</div>
-				<div class="d-inline-flex w-100">
-					<table class="table-healthEnergy">
+				<div class="d-inline-flex w-100 game-info-bar-right">
+					<table>
 						<tr>
-							<td class="info-bar-col-3 align-right highlight score">00000</td>
-							<td>SCORE</td>
+							<td class="highlight score">00000</td>
+							<td class="absorbing-column">SCORE</td>
 						</tr>
 						<tr>
-							<td><div class="info-bar-col-3 align-right gameTimer "><span class="highlight minute"></span><span class="timer-colon">:</span><span class="highlight second"></span></div></td>
-							<td>NEXT LEVEL</td>
+							<td><div class="gameTimer"><span class="highlight minute"></span><span class="timer-colon">:</span><span class="highlight second"></span></div></td>
+							<td class="absorbing-column">NEXT LEVEL</td>
 						</tr>
 					</table>
 				</div>
@@ -111,31 +113,17 @@
         <!-- ============================================================================================== -->
 		<!-- #region ==== U S E R  N A M E  F O R M  ====================================================== -->
 		<div class="closeMe normal-txt user-name-form">
+			<h2>Choose your username</h2>
 			<form id="userNameForm">
-			<label for="userName"
-				><h2>Add a prefered User Name</h2>
-				in the text field below and click the "Start!" button.</label
-			><br />
-			<input
-				class="form-text-input"
-				type="text"
-				id="userName"
-				name="userName"
-				placeholder="User Name..."
-				onchange="getUserNameAndStart()"
-				required
-			/>
-			<br />
-			<input
-				class="button form-buttons start-game-button"
-				type="submit"
-				value="START!"
-			/>
+				<label for="userName">Add a username in the text field below and click "Start!" to run the game.</label>
+				<input class="form-text-input" type="text" id="userName" name="userName" placeholder="User Name..." onchange="getUserNameAndStart()" required/>
+				<input class="button form-buttons start-game-button" type="submit" value="START!"/>
 			</form>
-			<button class="back-button form-buttons txt-small">
-			Back to main menu
+			<button class="back-button form-buttons txt-small">Back to main menu
 			</button>
 		</div>
+
+
 
 		<!-- #endregion -->
 

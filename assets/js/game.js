@@ -100,13 +100,24 @@ function Game () {
         timerStart();
         window.requestAnimationFrame(gameLoop);
     };
-    this.reset = function(userName) {
+    this.reset = function() {
         ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
         visualEffectsArray.length = 0;
         bullets_array.length = 0;
         enemiesArray.length = 0;
         player.setStartPos();
         player.reset();
+        timerReset(levelCountdownTime);
+    };
+    this.nextLevel = function() {
+        ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
+        visualEffectsArray.length = 0;
+        bullets_array.length = 0;
+        enemiesArray.length = 0;
+        messages_array.length = 0;
+        player.setStartPos();
+        player.nextLevelSet();
+        this.level += 1;
         timerReset(levelCountdownTime);
     };
 }
@@ -134,6 +145,10 @@ function Player() {
     this.reset = function() {
         this.score = 0; 
         this.hitPoints = playerHitPoints;
+        this.energy = playerMaxEnergyPoints;
+    };
+    this.nextLevelSet = function() {
+        this.hitPoints = playerHitPoints; 
         this.energy = playerMaxEnergyPoints;
     };
 }
@@ -166,7 +181,9 @@ function Enemy(posY, size, speed) {
     this.damage;
     this.hitPoints;
     this.image;
-    
+    this.destroyScore = this.size * this.speed;
+    this.crashScorePenalty = -((this.size * this.speed)/2)
+    this.hitScore = (this.size * this.speed)/5  
     this.draw = function(newX, newY) {  
         this.posX -= newX;
         this.posY -= newY;
@@ -301,6 +318,11 @@ function resetGame() {
     game.reset();
 }
 
+// ==== Reset Game ====
+function resetGame() {
+    game.reset();
+}
+
 // #endregion
 
 // ==============================================================================================
@@ -428,6 +450,8 @@ function testForHit (arrayObjectsToHit_, objectTryHit_, arrayObjectTryHit_) {
             ) {
                 this.arrayObject.hitPoints -= this.objectTryHit.damage;
                 if (this.arrayObject.hitPoints <= 0) {
+                    player.score += this.arrayObject.destroyScore;
+                    displayScore();
                     create_visualEffect(this.arrayObject.posX, this.arrayObject.posY, this.arrayObject.sizeW * 2, this.arrayObject.sizeH * 2, "static", 15, "static_explosion_1");
                     RemoveObjectFromArray(arrayObjectsToHit, this.arrayObject);
                     RemoveObjectFromArray(bullets_array, this.objectTryHit);
@@ -435,6 +459,8 @@ function testForHit (arrayObjectsToHit_, objectTryHit_, arrayObjectTryHit_) {
                 else {
                     create_visualEffect(this.objectTryHit.posX, this.objectTryHit.posY, this.objectTryHit.sizeW * 2, this.objectTryHit.sizeH * 5, "static", 15, "static_explosion_1");
                     RemoveObjectFromArray(bullets_array, this.objectTryHit);
+                    player.score += this.arrayObject.hitScore;
+                    displayScore();
                 }
             }
     });
@@ -511,6 +537,8 @@ function drawEnemy(enemy) {
        else {
             create_visualEffect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH, "static", 15, "static_explosion_1");
             RemoveObjectFromArray(enemiesArray, this.enemy);
+            player.score += this.enemy.crashScorePenalty;
+            displayScore();
        }
     }
     else {
@@ -647,6 +675,7 @@ function updateDisplayInfo () {
     displayScore();
     displayHitPoints();
     displayEnergyPoints();
+    displayLevel();
     $(".game-info-bar").css("display", "block");
 }
 
@@ -673,6 +702,10 @@ function displayHitPoints() {
 
 function displayEnergyPoints() {
     $(".energypoints").html(`${player.energy}`);
+}
+
+function displayLevel() {
+    $(".level").html(`${game.level}`);
 }
 
 // #endregion
