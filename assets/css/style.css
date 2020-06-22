@@ -317,13 +317,18 @@ button:hover {
 
 .level-info {
     text-align: center; 
-    padding-left: 10px; {
-        
-    }
+    padding-left: 10px; 
 }
 
 .level {
     text-align: center;
+}
+
+.negSign {
+    position: absolute;
+    left: -5px;
+    top: -2px;
+    display: none;
 }
 
 /* ==== IN GAME MESSAGE ================================================================== */

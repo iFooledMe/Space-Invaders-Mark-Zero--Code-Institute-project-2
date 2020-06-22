@@ -181,9 +181,9 @@ function Enemy(posY, size, speed) {
     this.damage;
     this.hitPoints;
     this.image;
-    this.destroyScore = this.size * this.speed;
-    this.crashScorePenalty = -((this.size * this.speed)/2)
-    this.hitScore = (this.size * this.speed)/5  
+    this.destroyScore = Math.round(this.size * this.speed);
+    this.crashScorePenalty = -Math.round((this.size * this.speed)/2);
+    this.hitScore = Math.round((this.size * this.speed)/5);  
     this.draw = function(newX, newY) {  
         this.posX -= newX;
         this.posY -= newY;
@@ -345,6 +345,9 @@ gameLoop = function() {
 
     //In game timer updates
     showTimers();
+
+    //Updates Display values
+    updateDisplayInfo();
 
     // ==== UPDATE OBJECTS IN THE FRAME ==========================================================
     //Draw enemies..........................................................
@@ -680,12 +683,22 @@ function updateDisplayInfo () {
 }
 
 function displayScore() {
-    var scoreStr = '' + player.score;
+    var scoreStr = "" + Math.abs(player.score);
     var length = 5;
+
     while (scoreStr.length < length) {
         scoreStr = '0' + scoreStr;
     }
-
+    
+    function checkNeg() {
+        if (player.score < 0) { 
+            $(".negSign").css("display", "block");
+        }
+        else { 
+            $(".negSign").css("display", "none");
+        };
+    }
+    checkNeg();
     $(".score").html(`${scoreStr}`);
 }
 
