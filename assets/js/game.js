@@ -95,8 +95,6 @@ function Game () {
         this.isPaused = false; 
         this.isOver = false;
         this.levelClear = false;
-        updateDisplayInfo();
-        rechargeCheck();
         timerStart();
         window.requestAnimationFrame(gameLoop);
     };
@@ -105,9 +103,9 @@ function Game () {
         visualEffectsArray.length = 0;
         bullets_array.length = 0;
         enemiesArray.length = 0;
+        resetAllTimers();
         player.setStartPos();
         player.reset();
-        timerReset(levelCountdownTime);
     };
     this.nextLevel = function() {
         ctx.clearRect(0, 0, game.canvas.width, game.canvas.height);
@@ -115,10 +113,10 @@ function Game () {
         bullets_array.length = 0;
         enemiesArray.length = 0;
         messages_array.length = 0;
+        resetAllTimers();2
         player.setStartPos();
         player.nextLevelSet();
         this.level += 1;
-        timerReset(levelCountdownTime);
     };
 }
 
@@ -343,6 +341,10 @@ gameLoop = function() {
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
 
+    // ==== UPDATE TIMERS =================================================2========================
+    //Check for need to recharge energy
+    rechargeCheck();
+
     //In game timer updates
     showTimers();
 
@@ -454,7 +456,6 @@ function testForHit (arrayObjectsToHit_, objectTryHit_, arrayObjectTryHit_) {
                 this.arrayObject.hitPoints -= this.objectTryHit.damage;
                 if (this.arrayObject.hitPoints <= 0) {
                     player.score += this.arrayObject.destroyScore;
-                    displayScore();
                     create_visualEffect(this.arrayObject.posX, this.arrayObject.posY, this.arrayObject.sizeW * 2, this.arrayObject.sizeH * 2, "static", 15, "static_explosion_1");
                     RemoveObjectFromArray(arrayObjectsToHit, this.arrayObject);
                     RemoveObjectFromArray(bullets_array, this.objectTryHit);
@@ -463,7 +464,6 @@ function testForHit (arrayObjectsToHit_, objectTryHit_, arrayObjectTryHit_) {
                     create_visualEffect(this.objectTryHit.posX, this.objectTryHit.posY, this.objectTryHit.sizeW * 2, this.objectTryHit.sizeH * 5, "static", 15, "static_explosion_1");
                     RemoveObjectFromArray(bullets_array, this.objectTryHit);
                     player.score += this.arrayObject.hitScore;
-                    displayScore();
                 }
             }
     });
@@ -487,8 +487,6 @@ function create_bullet() {
     if (player.energy >= playerCannonEnergyCost) {
         bullets_array.push(new Weapon()); 
         player.energy -= playerCannonEnergyCost;
-        displayEnergyPoints();
-        rechargeCheck();
     }
     else {
         showMessage("Out of energy!")
@@ -525,7 +523,6 @@ function drawEnemy(enemy) {
       
     if (this.enemy.posX <= -this.enemy.sizeW) {
         player.score += 1;
-        displayScore();
         RemoveObjectFromArray(enemiesArray, this.enemy);
     }
     else if (player.posX < this.enemy.posX + this.enemy.sizeW && player.posX + player.sizeW > this.enemy.posX && player.posY < this.enemy.posY + this.enemy.sizeH && player.posY + player.sizeH > this.enemy.posY) {
@@ -541,7 +538,6 @@ function drawEnemy(enemy) {
             create_visualEffect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH, "static", 15, "static_explosion_1");
             RemoveObjectFromArray(enemiesArray, this.enemy);
             player.score += this.enemy.crashScorePenalty;
-            displayScore();
        }
     }
     else {
@@ -726,7 +722,6 @@ function displayLevel() {
 // ==============================================================================================
 // #region ==== G A M E  T I M E R ==============================================================
 
-
 // **** DISPLAY TIMERS (updates every frame in gameLoop) ****************************************
 function showTimers() {
     var gameTime = timer.getTime();
@@ -764,6 +759,14 @@ function showTimers() {
     };
 }
 
+//Timers reset
+function resetAllTimers() {
+    timer.reset(levelCountdownTime);
+    rechargeTimer.reset(playerEnergyRechargeRate);
+    rechargeIsRunning = false;
+    messages_array.length = 0;
+}
+
 // **** GAME LEVEL TIMER ****************************************************************
 function timerStart() {
     timer.start(1000);
@@ -774,8 +777,8 @@ function timerStop() {
     rechargeTimer.stop();
 }
 
-function timerReset(levelTimeOut) {
-    timer.reset(levelTimeOut);
+function timerReset() {
+    timer.reset(levelCountdownTime);
 }
 
 timer = new _timer
@@ -831,11 +834,9 @@ rechargeTimer = new _timer
         {
             if (player.energy < playerMaxEnergyPoints) {
                 player.energy += 1;
-                displayEnergyPoints();
                 rechargeTimer.stop();
                 rechargeTimer.reset(playerEnergyRechargeRate);
                 rechargeIsRunning = false;
-                rechargeCheck();
             }
         }
     }
