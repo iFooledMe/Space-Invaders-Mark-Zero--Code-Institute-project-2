@@ -398,6 +398,10 @@ Sound = (function() {
     
     self.playBulletHit_SFX = function() {
         sfx_bulletHit1.play();
+    }
+    
+    self.playNoEnergy_SFX = function() {
+        sfx_no_energy.play();
 	}
 
 	self.init = function() {
@@ -406,6 +410,7 @@ Sound = (function() {
         sfx_explosion2 = new Switcher('assets/sound/explosion2.mp3', 10);
         sfx_explosion3 = new Switcher('assets/sound/explosion3.mp3', 10);
         sfx_bulletHit1 = new Switcher('assets/sound/bulletHit1.mp3', 10);
+        sfx_no_energy = new Switcher('assets/sound/no_energy.wav', 10);
 	}
 
 	return self;
@@ -625,6 +630,7 @@ function create_bullet() {
         Sound.playLaser_SFX();
     }
     else {
+        Sound.playNoEnergy_SFX();
         showMessage("Out of energy!")
     }                  
 }
