@@ -64,7 +64,7 @@ var playerCannonEnergyCost = 1;
 var completeLevelScore = 50;
 
 // **** LEVEL MODIFIERS ****
-var enemyCount = 10;
+var enemyCount = 20;
 var enemyDamageModifier = 1;
 var enemyHitPointsModifier = 1;
 var enemySpeedModifier = 1;
