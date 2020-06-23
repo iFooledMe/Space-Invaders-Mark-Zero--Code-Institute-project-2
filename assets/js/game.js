@@ -64,7 +64,7 @@ var playerCannonEnergyCost = 1;
 var completeLevelScore = 50;
 
 // **** LEVEL MODIFIERS ****
-var enemyCount = 20;
+var enemyCount = 15;
 var enemyDamageModifier = 1;
 var enemyHitPointsModifier = 1;
 var enemySpeedModifier = 1;
@@ -179,6 +179,7 @@ function Enemy(posY, size, speed) {
     this.damage;
     this.hitPoints;
     this.image;
+    this.passScore = Math.round(this.size * this.speed);
     this.destroyScore = Math.round(this.size * this.speed);
     this.crashScorePenalty = -Math.round((this.size * this.speed)/2);
     this.hitScore;  
@@ -534,7 +535,7 @@ function drawEnemy(enemy) {
     this.enemy = enemy;
       
     if (this.enemy.posX <= -this.enemy.sizeW) {
-        player.score += 1;
+        player.score += this.enemy.passScore;
         RemoveObjectFromArray(enemiesArray, this.enemy);
     }
     else if (player.posX < this.enemy.posX + this.enemy.sizeW && player.posX + player.sizeW > this.enemy.posX && player.posY < this.enemy.posY + this.enemy.sizeH && player.posY + player.sizeH > this.enemy.posY) {
