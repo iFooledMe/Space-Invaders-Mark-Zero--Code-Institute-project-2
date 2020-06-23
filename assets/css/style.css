@@ -357,6 +357,28 @@ button:hover {
 /* #endregion */
 
 /* ======================================================================================= */
+/* #region ==== GAME & RULES ======================================================= */
+
+.game-info {
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+}
+
+.game-info button {
+    width: 80%;
+    margin-top: 0;
+}
+
+.game-info iframe {
+    width: 80%;
+    height: 100%;
+    margin-top: 30px;
+}
+
+/* #endregion */
+
+/* ======================================================================================= */
 /* #region ==== ABOUT THIS PROJECT ======================================================= */
 
 .credits-info {
