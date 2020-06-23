@@ -180,8 +180,8 @@ function Enemy(posY, size, speed) {
     this.hitPoints;
     this.image;
     this.passScore = Math.round(this.size * this.speed);
-    this.destroyScore = Math.round(this.size * this.speed);
-    this.crashScorePenalty = -Math.round((this.size * this.speed)/2);
+    this.destroyScore;
+    this.crashScorePenalty;
     this.hitScore;  
     this.draw = function(newX, newY) {  
         this.posX -= newX;
@@ -194,31 +194,31 @@ function Enemy(posY, size, speed) {
             this.sizeW = 20, this.sizeH = 20;
             this.image = "enemy_astroid_20";
             this.setDmgHP(this.size);
-            this.getHitScore(this.size, this.speed);
+            this.getHitDestroyScore(this.size, this.speed);
         }
         else if (this.size == 2) {
             this.sizeW = 50, this.sizeH = 50;
             this.image = "enemy_astroid_50";
             this.setDmgHP(this.size);
-            this.getHitScore(this.size, this.speed);
+            this.getHitDestroyScore(this.size, this.speed);
         }
         else if (this.size == 3) {
             this.sizeW = 100, this.sizeH = 100;
             this.image = "enemy_astroid_100";
             this.setDmgHP(this.size);
-            this.getHitScore(this.size, this.speed);
+            this.getHitDestroyScore(this.size, this.speed);
         }
         else if (this.size == 4) {
             this.sizeW = 200, this.sizeH = 200;
             this.image = "enemy_astroid_200";
             this.setDmgHP(this.size);
-            this.getHitScore(this.size, this.speed);
+            this.getHitDestroyScore(this.size, this.speed);
         }
         else if (this.size == 5) {
             this.sizeW = 300, this.sizeH = 300;
             this.image = "enemy_astroid_300";
             this.setDmgHP(this.size);
-            this.getHitScore(this.size, this.speed);
+            this.getHitDestroyScore(this.size, this.speed);
         }
         else {
             console.log("No enemy size (1-5) is set!");
@@ -228,13 +228,60 @@ function Enemy(posY, size, speed) {
         this.damage = size * enemyDamageModifier;
         this.hitPoints = size * enemyHitPointsModifier;
     };
-    this.getHitScore = function(size, speed) {
-        if (this.size == 5) { this.hitScore = Math.round(1 * this.speed)}
-        else if (this.size == 4) { this.hitScore = Math.round(2 * this.speed)}
-        else if (this.size == 3) { this.hitScore = Math.round(3 * this.speed)}
-        else if (this.size == 2) { this.hitScore = Math.round(4 * this.speed)}
-        else if (this.size == 1) { this.hitScore = Math.round(5 * this.speed)}
-        else {this.hitScore = 0};
+    this.getHitDestroyScore = function(size, speed) {
+        if (this.size == 5) { 
+            this.hitScore = Math.round((1 * this.speed)/5); 
+            this.destroyScore = Math.round(1 * this.speed);
+            if (this.speed == 5) { this.crashScorePenalty = -1 }
+            else if (this.speed == 4) { this.crashScorePenalty = -2 }
+            else if (this.speed == 3) { this.crashScorePenalty = -3 }
+            else if (this.speed == 2) { this.crashScorePenalty = -4 }
+            else if (this.speed == 1) { this.crashScorePenalty = -5 }
+            else (this.crashScorePenalty = 0);
+        }
+        else if (this.size == 4) { 
+            this.hitScore = Math.round((2 * this.speed)/5); 
+            this.destroyScore = Math.round(2 * this.speed);
+            if (this.speed == 5) { this.crashScorePenalty = -6 }
+            else if (this.speed == 4) { this.crashScorePenalty = -7 }
+            else if (this.speed == 3) { this.crashScorePenalty = -8 }
+            else if (this.speed == 2) { this.crashScorePenalty = -9 }
+            else if (this.speed == 1) { this.crashScorePenalty = -10 }
+            else (this.crashScorePenalty = 0);
+        }
+        else if (this.size == 3) { 
+            this.hitScore = Math.round((3 * this.speed)/5);
+            this.destroyScore = Math.round(3 * this.speed);
+            if (this.speed == 5) { this.crashScorePenalty = -11 }
+            else if (this.speed == 4) { this.crashScorePenalty = -12 }
+            else if (this.speed == 3) { this.crashScorePenalty = -13 }
+            else if (this.speed == 2) { this.crashScorePenalty = -14 }
+            else if (this.speed == 1) { this.crashScorePenalty = -15 }
+            else (this.crashScorePenalty = 0);
+        }
+        else if (this.size == 2) { 
+            this.hitScore = Math.round((4 * this.speed)/5); 
+            this.destroyScore = Math.round(4 * this.speed);
+            if (this.speed == 5) { this.crashScorePenalty = -16 }
+            else if (this.speed == 4) { this.crashScorePenalty = -17 }
+            else if (this.speed == 3) { this.crashScorePenalty = -18 }
+            else if (this.speed == 2) { this.crashScorePenalty = -19 }
+            else if (this.speed == 1) { this.crashScorePenalty = -20 }
+            else (this.crashScorePenalty = 0);
+        }
+        else if (this.size == 1) { 
+            this.hitScore = Math.round((5 * this.speed)/5); 
+            this.destroyScore = Math.round(5 * this.speed);
+            if (this.speed == 5) { this.crashScorePenalty = -21 }
+            else if (this.speed == 4) { this.crashScorePenalty = -22 }
+            else if (this.speed == 3) { this.crashScorePenalty = -23 }
+            else if (this.speed == 2) { this.crashScorePenalty = -24 }
+            else if (this.speed == 1) { this.crashScorePenalty = -25 }
+            else (this.crashScorePenalty = 0);
+        }
+        else {this.hitScore = 0, this.destroyScore = 0};
+
+
     };
 }
 
