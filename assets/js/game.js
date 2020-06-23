@@ -48,7 +48,7 @@ var messageTimer;
 var rechargeTimer;
 
 // ==== S E T T I N G S =========================================================================
-var levelCountdownTime = 160;  //In seconds
+var levelCountdownTime = 30;  //In seconds
 var inGameMessageTime = 1;
 
 // **** PLAYER ****
@@ -181,7 +181,7 @@ function Enemy(posY, size, speed) {
     this.image;
     this.destroyScore = Math.round(this.size * this.speed);
     this.crashScorePenalty = -Math.round((this.size * this.speed)/2);
-    this.hitScore = Math.round((this.size * this.speed)/5);  
+    this.hitScore;  
     this.draw = function(newX, newY) {  
         this.posX -= newX;
         this.posY -= newY;
@@ -193,26 +193,31 @@ function Enemy(posY, size, speed) {
             this.sizeW = 20, this.sizeH = 20;
             this.image = "enemy_astroid_20";
             this.setDmgHP(this.size);
+            this.getHitScore(this.size, this.speed);
         }
         else if (this.size == 2) {
             this.sizeW = 50, this.sizeH = 50;
             this.image = "enemy_astroid_50";
             this.setDmgHP(this.size);
+            this.getHitScore(this.size, this.speed);
         }
         else if (this.size == 3) {
             this.sizeW = 100, this.sizeH = 100;
             this.image = "enemy_astroid_100";
             this.setDmgHP(this.size);
+            this.getHitScore(this.size, this.speed);
         }
         else if (this.size == 4) {
             this.sizeW = 200, this.sizeH = 200;
             this.image = "enemy_astroid_200";
             this.setDmgHP(this.size);
+            this.getHitScore(this.size, this.speed);
         }
         else if (this.size == 5) {
             this.sizeW = 300, this.sizeH = 300;
             this.image = "enemy_astroid_300";
             this.setDmgHP(this.size);
+            this.getHitScore(this.size, this.speed);
         }
         else {
             console.log("No enemy size (1-5) is set!");
@@ -221,8 +226,15 @@ function Enemy(posY, size, speed) {
     this.setDmgHP = function(size) {
         this.damage = size * enemyDamageModifier;
         this.hitPoints = size * enemyHitPointsModifier;
-    }
-    
+    };
+    this.getHitScore = function(size, speed) {
+        if (this.size == 5) { this.hitScore = Math.round(1 * this.speed)}
+        else if (this.size == 4) { this.hitScore = Math.round(2 * this.speed)}
+        else if (this.size == 3) { this.hitScore = Math.round(3 * this.speed)}
+        else if (this.size == 2) { this.hitScore = Math.round(4 * this.speed)}
+        else if (this.size == 1) { this.hitScore = Math.round(5 * this.speed)}
+        else {this.hitScore = 0};
+    };
 }
 
 // .... VISUAL EFFECT ...........................................................................
