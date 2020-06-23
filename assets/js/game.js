@@ -42,30 +42,33 @@ var enemiesArray = [];
 var visualEffectsArray = [];
 var messages_array = [];
 
-var laser_sound_1;
-
 // **** TIMERS ****************************************************************
 var timer;
 var messageTimer;
 var rechargeTimer;
 
+
 // ==== S E T T I N G S =========================================================================
-var levelCountdownTime = 30;  //In seconds
 var inGameMessageTime = 1;
 
 // **** PLAYER ****
 var playerSpeed = 5;
 var playerHitPoints = 10;
-var playerMaxEnergyPoints = 10;
+var playerMaxEnergyPoints = 1000;
 var playerEnergyRechargeRate = 3; //seconds to recharge 1 energy point
-var playerCannonSpeed = -10;
-var playerCannonDamage = 1;
-var playerCannonEnergyCost = 1;
+
+// **** WEAPON ****
+var weaponSpeed = -10;
+var weaponDamage = 1;
+var weaponEnergyCost = 1;
+var weaponFireMode = 1; //How many bullets fired in burst on keydown
+
 
 // **** SCORE ****
 var completeLevelScore = 50;
 
 // **** LEVEL MODIFIERS ****
+var levelCountdownTime = 30;  //In seconds
 var enemyCount = 10;
 var enemyDamageModifier = 1;
 var enemyHitPointsModifier = 1;
@@ -159,9 +162,9 @@ function Weapon() {
     this.sizeH =  5; //Height at start
     this.posX = player.posX + player.sizeW; //Horizontal axis at start
     this.posY = player.posY + (player.sizeH / 2) - (this.sizeH / 2); //Vertical axis at start
-    this.speed = playerCannonSpeed;
-    this.damage = playerCannonDamage;
-    this.energyCost = playerCannonEnergyCost;
+    this.speed = weaponSpeed;
+    this.damage = weaponDamage;
+    this.energyCost = weaponEnergyCost;
     this.draw = function(newX, newY) {  
         this.posX -= newX;
         this.posY -= newY;
@@ -282,8 +285,6 @@ function Enemy(posY, size, speed) {
             else (this.crashScorePenalty = 0);
         }
         else {this.hitScore = 0, this.destroyScore = 0};
-
-
     };
 }
 
@@ -478,7 +479,10 @@ gameLoop = function() {
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
 
-    // ==== UPDATE TIMERS =================================================2========================
+    // ==== GET PLAYER CONTROL INPUT ===============================================================
+    getPlayerInput();
+
+    // ==== UPDATE TIMERS ==========================================================================
     //Check for need to recharge energy
     rechargeCheck();
 
@@ -499,6 +503,8 @@ gameLoop = function() {
     player.draw();
 
     //Draw bullets..........................................................
+
+    
     bullets_array.forEach(bullet => {
         drawBullet(bullet);
     });
@@ -624,21 +630,22 @@ function drawVisualEffect(visualEffect) {
 // ==== CREATE BULLET ===========================================================================
 // Create an array of bullets
 function create_bullet() {
-    if (player.energy >= playerCannonEnergyCost) {
-        bullets_array.push(new Weapon()); 
-        player.energy -= playerCannonEnergyCost;
-        Sound.playLaser_SFX();
-    }
-    else {
-        Sound.playNoEnergy_SFX();
-        showMessage("Out of energy!")
-    }                  
+    
+        if (player.energy >= weaponEnergyCost) {
+            bullets_array.push(new Weapon()); 
+            playerCannonInCoolDown = true;
+            player.energy -= weaponEnergyCost;
+            Sound.playLaser_SFX();
+        }
+        else {
+            Sound.playNoEnergy_SFX();
+            showMessage("Out of energy!")
+        }                 
 }
 
 function drawBullet(bullet) {
 
     this.bullet = bullet;
-    //var index = bulletsArray.indexOf(bullet);
 
     testForHit(enemiesArray, this.bullet, bullets_array);
 
@@ -722,65 +729,64 @@ function getRndInteger(min, max) {
 
 // ==============================================================================================
 // #region ==== C O N T R O L S =================================================================
+var keys = [];
+var key;
+var pKeyOn = false;
+var mrg_vrt = 30;               // Margin to top and bottom canvas borders 
+var mrg_hrz = 30;               // Margin to left and right canvas borders 
+var bulletsFired;
 
 function setControls() {
 
-    /* Listen for keydown events */
-     document.addEventListener('keydown', logKey);
- 
-     /* Log keystroke and pass to player actions function */
-     function logKey(e) {
-         var key = `${e.code}`;       
-         playerActions(key);
+    window.addEventListener("keydown", function (e) {
+        keys[e.keyCode] = true;
+        key = e.keyCode;
+        menuButtons(key);
+
+    });
+    window.addEventListener("keyup", function (e) {
+        keys[e.keyCode] = false;
+    });
+}
+
+function getPlayerInput() {
+
+    // **** Arrow up - Move up ****
+    if (keys[38]) {
+        if (player.posY >= mrg_vrt + 50) {
+            player.posY -= playerSpeed; 
+        }
+    }
+
+    // **** Arrow down - Move down ****
+    if (keys[40]) {
+        if (player.posY <= game.canvas.height - player.sizeH - mrg_vrt) {
+            player.posY += playerSpeed; 
+        }
+    } 
+
+    // **** Space - Shoot ****
+    if (keys[32]) {
+
+        if (bulletsFired <= weaponFireMode) {
+            for (var i = 0; i < weaponFireMode; i++) {
+                create_bullet();
+                bulletsFired++;
+            }
+        }    
+    }
+
+    if (!keys[32]) {
+        bulletsFired = 0;
     }
 }
 
-function playerActions(key) { 
-    
-    // SETTINGS 
-    var mrg_vrt = 30;               // Margin to top and bottom canvas borders 
-    var mrg_hrz = 30;               // Margin to left and right canvas borders 
-    var speed_vrt = playerSpeed;    // Speed of vertical movement 
-    var speed_hrz = 0;              // Speed of horizontal movement
+function menuButtons(key) { 
     
     switch (key) {
         
-        // === Move Up ===
-        case "ArrowUp":
-        case "KeyW":
-            if (player.posY >= mrg_vrt + 50) {
-                player.posY -= speed_vrt; 
-            }
-            else {
-                break;
-            }
-            break;
-        
-        // === Move Down ===
-        case 'ArrowDown':
-        case "KeyS":
-            if (player.posY <= game.canvas.height - player.sizeH - mrg_vrt) {
-                player.posY += speed_vrt; 
-            }
-            else {
-                break;
-            }
-            break;
-        
-        // === Move Left ===
-        case 'ArrowLeft':
-        case "KeyA":
-            
-            break;
-        
-        // === Move Right ===    
-        case 'ArrowRight':
-        case "KeyD":
-            
-            break;
-        
         // === Pause ===  
-        case 'KeyP':
+        case 80:
             if(!game.isPaused){
                 pauseGame();
             }
@@ -790,24 +796,17 @@ function playerActions(key) {
             break;
 
         // === In game menu ===  
-        case 'Escape':
+        case 27:
             if(!game.isPaused){
                 inGameMenu();
             }
             else {
                 unPauseGame();
             }
-            break;
-        
-            // === In game menu ===  
-         case 'Space':
-            create_bullet();
-     
-            break;        
+            break;     
 
         // === Default ===  
         default:          
-        //console.log(`Some other Key! var KeyStroke = ${key}`);
           break;
     }  
  }
@@ -921,7 +920,6 @@ function timerStart() {
 
 function timerStop() {
     timer.stop();
-    rechargeTimer.stop();
 }
 
 function timerReset() {
