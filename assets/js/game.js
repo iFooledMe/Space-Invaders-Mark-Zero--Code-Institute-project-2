@@ -734,7 +734,7 @@ var key;
 var pKeyOn = false;
 var mrg_vrt = 30;               // Margin to top and bottom canvas borders 
 var mrg_hrz = 30;               // Margin to left and right canvas borders 
-var bulletsFired;
+var bulletsFired = 0;
 
 function setControls() {
 
@@ -768,10 +768,11 @@ function getPlayerInput() {
     // **** Space - Shoot ****
     if (keys[32]) {
 
-        if (bulletsFired <= weaponFireMode) {
-            for (var i = 0; i < weaponFireMode; i++) {
+        if (bulletsFired < weaponFireMode) {
+            for (var i = 1; i <= weaponFireMode; i++) {
                 create_bullet();
                 bulletsFired++;
+                console.log(bulletsFired);
             }
         }    
     }
