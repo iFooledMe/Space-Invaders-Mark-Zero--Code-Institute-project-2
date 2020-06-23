@@ -42,6 +42,8 @@ var enemiesArray = [];
 var visualEffectsArray = [];
 var messages_array = [];
 
+var laser_sound_1;
+
 // **** TIMERS ****************************************************************
 var timer;
 var messageTimer;
@@ -64,7 +66,7 @@ var playerCannonEnergyCost = 1;
 var completeLevelScore = 50;
 
 // **** LEVEL MODIFIERS ****
-var enemyCount = 15;
+var enemyCount = 10;
 var enemyDamageModifier = 1;
 var enemyHitPointsModifier = 1;
 var enemySpeedModifier = 1;
@@ -232,7 +234,7 @@ function Enemy(posY, size, speed) {
         if (this.size == 5) { 
             this.hitScore = Math.round((1 * this.speed)/5); 
             this.destroyScore = Math.round(1 * this.speed);
-            if (this.speed == 5) { this.crashScorePenalty = -1 }
+            if      (this.speed == 5) { this.crashScorePenalty = -1 }
             else if (this.speed == 4) { this.crashScorePenalty = -2 }
             else if (this.speed == 3) { this.crashScorePenalty = -3 }
             else if (this.speed == 2) { this.crashScorePenalty = -4 }
@@ -242,7 +244,7 @@ function Enemy(posY, size, speed) {
         else if (this.size == 4) { 
             this.hitScore = Math.round((2 * this.speed)/5); 
             this.destroyScore = Math.round(2 * this.speed);
-            if (this.speed == 5) { this.crashScorePenalty = -6 }
+            if      (this.speed == 5) { this.crashScorePenalty = -6 }
             else if (this.speed == 4) { this.crashScorePenalty = -7 }
             else if (this.speed == 3) { this.crashScorePenalty = -8 }
             else if (this.speed == 2) { this.crashScorePenalty = -9 }
@@ -252,7 +254,7 @@ function Enemy(posY, size, speed) {
         else if (this.size == 3) { 
             this.hitScore = Math.round((3 * this.speed)/5);
             this.destroyScore = Math.round(3 * this.speed);
-            if (this.speed == 5) { this.crashScorePenalty = -11 }
+            if      (this.speed == 5) { this.crashScorePenalty = -11 }
             else if (this.speed == 4) { this.crashScorePenalty = -12 }
             else if (this.speed == 3) { this.crashScorePenalty = -13 }
             else if (this.speed == 2) { this.crashScorePenalty = -14 }
@@ -262,7 +264,7 @@ function Enemy(posY, size, speed) {
         else if (this.size == 2) { 
             this.hitScore = Math.round((4 * this.speed)/5); 
             this.destroyScore = Math.round(4 * this.speed);
-            if (this.speed == 5) { this.crashScorePenalty = -16 }
+            if      (this.speed == 5) { this.crashScorePenalty = -16 }
             else if (this.speed == 4) { this.crashScorePenalty = -17 }
             else if (this.speed == 3) { this.crashScorePenalty = -18 }
             else if (this.speed == 2) { this.crashScorePenalty = -19 }
@@ -272,7 +274,7 @@ function Enemy(posY, size, speed) {
         else if (this.size == 1) { 
             this.hitScore = Math.round((5 * this.speed)/5); 
             this.destroyScore = Math.round(5 * this.speed);
-            if (this.speed == 5) { this.crashScorePenalty = -21 }
+            if      (this.speed == 5) { this.crashScorePenalty = -21 }
             else if (this.speed == 4) { this.crashScorePenalty = -22 }
             else if (this.speed == 3) { this.crashScorePenalty = -23 }
             else if (this.speed == 2) { this.crashScorePenalty = -24 }
@@ -341,6 +343,74 @@ function VisualEffect(posX, posY, sizeW, sizeH, type, framesPerImg, source) {
     };
 }
 
+// .... SOUND EFFECTS (Multiple simultanious channels)...........................................................................
+// .... Source: Tim Cotten - https://blog.cotten.io/playing-audio-resources-simultaneously-in-javascript-546ec4d6216a
+// ...................................................................................................................
+
+function Channel(audio_uri) {
+	this.audio_uri = audio_uri;
+	this.resource = new Audio(audio_uri);
+}
+
+Channel.prototype.play = function() {
+	// Try refreshing the resource altogether
+	this.resource.play();
+}
+
+function Switcher(audio_uri, num) {
+	this.channels = [];
+	this.num = num;
+	this.index = 0;
+
+	for (var i = 0; i < num; i++) {
+		this.channels.push(new Channel(audio_uri));
+	}
+}
+
+Switcher.prototype.play = function() {
+	this.channels[this.index++].play();
+	this.index = this.index < this.num ? this.index : 0;
+}
+
+Sound = (function() {
+	var self = {};
+
+	self.playLaser_SFX = function() {
+        sfx_laser.play();
+    }
+    
+    self.playExplosion_SFX = function() {
+        let random = getRndInteger(1,3);
+        switch(random) {
+            case 1:
+                sfx_explosion1.play();
+              break;
+            case 2:
+                sfx_explosion2.play();
+              break;
+            case 3:
+                sfx_explosion3.play();
+              break;
+            default:
+                sfx_explosion3.play();
+        }
+    }
+    
+    self.playBulletHit_SFX = function() {
+        sfx_bulletHit1.play();
+	}
+
+	self.init = function() {
+        sfx_laser = new Switcher('assets/sound/laser1.mp3', 10);
+        sfx_explosion1 = new Switcher('assets/sound/explosion1.mp3', 10);
+        sfx_explosion2 = new Switcher('assets/sound/explosion2.mp3', 10);
+        sfx_explosion3 = new Switcher('assets/sound/explosion3.mp3', 10);
+        sfx_bulletHit1 = new Switcher('assets/sound/bulletHit1.mp3', 10);
+	}
+
+	return self;
+}());
+
 // #endregion
 
 // ==============================================================================================
@@ -351,6 +421,8 @@ preload (preLoadList, function() {
     $(document).ready(function() {
         setUpGame ();
         setControls();
+        Sound.init();
+        //laser_sound_1 = new soundEffect("assets/sound/laser1.mp3");
         displayMainMenu();
         });  
 }); 
@@ -517,11 +589,14 @@ function testForHit (arrayObjectsToHit_, objectTryHit_, arrayObjectTryHit_) {
                 if (this.arrayObject.hitPoints <= 0) {
                     player.score += this.arrayObject.destroyScore;
                     create_visualEffect(this.arrayObject.posX, this.arrayObject.posY, this.arrayObject.sizeW * 2, this.arrayObject.sizeH * 2, "static", 15, "static_explosion_1");
+                    Sound.playBulletHit_SFX();
+                    Sound.playExplosion_SFX();
                     RemoveObjectFromArray(arrayObjectsToHit, this.arrayObject);
                     RemoveObjectFromArray(bullets_array, this.objectTryHit);
                 }
                 else {
                     create_visualEffect(this.objectTryHit.posX, this.objectTryHit.posY, this.objectTryHit.sizeW * 2, this.objectTryHit.sizeH * 5, "static", 15, "static_explosion_1");
+                    Sound.playBulletHit_SFX();
                     RemoveObjectFromArray(bullets_array, this.objectTryHit);
                     player.score += this.arrayObject.hitScore;
                 }
@@ -547,6 +622,7 @@ function create_bullet() {
     if (player.energy >= playerCannonEnergyCost) {
         bullets_array.push(new Weapon()); 
         player.energy -= playerCannonEnergyCost;
+        Sound.playLaser_SFX();
     }
     else {
         showMessage("Out of energy!")
@@ -591,13 +667,18 @@ function drawEnemy(enemy) {
         if (player.hitPoints <= 0) {
             timerStop();
             create_visualEffect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH, "animation", 6, explosion1_animation_array);
+            Sound.playExplosion_SFX();
             create_visualEffect(player.posX - player.sizeW, player.posY - player.sizeH, player.sizeW*3, player.sizeH*3, "static", 15, "static_explosion_1");
+            Sound.playExplosion_SFX();
             game.isOver = true;
        }
        else {
             create_visualEffect(this.enemy.posX, this.enemy.posY, this.enemy.sizeW, this.enemy.sizeH, "static", 15, "static_explosion_1");
+            Sound.playExplosion_SFX();
             RemoveObjectFromArray(enemiesArray, this.enemy);
             player.score += this.enemy.crashScorePenalty;
+            console.log("Crash score penalty: " + this.enemy.crashScorePenalty + " - Size:" + this.enemy.size + " Speed: " + this.enemy.speed);
+
        }
     }
     else {
