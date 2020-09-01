@@ -69,7 +69,7 @@ var weaponFireMode = 1; //How many bullets fired in burst on keydown
 var completeLevelScore = 50;
 
 // **** LEVEL MODIFIERS ****
-var levelCountdownTime = 30; //In seconds
+var levelCountdownTime = 120; //In seconds
 var enemyCount = 10;
 var enemyDamageModifier = 1;
 var enemyHitPointsModifier = 1;

@@ -152,7 +152,7 @@ https://github.com/iFooledMe/SPACE-INVADERS-MARK-ZERO---Code-Institute-project-2
 
 #### GET A GITHUB REPOSITORY
 
-The steps below require you to have a GitHub account where to push this project up to. If you don’t have one already, go here and follow the instructions for setting up a new account and install git bash locally on your computer locally in order to submit Git-commands in your terminal.
+The steps below require you to have a GitHub account where to push this project up to. If you don’t have one already, go <a href="https://github.com/">here</a> and follow the instructions for setting up a new account and install git bash locally on your computer locally in order to submit Git-commands in your terminal.
 
 #### HOW TO RUN THIS PROJECT LOCALLY
 
@@ -188,6 +188,19 @@ To deploy the project on GitHub Pages take the following steps:
 1. At this web address you find your newly deployed project (note it might take a couple of minutes before the deployment takes effect).
 
 ## TESTING
+
+The test is done manually in the following browsers:
+
+-   Google Chrome 84.0.4147.89 (on PC Windows 10)
+-   Microsoft Edge Chromium 84.0.522.44 (on PC Windows 10)
+-   Firefox 78.0.2 (on PC Windows 10)
+-   Safari (on iPad pro 10.5 iOS 13.6.1 with keyboard)
+
+The testing is done from the perspective of each user story (presented above). The game features are also broken down to separate parts to ensure they work as intended on each of the browsers. Since this game is intended for use on larger screens with keyboard as input, no testing has been done on touch-devices or on screens less than bootstrap md breakpoint (less than 768px width).
+
+<img src="readme_img/test.jpg">
+
+The test protocol can be accessed separately in a pdf file <a href="readme_img/test.pdf">HERE</a>
 
 ## UX
 
