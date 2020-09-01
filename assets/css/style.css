@@ -6,7 +6,8 @@
 
 /* ======================================================================================= */
 /* #region ==== STANDARD ELEMENTS ======================================================== */
-html, body  {
+html,
+body {
     margin: 0;
     padding: 0;
     position: relative;
@@ -20,7 +21,7 @@ html, body  {
 /* ======================================================================================= */
 /* #region ==== TEXT STYLES ============================================================== */
 h1 {
-    font-family: "Lexend Tera", sans-serif;
+    font-family: 'Lexend Tera', sans-serif;
     color: #e78a21;
     letter-spacing: 5px;
     text-transform: uppercase;
@@ -43,7 +44,7 @@ h2 span {
 }
 
 h3 {
-    font-family: "Dosis", sans-serif;
+    font-family: 'Dosis', sans-serif;
     text-transform: uppercase;
     font-size: 1em;
     color: #db9f8f;
@@ -51,7 +52,7 @@ h3 {
 }
 
 .normal-txt {
-    font-family: "Dosis", sans-serif;
+    font-family: 'Dosis', sans-serif;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 5px;
@@ -83,7 +84,7 @@ h3 {
     width: 100%;
     height: 100%;
     padding-top: 150px;
-    background-color: rgba(0,0,0,.5);
+    background-color: rgba(0, 0, 0, 0.5);
     text-align: center;
 }
 
@@ -126,7 +127,7 @@ h3 {
     color: #e78a21;
 }
 
-.text-info-page h6{
+.text-info-page h6 {
     padding-top: 20px;
 }
 
@@ -136,8 +137,9 @@ h3 {
 }
 
 /* **** BUTTONS **** */
-button, .button {
-    font-family: "Dosis", sans-serif;
+button,
+.button {
+    font-family: 'Dosis', sans-serif;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 5px;
@@ -160,7 +162,6 @@ button:hover {
 }
 
 /* **** TEXT ALIGN  **** */
-
 
 /* #endregion */
 
@@ -220,7 +221,6 @@ button:hover {
 
 #userNameForm label {
     display: inline;
-    margin: 
 }
 
 .form-buttons {
@@ -249,7 +249,7 @@ button:hover {
     display: none;
     position: absolute;
     z-index: 5;
-    background-color: rgba(0,0,0,.5);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .game-info-bar table {
@@ -259,7 +259,7 @@ button:hover {
 }
 
 .game-info-bar table .absorbing-column {
-    width: 100%
+    width: 100%;
 }
 
 .higlight-column-left {
@@ -274,7 +274,6 @@ button:hover {
 .extra-column-left {
     text-align: right;
     padding-right: 10px;
-    
 }
 
 .game-info-bar-right table tr td {
@@ -316,8 +315,8 @@ button:hover {
 }
 
 .level-info {
-    text-align: center; 
-    padding-left: 10px; 
+    text-align: center;
+    padding-left: 10px;
 }
 
 .level {
@@ -337,7 +336,7 @@ button:hover {
     display: none;
     text-align: center;
     padding: 0 30px;
-    background-color: rgba(0,0,0,.5);
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .in-game-message h2 {
@@ -403,13 +402,10 @@ button:hover {
 /* ======================================================================================= */
 /* #region ==== MEDIA QUERYS ============================================================= */
 
-
 @media screen and (max-width: 768px) {
-    
     .text-info-page {
         background-color: #000000;
     }
-  
 }
 
 /* #endregion */
