@@ -13,7 +13,7 @@ VIEW THE LATEST LIVE VERSION HERE
 #### QUICKSTART
 - In the main menu click "New game"
 - Select a user-/screen name and klick "Start"
-- In the game use UP- and DOWN-arrow to move your spaceship up and down to avoid the incoming meteorits.
+- In the game use UP- and DOWN-arrow to move your spaceship up and down to avoid the incoming meteorits. Press SPACE to shoot at incoming enemies and try to destroy them.
 
 <strong>PLEASE NOTE!</strong> This game is developed for desktops/laptops with the keyboard as game control, and for the latest versions of the most popular browsers (Google Chrome Version 83.0.4103.106, Microsoft Edge Version 83.0.478.54, Firefox version 77.0.1 and Opera Version 68.0.3618.173.
 (I do not have access to a OS X computer so no testing has been done on the Safari browser).
@@ -297,6 +297,15 @@ SOURCE: Wallpapersafari.com - https://cdn.wallpapersafari.com/11/9/bn9KIi.jpg
 ENEMY IMAGES
 astroid1.[_20x20 to _400x400].png
 SOURCE: Wallpapersafari.com - https://cdn.wallpapersafari.com/91/49/2uKRha.jpg
+
+BULLET IMAGE
+https://i.ya-webdesign.com/images/transparent-laser-green-4.png
+
+EXPLOSION STATIC IMAGE
+https://www.pinclipart.com/pindetail/iiJmJRw_explosion-clipart-starburst-transparent-background-explosion-clipart-png/
+
+EXPLOSION ANIMATION IMAGES (Not fully implemented but they are there)
+https://realtimevfx.com/uploads/default/original/2X/5/551788f5c773cf5a25af23f9e6eef43a43cf05c4.gif
 
 SOUND EFFECTS
 Laser1.mp3, explosion1.mp3, explosion2.mp3, explosion3.mp3, bulletHit1.mp3
