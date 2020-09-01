@@ -116,6 +116,19 @@ The player can also just pause the game by pressing the “P” key (Toggle back
 <br>
 <br>
 
+## USER STORIES
+
+-   “As a player I can add my username and start a new game”
+-   “As a player I find it essential that there are some sort of playable narrative”
+-   “As a player I find it essential that I can control my on screen avatar”
+-   “As a player I must be able to lose the game”
+-   “As a player I must be able to win the game”
+-   “As a player I wish to get some more information about the game.”
+-   “As a player I wish to get instructions on how to play.”
+-   “As a player I would like to shoot at incoming objects making them disappear”
+-   “As a player I wish to be able to Pause the game if I need to”
+-   “As a player I expect the game to have some sound effects”
+
 ## TECHNOLOGY AND DEPLOYMENT
 
 ### TECHNOLOGIES USED
@@ -176,49 +189,124 @@ To deploy the project on GitHub Pages take the following steps:
 
 ## TESTING
 
-## USER STORIES
-
-#### Minimum Viable product
-
--   “As a player I can add my username and start a new game”
--   “As a player I find it essential that there are some sort of playable narrative”
--   “As a player I find it essential that I can control my on screen avatar”
--   “As a player I must be able to lose the game”
--   “As a player I must be able to win the game”
--   “As a player I wish to some sort of high scores list” (locally cached)
--   “As a player I wish to get some more information about the game.”
--   “As a player I wish to get instructions on how to play.”
-
-#### Possible Extensions 1
-
--   “As a player I would like to shoot at incoming objects making them disappear”
--   “As a player I wish to be able to Pause the game if I need to”
--   “As a player I expect some leveling to incrementally make it more challenging”
--   “As a player I expect the game to have some music and sound effects”
-
-#### Possible Extensions 2
-
-“As a Player would like some of the incoming enemy objects sometimes shoot back at me”
-“As a player I’m bored! Please give me some upgrades and new game mechanics to play with”  
-“As a player I would love some Game Story to make my journey a bit more meaningful”
-
 ## UX
 
-Find complete UX-document <a href="https://docs.google.com/document/d/10LoTkbb2MxszL6pux7c2qsmfXaer6tYXAW2HK4vd0BU/edit?usp=sharing" target="_blank"> here</a>
+### GOAL - OBJECTIVE
+
+The goal with this project is to build a small simple Game that is good enough to pass as playable. “Playable” of course is quite subjective. What is a good and fun game to play? Let’s face it! The game I’m building in the first version is going to be very simple and most likely for most users quite boring. But that’s what I am going to make. I will not try to define what playable means, who am I to determine that? But I have some ideas and I think they fall within the borders for plain common sense. Is there any narrative at all (how ever simple)? Does it Move and is controllable? Can You lose? Can You win? That's it for a first very simple minimal viable product.
+
+### SCOPE
+
+#### MUST FEATURES (Implemented)
+
+These features are essential for a "Minimal Viable Product". All features in this category will build the First version of the Game "Mark-Zero-1". It is a game and it must be playable (This is of course a matter of personal opinion - The game will in this release be “playable” but most likely very simple and quite boring!)
+
+-   Canvas - A canvas with context where the game is rendered (DONE!)
+-   Player Object - Represented on the screen as a spaceship at the left side of the canvas (DONE!)
+-   Enemy Objects - Moves from right to left on the horizontal axis. Random object type, size,speed and start position. (DONE!)
+-   Collision detection - function to check if any enemy has hit the player (DONE!)
+-   Game Over - Stop gameLoop and function / screen to show when game is lost (DONE!)
+-   Win game - Stop gameLoop and function / screen to show when game is won (DONE!)
+-   Total Game Score - Each enemy object passing without hitting the player adds a certain amount to total Score (Viewed somewhere) (DONE!)
+-   Main Game Menu - A main menu as an absolute positioned div on top of the canvas with links to: (DONE!)
+    -> New Game -> Text input for username -> Start game
+    -> Game Info
+    -> Game Instructions
+    -> Quit Game
+
+### OTHER FEATURES (Implemented)
+
+-   Fire weapon - The player can fire projectiles. If a projectile hit an enemy it will be destroyed (Adds to total score). Add to collision detection. (DONE!)
+-   Pause / Restart - A function that pause and restart the game. (DONE!)
+-   Sound - Add some music and sound effects. (DONE!)
+-   Dynamically resize canvas - Function to resize the canvas dependent on users current screen resolution. (DONE! Easy fix so implemented it)
+
+### OTHER NON IMPLEMENTED FEATURES (Did not make this release but possibly future ones)
+
+-   Store game score to high scores list - A Json file where all scores are stored (one local for personal use and one external for global use) (NOT DONE!)
+-   Enemy Fire - Enemies being able to shoot at the player (NOT DONE!)
+-   Boss Fights - Boss fights at the end of each level. (NOT DONE!)
+-   Moving Background - Background image (one large or several smaller) that moves from the right to left to increase the sense of movement. (NOT DONE!)
+-   Animate game objects - Like rotation of enemy objects, explosions, player ship animation with movement etc. (NOT DONE!)
+-   Auto Pause - Automatically pause the game if the screen gets too small (NOT DONE!)
+-   Expanding the game Mechanics - Expanding on the game mechanics by adding health ponts, Weapon upgrades, Shields, items using power with cooldown to restore before use again etc. (NOT DONE!)
+-   Adding a story - story with some sort of game main objective, broken down in Level sub-missions/objectives. (NOT DONE!)
+-   Dynamically scale game content - Function to scale the game objects in the canvas dependent on users current screen resolution (so everything becomes smaller on smaller screens to make it playable).
+-   Add mouse controls - Players can control the game and move the ship up and down with mouse movements, fire with left mouse click and adjust ”speed” (horizontal movement) with the mousewheel. (NOT DONE!)
+-   Touch screen controls - Features to play the game on touch-screens. (NOT DONE!)
+-   Scale to mobile devices - Scale the canvas to be playable on smaller mobile devices.
+-   Pause Strategic View - Players are able to pause the game and chain certain automated events like targeting one or more enemies, shooting a missile for instance etc. (NOT DONE!)
+-   Settings - Players can enter a settings section and change various gameplay settings. (NOT DONE!)
+
+## STRUCTURE
+
+### ONE PAGE
+
+This application stays on one single html page.
+
+### THE CANVAS IS THE MAIN-COURSE
+
+The Canvas is the main feature, and will cover 100% of the screen (Possibly changing size dynamically depending on the user screen size).
+
+### ALL OTHER FEATURES ON TOP WHEN NEEDED
+
+The top of the screen will hold a in game hud, supplying the player with information about score, health etc., a button to the Game Main Menu and a button to Start and Pause the game. This will be an absolute positioned element opening on top of the canvas when a game is started and active.
+
+All menus and information will also be supplied by absolute positioned elements that open up on top of the canvas when needed.
+
+## SKELETON
+
+### WIREFRAMES
+
+No wireframes were produced for this project
+
+### RESPONSIVE BREAKPOINTS
+
+This game is currently limited to be played on larger screens (bootstrap md and up). Anything less than triggers a message to the user telling they need a wider screen to play.
+
+## SURFACE
+
+I have chosen a cartoony look, with bright variances of red and orange as expression text colors, combined with pure white text on the dark background. Most of the game resources are made out of images with appropriate look and feel to enhance this “cartoony” feel (See media listings in credit section below)
 
 ## CREDITS
 
-### CONTENT
-
 ### MEDIA
 
--   Bg-space-2460x1700.jpg - SOURCE: Wallpapersafari.com - https://img.wallpapersafari.com/tablet/2560/1700/19/51/a415uP.jpeg
--   spaceship2.[_100x50 to _1000x50].png - SOURCE: Wallpapersafari.com - https://cdn.wallpapersafari.com/11/9/bn9KIi.jpg
--   astroid1.[_20x20 to _400x400].png - SOURCE: Wallpapersafari.com - https://cdn.wallpapersafari.com/91/49/2uKRha.jpg
+#### BACKGROUND IMAGES
 
-### AKNOWLEDGEMENTS
+Bg-space-2460x1700.jpg
+SOURCE: Wallpapersafari.com - https://img.wallpapersafari.com/tablet/2560/1700/19/51/a415uP.jpeg
 
-#### PRE-LOAD SOURCE CODE
+PLAYER-SPACE SHIP IMAGES
+spaceship2.[_100x50 to _1000x50].png
+SOURCE: Wallpapersafari.com - https://cdn.wallpapersafari.com/11/9/bn9KIi.jpg
 
-loadImages() on top of main.js (I only made some small changes to this code to fit my purposes).
+ENEMY IMAGES
+astroid1.[_20x20 to _400x400].png
+SOURCE: Wallpapersafari.com - https://cdn.wallpapersafari.com/91/49/2uKRha.jpg
+
+SOUND EFFECTS
+Laser1.mp3, explosion1.mp3, explosion2.mp3, explosion3.mp3, bulletHit1.mp3
+@https://www.zapsplat.com/
+
+notify.wav - Windows standard system
+
+### CODE
+
+PRE-LOAD SOURCE CODE
+loadImages() in main.js (I only made some small changes to this code to fit my purposes).
 SOURCE: Derek Leung - http://jsfiddle.net/DerekL/uCQAH/
+
+GAME TIMER SOURCE CODE
+timer() in main.js (I only made some small changes to this code to fit my purposes).
+SOURCE: da vinci harsha - https://codepen.io/davinciharsha/pen/vGBXzR
+
+REQUEST ANIMATION FRAME POLYFILL
+Erik Möller. fixes from Paul Irish and Tino Zijdel @ https://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+
+SOUND EFFECTS (MULTIPLE SIMULTANEOUS CHANNELS CODE)
+Tim Cotten @ https://blog.cotten.io/playing-audio-resources-simultaneously-in-javascript-546ec4d6216a
+
+### ACKNOWLEDGEMENTS
+
+Thank you to my tutor for this course Cormac and to my for this project dedicated mentor Antonija for all support along the way!
