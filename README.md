@@ -6,7 +6,7 @@
 
 ## Project #2 - User-Centric Frontend Development
 
-<a href="https://ifooledme.github.io/SPACE-INVADERS-MARK-ZERO---Code-Institute-project-2/">
+<a href="https://ifooledme.github.io/Space-Invaders-Mark-Zero--Code-Institute-project-2/">
 VIEW THE LATEST LIVE VERSION HERE
 </a>
  
