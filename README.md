@@ -227,14 +227,14 @@ These features are essential for a "Minimal Viable Product". All features in thi
     -> Game Instructions
     -> Quit Game
 
-### OTHER FEATURES (Implemented)
+#### OTHER FEATURES (Implemented)
 
 -   Fire weapon - The player can fire projectiles. If a projectile hit an enemy it will be destroyed (Adds to total score). Add to collision detection.
 -   Pause / Restart - A function that pause and restart the game.
 -   Sound - Add some music and sound effects.
 -   Dynamically resize canvas - Function to resize the canvas dependent on users current screen resolution.
 
-### OTHER NON IMPLEMENTED FEATURES (Did not make this release but possibly future ones)
+#### OTHER NON IMPLEMENTED FEATURES (Did not make this release but possibly future ones)
 
 -   Store game score to high scores list - A Json file where all scores are stored (one local for personal use and one external for global use)
 -   Enemy Fire - Enemies being able to shoot at the player.
