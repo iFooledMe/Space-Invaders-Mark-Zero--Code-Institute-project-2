@@ -214,14 +214,14 @@ The goal with this project is to build a small simple Game that is good enough t
 
 These features are essential for a "Minimal Viable Product". All features in this category will build the First version of the Game "Mark-Zero-1". It is a game and it must be playable (This is of course a matter of personal opinion - The game will in this release be “playable” but most likely very simple and quite boring!)
 
--   Canvas - A canvas with context where the game is rendered (DONE!)
--   Player Object - Represented on the screen as a spaceship at the left side of the canvas (DONE!)
--   Enemy Objects - Moves from right to left on the horizontal axis. Random object type, size,speed and start position. (DONE!)
--   Collision detection - function to check if any enemy has hit the player (DONE!)
--   Game Over - Stop gameLoop and function / screen to show when game is lost (DONE!)
--   Win game - Stop gameLoop and function / screen to show when game is won (DONE!)
--   Total Game Score - Each enemy object passing without hitting the player adds a certain amount to total Score (Viewed somewhere) (DONE!)
--   Main Game Menu - A main menu as an absolute positioned div on top of the canvas with links to: (DONE!)
+-   Canvas - A canvas with context where the game is rendered
+-   Player Object - Represented on the screen as a spaceship at the left side of the canvas
+-   Enemy Objects - Moves from right to left on the horizontal axis. Random object type, size,speed and start position.
+-   Collision detection - function to check if any enemy has hit the player.
+-   Game Over - Stop gameLoop and function / screen to show when game is lost.
+-   Win game - Stop gameLoop and function / screen to show when game is won.
+-   Total Game Score - Each enemy object passing without hitting the player adds a certain amount to total Score (Viewed somewhere).
+-   Main Game Menu - A main menu as an absolute positioned div on top of the canvas with links to:
     -> New Game -> Text input for username -> Start game
     -> Game Info
     -> Game Instructions
@@ -229,28 +229,27 @@ These features are essential for a "Minimal Viable Product". All features in thi
 
 ### OTHER FEATURES (Implemented)
 
--   Fire weapon - The player can fire projectiles. If a projectile hit an enemy it will be destroyed (Adds to total score). Add to collision detection. (DONE!)
--   Pause / Restart - A function that pause and restart the game. (DONE!)
--   Sound - Add some music and sound effects. (DONE!)
--   Dynamically resize canvas - Function to resize the canvas dependent on users current screen resolution. (DONE! Easy fix so implemented it)
+-   Fire weapon - The player can fire projectiles. If a projectile hit an enemy it will be destroyed (Adds to total score). Add to collision detection.
+-   Pause / Restart - A function that pause and restart the game.
+-   Sound - Add some music and sound effects.
+-   Dynamically resize canvas - Function to resize the canvas dependent on users current screen resolution.
 
 ### OTHER NON IMPLEMENTED FEATURES (Did not make this release but possibly future ones)
 
--   Store game score to high scores list - A Json file where all scores are stored (one local for personal use and one external for global use) (NOT DONE!)
--   Enemy Fire - Enemies being able to shoot at the player (NOT DONE!)
--   Boss Fights - Boss fights at the end of each level. (NOT DONE!)
--   Moving Background - Background image (one large or several smaller) that moves from the right to left to increase the sense of movement. (NOT DONE!)
--   Animate game objects - Like rotation of enemy objects, explosions, player ship animation with movement etc. (NOT DONE!)
--   Auto Pause - Automatically pause the game if the screen gets too small (NOT DONE!)
--   Expanding the game Mechanics - Expanding on the game mechanics by adding health ponts, Weapon upgrades, Shields, items using power with cooldown to restore before use again etc. (NOT DONE!)
+-   Store game score to high scores list - A Json file where all scores are stored (one local for personal use and one external for global use)
+-   Enemy Fire - Enemies being able to shoot at the player.
+-   Boss Fights - Boss fights at the end of each level.
+-   Moving Background - Background image (one large or several smaller) that moves from the right to left to increase the sense of movement. 
+-   Animate game objects - Like rotation of enemy objects, explosions, player ship animation with movement etc. 
+-   Auto Pause - Automatically pause the game if the screen gets too small.
+-   Expanding the game Mechanics - Expanding on the game mechanics by adding health ponts, Weapon upgrades, Shields, items using power with cooldown to restore before use again etc. 
 -   Adding a story - story with some sort of game main objective, broken down in Level sub-missions/objectives. (NOT DONE!)
 -   Dynamically scale game content - Function to scale the game objects in the canvas dependent on users current screen resolution (so everything becomes smaller on smaller screens to make it playable).
--   Add mouse controls - Players can control the game and move the ship up and down with mouse movements, fire with left mouse click and adjust ”speed” (horizontal movement) with the mousewheel. (NOT DONE!)
--   Touch screen controls - Features to play the game on touch-screens. (NOT DONE!)
+-   Add mouse controls - Players can control the game and move the ship up and down with mouse movements, fire with left mouse click and adjust ”speed” (horizontal movement) with the mousewheel.
+-   Touch screen controls - Features to play the game on touch-screens.
 -   Scale to mobile devices - Scale the canvas to be playable on smaller mobile devices.
--   Pause Strategic View - Players are able to pause the game and chain certain automated events like targeting one or more enemies, shooting a missile for instance etc. (NOT DONE!)
--   Settings - Players can enter a settings section and change various gameplay settings. (NOT DONE!)
-
+-   Pause Strategic View - Players are able to pause the game and chain certain automated events like targeting one or more enemies, shooting a missile for instance etc. 
+-   Settings - Players can enter a settings section and change various gameplay settings.
 ## STRUCTURE
 
 ### ONE PAGE
