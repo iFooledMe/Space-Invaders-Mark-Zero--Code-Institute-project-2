@@ -492,11 +492,6 @@ function resetGame() {
     game.reset();
 }
 
-// ==== Reset Game ====
-function resetGame() {
-    game.reset();
-}
-
 // #endregion
 
 // ==============================================================================================
